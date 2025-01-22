@@ -205,9 +205,9 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 // For serverless
-const router = express.Router();
-router.get("/", (req, res) => {
-    res.send("App is running..");
-});
-app.use("/.netlify/functions/app", router);
+// const router = express.Router();
+// router.get("/", (req, res) => {
+//     res.send("App is running..");
+// });
+// app.use("/.netlify/functions/app", router);
 module.exports.handler = serverless(app);
