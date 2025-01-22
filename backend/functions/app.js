@@ -198,9 +198,11 @@ app.post('/create-payment', async (req, res) => {
 });
 
 // Start server
-// app.listen(PORT, () => {
-//   console.log(`Server is running on http://localhost:${PORT}`);
-// });
+if (process.env.NODE_ENV !== 'production') {
+    app.listen(PORT, () => {
+      console.log(`Server is running on http://localhost:${PORT}`);
+    });
+}
 
 // For serverless
 const router = express.Router();
