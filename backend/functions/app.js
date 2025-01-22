@@ -199,7 +199,7 @@ router.post('/create-payment', async (req, res) => {
 });
 
 // Подключите router к app
-app.use('/.netlify/functions/app', router);
+app.use('/api', router);
 
 // Локальный сервер (для разработки)
 if (process.env.NODE_ENV !== 'production') {
