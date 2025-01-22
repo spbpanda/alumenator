@@ -95,10 +95,10 @@ const ProjectsGallery: React.FC = () => {
     }
   };
 
-  // Загружаем серверы при монтировании компонента
+  // Загружаем товары при изменении currentPage, selectedType, searchQuery или selectedServer
   useEffect(() => {
-    fetchServers();
-  }, []);
+    fetchProjects(currentPage, selectedType, searchQuery, selectedServer);
+  }, [currentPage, selectedType, searchQuery, selectedServer, fetchProjects]);
 
   const fetchServers = async () => {
     try {
@@ -113,10 +113,10 @@ const ProjectsGallery: React.FC = () => {
     }
   };
 
-  // Загружаем товары при изменении currentPage, selectedType, searchQuery или selectedServer
+  // Загружаем серверы при монтировании компонента
   useEffect(() => {
-    fetchProjects(currentPage, selectedType, searchQuery, selectedServer);
-  }, [currentPage, selectedType, searchQuery, selectedServer]);
+    fetchServers();
+  }, [fetchServers]);
 
   const handlePageChange = (event: React.ChangeEvent<unknown>, page: number) => {
     setCurrentPage(page);

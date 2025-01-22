@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom'; // Добавляем useNavigate
+import { useParams } from 'react-router-dom'; // Добавляем useNavigate
 import axios from 'axios';
 import {
   Box,
@@ -14,7 +14,6 @@ import {
   ImageListItem,
 } from '@mui/material';
 import AddToCartButton from './ProjectsGallery/AddToCartButton';
-import { useTheme } from '@mui/material/styles';
 import { cartService } from '../services/cartService';
 import PageHeader from './PageHeader';
 import { Good } from '../types/Good';
