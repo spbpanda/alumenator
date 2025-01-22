@@ -13,7 +13,6 @@ const SnowBackground: React.FC = () => {
     for (let i = 0; i < totalSnowflakes; i++) {
       const randomX = Math.random() * 100; // Случайная позиция по X
       const randomOffset = (Math.random() * 200 - 100) / 100; // Случайное смещение
-      const randomYoyoTime = Math.random() * 0.5 + 0.3; // Время для "yo-yo" эффекта
       const randomScale = Math.random(); // Случайный масштаб
       const fallDuration = Math.random() * 20 + 10; // Длительность падения
       const fallDelay = Math.random() * -30; // Задержка начала анимации
