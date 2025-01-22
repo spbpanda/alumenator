@@ -23,7 +23,6 @@ const ProjectsGallery: React.FC = () => {
     localStorage.getItem('selectedType') || 'all'
   );
   const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -91,7 +90,6 @@ const ProjectsGallery: React.FC = () => {
       setLoading(false);
     } catch (error) {
       console.error('Error fetching projects:', error);
-      setError('Failed to load projects. Please try again later.');
       setLoading(false);
       showSnackbar('Failed to load projects. Please try again later.', 'error');
     }
@@ -122,16 +120,6 @@ const ProjectsGallery: React.FC = () => {
 
   const handlePageChange = (event: React.ChangeEvent<unknown>, page: number) => {
     setCurrentPage(page);
-  };
-
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchQuery(event.target.value);
-    setCurrentPage(1);
-  };
-
-  const handleClearSearch = () => {
-    setSearchQuery('');
-    setCurrentPage(1);
   };
 
   const handleServerSelect = (serverName: string) => {

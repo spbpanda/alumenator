@@ -20,9 +20,7 @@ import PageHeader from './PageHeader';
 import { Good } from '../types/Good';
 
 const GoodDetails: React.FC = () => {
-  const theme = useTheme();
   const { id } = useParams<{ id: string }>();
-  const navigate = useNavigate(); // Для навигации
   const [good, setGood] = useState<Good | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);

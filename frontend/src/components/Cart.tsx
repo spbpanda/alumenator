@@ -5,7 +5,6 @@ import {
   Button,
   List,
   ListItem,
-  IconButton,
   TextField,
   Checkbox,
   FormControlLabel,
@@ -25,7 +24,6 @@ const Cart: React.FC = () => {
   const [nickname, setNickname] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [agree, setAgree] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [snackbarOpen, setSnackbarOpen] = useState<boolean>(false); // Состояние для Snackbar
   const [snackbarMessage, setSnackbarMessage] = useState<string>(''); // Сообщение для Snackbar
@@ -48,7 +46,6 @@ const Cart: React.FC = () => {
     }
   
     setIsLoading(true);
-    setError(null);
   
     try {
       // Формируем объект products в формате { "product_id": quantity }

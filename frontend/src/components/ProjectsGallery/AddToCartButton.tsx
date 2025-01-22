@@ -2,10 +2,9 @@ import React from 'react';
 import { Button } from '@mui/material';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { Good } from '../../types/Good';
-import { cartService } from '../../services/cartService';
 import { useTheme } from '@mui/material/styles';
 
-const AddToCartButton = ({item, onClick}: {item: Good, onClick?: any}) => {
+const AddToCartButton = ({onClick}: {item: Good, onClick?: any}) => {
     const theme = useTheme(); // Получаем доступ к теме
     return (
         <Button
