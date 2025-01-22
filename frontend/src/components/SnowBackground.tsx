@@ -3,12 +3,18 @@ import { Box } from '@mui/material';
 
 const SnowBackground: React.FC = () => {
   const snowContainerRef = useRef<HTMLDivElement>(null);
+  const styleSheetRef = useRef<HTMLStyleElement | null>(null);
 
   useEffect(() => {
     const snowContainer = snowContainerRef.current;
     if (!snowContainer) return;
 
     const totalSnowflakes = 200; // Количество снежинок
+
+    // Создаем новую таблицу стилей
+    const styleSheet = document.createElement('style');
+    document.head.appendChild(styleSheet);
+    styleSheetRef.current = styleSheet;
 
     for (let i = 0; i < totalSnowflakes; i++) {
       const randomX = Math.random() * 100; // Случайная позиция по X
@@ -28,7 +34,6 @@ const SnowBackground: React.FC = () => {
       snowflake.style.animation = `fall-${i} ${fallDuration}s ${fallDelay}s linear infinite`;
 
       // Динамическое создание keyframes
-      const styleSheet = document.styleSheets[0];
       const keyframes = `
         @keyframes fall-${i} {
           0% {
@@ -39,14 +44,17 @@ const SnowBackground: React.FC = () => {
           }
         }
       `;
-      styleSheet.insertRule(keyframes, styleSheet.cssRules.length);
+      styleSheet.sheet?.insertRule(keyframes, styleSheet.sheet.cssRules.length);
 
       snowContainer.appendChild(snowflake);
     }
 
-    // Удаление снежинок при размонтировании
+    // Удаление снежинок и таблицы стилей при размонтировании
     return () => {
       snowContainer.innerHTML = '';
+      if (styleSheetRef.current) {
+        document.head.removeChild(styleSheetRef.current);
+      }
     };
   }, []);
 

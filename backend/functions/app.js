@@ -10,7 +10,11 @@ const PORT = 5000;
 const ShopKey = '537e232713010526cc1ae04c14ed979d';
 
 // Middleware
-app.use(cors());
+// app.use(cors());
+// Или разрешить запросы только с вашего фронтенда
+app.use(cors({
+    origin: 'https://alumenator.netlify.app',
+  }));
 app.use(bodyParser.json());
 
 // Функция для задержки
