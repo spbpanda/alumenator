@@ -5,6 +5,7 @@ const axios = require('axios');
 const serverless = require('serverless-http');
 
 const app = express();
+const router = express.Router();
 const PORT = 5000;
 const ShopKey = '537e232713010526cc1ae04c14ed979d';
 
@@ -29,8 +30,8 @@ const fetchWithRetry = async (url, options, retries = 3, backoff = 300) => {
   }
 };
 
-// Routes
-app.get('/', (req, res) => {
+// Маршруты через router
+router.get('/', (req, res) => {
   res.send('Backend is running!');
 });
 
@@ -47,7 +48,7 @@ const serverImages = [
 ];
 
 // API to get list of servers with images
-app.get('/servers', async (req, res) => {
+router.get('/servers', async (req, res) => {
   try {
     const easydonateResponse = await fetchWithRetry('https://easydonate.ru/api/v3/shop/servers', {
       headers: {
@@ -59,7 +60,7 @@ app.get('/servers', async (req, res) => {
       const serverResp = easydonateResponse.response.find((serverResp) => serverResp.name === server.name);
       return {
         ...serverResp,
-        imageUrl: server ? server.url : '/images/background.jpeg',
+        imageUrl: serverResp ? server.url : '/images/background.jpeg',
       };
     });
 
@@ -74,7 +75,7 @@ app.get('/servers', async (req, res) => {
 });
 
 // Goods API
-app.get('/goods', async (req, res) => {
+router.get('/goods', async (req, res) => {
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 6;
   const type = req.query.type || 'all';
@@ -90,7 +91,7 @@ app.get('/goods', async (req, res) => {
 
     let allGoods = easydonateResponse.response.map((product) => ({
       ...product,
-      servers: product.servers.map((server) => ({name: server.name, id: server.id})),
+      servers: product.servers.map((server) => ({ name: server.name, id: server.id })),
     }));
 
     if (type !== 'all') {
@@ -129,7 +130,7 @@ app.get('/goods', async (req, res) => {
 });
 
 // Get a single good by ID
-app.get('/goods/:id', async (req, res) => {
+router.get('/goods/:id', async (req, res) => {
   const goodId = req.params.id;
 
   try {
@@ -141,7 +142,7 @@ app.get('/goods/:id', async (req, res) => {
 
     const good = {
       ...easydonateResponse.response,
-      servers: easydonateResponse.response.servers.map((server) => ({name: server.name, id: server.id})),
+      servers: easydonateResponse.response.servers.map((server) => ({ name: server.name, id: server.id })),
     };
 
     res.json(good);
@@ -155,7 +156,7 @@ app.get('/goods/:id', async (req, res) => {
 });
 
 // Маршрут для создания платежа
-app.post('/create-payment', async (req, res) => {
+router.post('/create-payment', async (req, res) => {
   const { customer, server_id, products, email, success_url } = req.body;
 
   try {
@@ -181,7 +182,7 @@ app.post('/create-payment', async (req, res) => {
         url: response.data.response.url,
       });
     } else {
-      console.log(response)
+      console.log(response);
       res.status(400).json({
         success: false,
         message: response.data.message || 'Ошибка при создании платежа',
@@ -197,17 +198,15 @@ app.post('/create-payment', async (req, res) => {
   }
 });
 
-// Start server
+// Подключите router к app
+app.use('/.netlify/functions/app', router);
+
+// Локальный сервер (для разработки)
 if (process.env.NODE_ENV !== 'production') {
-    app.listen(PORT, () => {
-      console.log(`Server is running on http://localhost:${PORT}`);
-    });
+  app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
+  });
 }
 
-// For serverless
-// const router = express.Router();
-// router.get("/", (req, res) => {
-//     res.send("App is running..");
-// });
-// app.use("/.netlify/functions/app", router);
+// Экспорт для serverless
 module.exports.handler = serverless(app);
