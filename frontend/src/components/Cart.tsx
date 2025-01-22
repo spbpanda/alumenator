@@ -17,7 +17,7 @@ import { cartService } from '../services/cartService';
 import { Good } from '../types/Good';
 import RemoveFromCartButton from './ProjectsGallery/RemoveFromCartButton';
 import PageHeader from './PageHeader';
-import axios from 'axios';
+import api from '../api';
 
 const Cart: React.FC = () => {
   const [cartItems, setCartItems] = useState<Good[]>(cartService.getCartItems());
@@ -55,7 +55,7 @@ const Cart: React.FC = () => {
       }, {} as Record<number, number>);
   
       // Отправляем запрос на сервер для создания платежа
-      const response = await axios.post('/api/create-payment', {
+      const response = await api.post('/create-payment', {
         customer: nickname, // Никнейм покупателя
         server_id: JSON.parse(localStorage.getItem('server')!).id, // Идентификатор сервера (замените на ваш server_id)
         products, // JSON-объект с товарами

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import {
   Box,
   Typography,
@@ -15,6 +14,7 @@ import FilterButtons from './FilterButtons';
 import GoodsList from './GoodsList';
 import { Good } from '../../types/Good';
 import { cartService } from '../../services/cartService';
+import api from '../../api';
 
 
 const ProjectsGallery: React.FC = () => {
@@ -76,7 +76,7 @@ const ProjectsGallery: React.FC = () => {
 
   const fetchProjects = async (page: number, type: string = selectedType, query: string = searchQuery, server: string = selectedServer) => {
     try {
-      const response = await axios.get('/api/goods', {
+      const response = await api.get('/goods', {
         params: {
           page,
           limit: 8,
@@ -102,7 +102,7 @@ const ProjectsGallery: React.FC = () => {
 
   const fetchServers = async () => {
     try {
-      const response = await axios.get('/api/servers');
+      const response = await api.get('/servers');
       await delay(1000);
       setServers(response.data);
     } catch (error) {

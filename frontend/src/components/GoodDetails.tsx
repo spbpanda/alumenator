@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom'; // Добавляем useNavigate
-import axios from 'axios';
 import {
   Box,
   Typography,
@@ -17,6 +16,7 @@ import AddToCartButton from './ProjectsGallery/AddToCartButton';
 import { cartService } from '../services/cartService';
 import PageHeader from './PageHeader';
 import { Good } from '../types/Good';
+import api from '../api';
 
 const GoodDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -25,8 +25,8 @@ const GoodDetails: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    axios
-      .get(`/api/goods/${id}`)
+    api
+      .get(`/goods/${id}`)
       .then((response) => {
         setGood(response.data);
         setLoading(false);
