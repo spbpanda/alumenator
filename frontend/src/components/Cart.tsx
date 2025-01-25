@@ -1,3 +1,4 @@
+// Cart.tsx
 import React, { useState } from 'react';
 import {
   Box,
@@ -13,27 +14,20 @@ import {
   Snackbar,
   Alert,
 } from '@mui/material';
-import { cartService } from '../services/cartService';
-import { Good } from '../types/Good';
+import { useCart } from '../contexts/CartContext';
 import RemoveFromCartButton from './ProjectsGallery/RemoveFromCartButton';
 import PageHeader from './PageHeader';
 import api from '../api';
 
 const Cart: React.FC = () => {
-  const [cartItems, setCartItems] = useState<Good[]>(cartService.getCartItems());
+  const { cartItems, removeFromCart, clearCart } = useCart();
   const [nickname, setNickname] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [agree, setAgree] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [snackbarOpen, setSnackbarOpen] = useState<boolean>(false); // Состояние для Snackbar
-  const [snackbarMessage, setSnackbarMessage] = useState<string>(''); // Сообщение для Snackbar
-  const [snackbarSeverity, setSnackbarSeverity] = useState<'error' | 'success' | 'info' | 'warning'>('error'); // Тип уведомления
-
-  // Удалить товар из корзины
-  const handleRemoveItem = (itemId: number) => {
-    cartService.removeFromCart(itemId);
-    setCartItems(cartService.getCartItems());
-  };
+  const [snackbarOpen, setSnackbarOpen] = useState<boolean>(false);
+  const [snackbarMessage, setSnackbarMessage] = useState<string>('');
+  const [snackbarSeverity, setSnackbarSeverity] = useState<'error' | 'success' | 'info' | 'warning'>('error');
 
   // Общая стоимость
   const totalPrice = cartItems.reduce((sum, item) => sum + item.price, 0);
@@ -44,27 +38,24 @@ const Cart: React.FC = () => {
       showSnackbar('Пожалуйста, заполните все поля и согласитесь с условиями.', 'error');
       return;
     }
-  
+
     setIsLoading(true);
-  
+
     try {
-      // Формируем объект products в формате { "product_id": quantity }
       const products = cartItems.reduce((acc, item) => {
         acc[item.id] = 1; // Количество товара (по умолчанию 1)
         return acc;
       }, {} as Record<number, number>);
-  
-      // Отправляем запрос на сервер для создания платежа
+
       const response = await api.post('/create-payment', {
-        customer: nickname, // Никнейм покупателя
-        server_id: JSON.parse(localStorage.getItem('server')!).id, // Идентификатор сервера (замените на ваш server_id)
-        products, // JSON-объект с товарами
-        email, // Email покупателя
-        success_url: 'https://alumenator.net/thanks', // URL для перенаправления после оплаты
+        customer: nickname,
+        server_id: JSON.parse(localStorage.getItem('server')!).id,
+        products,
+        email,
+        success_url: 'https://alumenator.net/thanks',
       });
-  
+
       if (response.data.success) {
-        // Перенаправляем пользователя на страницу оплаты
         window.location.href = response.data.url;
       } else {
         showSnackbar(response.data.message || 'Ошибка при создании платежа.', 'error');
@@ -109,21 +100,20 @@ const Cart: React.FC = () => {
           <ListItem
             key={item.id}
             secondaryAction={
-              <RemoveFromCartButton onClick={() => handleRemoveItem(item.id)} />
+              <RemoveFromCartButton onClick={() => removeFromCart(item.id)} />
             }
             sx={{ display: 'flex', alignItems: 'center', maxHeight: '100px' }}
           >
-            {/* Изображение товара с динамическими размерами */}
             <Box
               component="img"
               src={item.image}
               alt={item.name}
               sx={{
-                width: { xs: '60px', sm: '80px', md: '100px' }, // Динамические размеры
-                height: { xs: '60px', sm: '80px', md: '100px' }, // Динамические размеры
+                width: { xs: '60px', sm: '80px', md: '100px' },
+                height: { xs: '60px', sm: '80px', md: '100px' },
                 borderRadius: 2,
-                marginRight: 2, // Отступ справа
-                objectFit: 'cover', // Сохраняет пропорции изображения
+                marginRight: 2,
+                objectFit: 'cover',
               }}
             />
             <Box sx={{ flex: 1 }}>
@@ -248,9 +238,9 @@ const Cart: React.FC = () => {
       {/* Уведомление (Snackbar) */}
       <Snackbar
         open={snackbarOpen}
-        autoHideDuration={6000} // Уведомление закроется через 6 секунд
+        autoHideDuration={6000}
         onClose={handleCloseSnackbar}
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }} // Позиция уведомления
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
         <Alert onClose={handleCloseSnackbar} severity={snackbarSeverity} sx={{ width: '100%' }}>
           {snackbarMessage}

@@ -1,5 +1,6 @@
+// GoodDetails.tsx
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom'; // Добавляем useNavigate
+import { useParams } from 'react-router-dom';
 import {
   Box,
   Typography,
@@ -13,7 +14,7 @@ import {
   ImageListItem,
 } from '@mui/material';
 import AddToCartButton from './ProjectsGallery/AddToCartButton';
-import { cartService } from '../services/cartService';
+import { useCart } from '../contexts/CartContext';
 import PageHeader from './PageHeader';
 import { Good } from '../types/Good';
 import api from '../api';
@@ -23,6 +24,7 @@ const GoodDetails: React.FC = () => {
   const [good, setGood] = useState<Good | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const { addToCart } = useCart();
 
   useEffect(() => {
     api
@@ -119,7 +121,7 @@ const GoodDetails: React.FC = () => {
                 {good.price} ₽
               </Typography>
               {/* Кнопка покупки */}
-              <AddToCartButton item={good} onClick={() => { cartService.addToCart(good) }} />
+              <AddToCartButton item={good} onClick={() => addToCart(good)} />
             </Box>
 
             <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'baseline', flexWrap: 'wrap', gap: 1 }}>

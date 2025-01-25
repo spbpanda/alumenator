@@ -1,13 +1,15 @@
+// Thanks.tsx
 import React from 'react';
 import { Box, Typography, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { cartService } from '../services/cartService';
+import { useCart } from '../contexts/CartContext';
 
 const Thanks: React.FC = () => {
   const navigate = useNavigate();
+  const { clearCart } = useCart();
 
   const handleGoHome = () => {
-    cartService.clearCart();
+    clearCart();
     navigate('/');
   };
 

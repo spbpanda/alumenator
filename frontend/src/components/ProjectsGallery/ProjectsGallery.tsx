@@ -1,5 +1,5 @@
+// ProjectsGallery.tsx
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import {
   Box,
   Typography,
@@ -13,9 +13,8 @@ import ServerSlider from './ServerSlider';
 import FilterButtons from './FilterButtons';
 import GoodsList from './GoodsList';
 import { Good } from '../../types/Good';
-import { cartService } from '../../services/cartService';
+import { useCart } from '../../contexts/CartContext';
 import api from '../../api';
-
 
 const ProjectsGallery: React.FC = () => {
   const [goods, setGoods] = useState<Good[]>([]);
@@ -30,17 +29,11 @@ const ProjectsGallery: React.FC = () => {
     localStorage.getItem('selectedServer') || 'Магическое выживание №1 и №2'
   );
   const [servers, setServers] = useState<any[]>([]);
-  const [cartItems, setCartItems] = useState<Good[]>([]);
   const [snackbarOpen, setSnackbarOpen] = useState<boolean>(false);
   const [snackbarMessage, setSnackbarMessage] = useState<string>('');
   const [snackbarSeverity, setSnackbarSeverity] = useState<'error' | 'success' | 'info' | 'warning'>('error');
   const [initialSelectedIndex, setInitialSelectedIndex] = useState<number>(0);
-  const navigate = useNavigate();
-
-  // Загружаем корзину при монтировании компонента
-  useEffect(() => {
-    setCartItems(cartService.getCartItems());
-  }, []);
+  const { cartItems, addToCart, removeFromCart, clearCart } = useCart();
 
   // Загружаем выбранный сервер и тип товаров из localStorage при монтировании компонента
   useEffect(() => {
@@ -124,8 +117,7 @@ const ProjectsGallery: React.FC = () => {
 
   const handleServerSelect = (serverName: string) => {
     if (cartItems.length > 0) {
-      cartService.clearCart();
-      setCartItems([]);
+      clearCart();
       showSnackbar('Корзина очищена. К сожалению, нет возможности одновременно купить товары для разных серверов.', 'info');
     }
     setSelectedServer(serverName);
@@ -135,20 +127,6 @@ const ProjectsGallery: React.FC = () => {
   const handleTypeChange = (type: string) => {
     setSelectedType(type);
     setCurrentPage(1);
-  };
-
-  const handleGoToCart = () => {
-    navigate('/cart');
-  };
-
-  const handleAddToCart = (project: Good) => {
-    cartService.addToCart(project);
-    setCartItems([...cartService.getCartItems()]);
-  };
-
-  const handleRemoveFromCart = (projectId: number) => {
-    cartService.removeFromCart(projectId);
-    setCartItems([...cartService.getCartItems()]);
   };
 
   const showSnackbar = (message: string, severity: 'error' | 'success' | 'info' | 'warning') => {
@@ -170,11 +148,7 @@ const ProjectsGallery: React.FC = () => {
   }
 
   return (
-    <Box sx={{ padding: 3 }}>
-      <CartButton
-        onClick={handleGoToCart}
-        itemCount={cartItems.length}
-      />
+    <Box sx={{ padding: 3, maxWidth: 1200, margin: 'auto' }}>
       <ServerSlider
         servers={servers}
         initialSelectedIndex={initialSelectedIndex}
@@ -192,8 +166,8 @@ const ProjectsGallery: React.FC = () => {
         <GoodsList
           goods={goods}
           cartItems={cartItems}
-          onAddToCart={handleAddToCart}
-          onRemoveFromCart={handleRemoveFromCart}
+          onAddToCart={addToCart}
+          onRemoveFromCart={removeFromCart}
         />
       )}
       <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: 3 }}>

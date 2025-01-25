@@ -170,24 +170,22 @@ app.get('/goods/:id', async (req, res) => {
 // Маршрут для создания платежа
 app.post('/create-payment', async (req, res) => {
   const { customer, server_id, products, email, success_url } = req.body;
+  const params = new URLSearchParams({
+    customer: customer, // Никнейм покупателя
+    server_id: server_id, // ID сервера
+    products: JSON.stringify(products), // Товары в формате { "product_id": quantity }
+    email: email, // Email покупателя
+    success_url: success_url, // URL для перенаправления после успешной оплаты
+  });
 
   try {
-    // Отправляем запрос к EasyDonate API для создания платежа
-    const response = await axios.post(
-      'https://easydonate.ru/api/v3/shop/payment/create',
-      {
-        customer, // Никнейм покупателя
-        server_id, // ID сервера
-        products, // Товары в формате { "product_id": quantity }
-        email, // Email покупателя
-        success_url, // URL для перенаправления после успешной оплаты
+    const url = `https://easydonate.ru/api/v3/shop/payment/create?${params.toString()}`;
+
+    const response = await axios.get(url, {
+      headers: {
+        'Shop-Key': ShopKey, // Замените на ваш Shop-Key
       },
-      {
-        headers: {
-          'Shop-Key': ShopKey, // Замените на ваш Shop-Key
-        },
-      }
-    );
+    });
 
     // Если запрос успешен, возвращаем ссылку на оплату
     if (response.data.success) {

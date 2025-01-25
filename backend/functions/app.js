@@ -10,8 +10,6 @@ const PORT = 5000;
 const ShopKey = '537e232713010526cc1ae04c14ed979d';
 
 // Middleware
-// app.use(cors());
-// Или разрешить запросы только с вашего фронтенда
 app.use(cors({
     origin: 'https://alumenator.netlify.app',
   }));
@@ -33,11 +31,6 @@ const fetchWithRetry = async (url, options, retries = 3, backoff = 300) => {
     throw error;
   }
 };
-
-// Маршруты через router
-router.get('/', (req, res) => {
-  res.send('Backend is running!');
-});
 
 // Mock data for server images
 const serverImages = [
@@ -162,23 +155,22 @@ router.get('/goods/:id', async (req, res) => {
 // Маршрут для создания платежа
 router.post('/create-payment', async (req, res) => {
   const { customer, server_id, products, email, success_url } = req.body;
+  const params = new URLSearchParams({
+    customer: customer, // Никнейм покупателя
+    server_id: server_id, // ID сервера
+    products: JSON.stringify(products), // Товары в формате { "product_id": quantity }
+    email: email, // Email покупателя
+    success_url: success_url, // URL для перенаправления после успешной оплаты
+  });
 
   try {
-    const response = await axios.post(
-      'https://easydonate.ru/api/v3/shop/payment/create',
-      {
-        customer,
-        server_id,
-        products,
-        email,
-        success_url,
+    const url = `https://easydonate.ru/api/v3/shop/payment/create?${params.toString()}`;
+
+    const response = await axios.get(url, {
+      headers: {
+        'Shop-Key': ShopKey, // Замените на ваш Shop-Key
       },
-      {
-        headers: {
-          'Shop-Key': ShopKey,
-        },
-      }
-    );
+    });
 
     if (response.data.success) {
       res.json({
