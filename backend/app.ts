@@ -110,10 +110,9 @@ app.get('/goods', async (req, res) => {
 
     // Фильтруем товары по поисковому запросу
     if (searchQuery) {
-      allGoods = allGoods.filter((good: { name: string; description: string; }) =>
-        good.name.toLowerCase().includes((searchQuery as string).toLowerCase()) ||
-        good.description.toLowerCase().includes((searchQuery as string).toLowerCase())
-      );
+      allGoods = allGoods.filter((good: { name: string; }) => {
+        return good.name.toLowerCase().includes((searchQuery as string).toLowerCase());
+      });
     }
 
     // Применяем пагинацию

@@ -7,8 +7,11 @@ import {
   Pagination,
   Snackbar,
   Alert,
+  InputAdornment,
+  IconButton,
+  TextField,
 } from '@mui/material';
-import CartButton from './CartButton';
+import ClearIcon from '@mui/icons-material/Clear'; // Иконка для очистки
 import ServerSlider from './ServerSlider';
 import FilterButtons from './FilterButtons';
 import GoodsList from './GoodsList';
@@ -34,6 +37,17 @@ const ProjectsGallery: React.FC = () => {
   const [snackbarSeverity, setSnackbarSeverity] = useState<'error' | 'success' | 'info' | 'warning'>('error');
   const [initialSelectedIndex, setInitialSelectedIndex] = useState<number>(0);
   const { cartItems, addToCart, removeFromCart, clearCart } = useCart();
+
+  
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(event.target.value);
+    setCurrentPage(1);
+  };
+
+  const handleClearSearch = () => {
+    setSearchQuery('');
+    setCurrentPage(1);
+  };
 
   // Загружаем выбранный сервер и тип товаров из localStorage при монтировании компонента
   useEffect(() => {
@@ -155,6 +169,25 @@ const ProjectsGallery: React.FC = () => {
         onServerSelect={handleServerSelect}
       />
       <Typography variant="h4" gutterBottom>Товары</Typography>
+      <TextField
+        fullWidth
+        variant="outlined"
+        placeholder="Поиск товаров..."
+        value={searchQuery}
+        onChange={handleSearchChange}
+        sx={{ marginBottom: 3 }}
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position="end">
+              {searchQuery && (
+                <IconButton onClick={handleClearSearch} edge="end">
+                  <ClearIcon />
+                </IconButton>
+              )}
+            </InputAdornment>
+          ),
+        }}
+      />
       <FilterButtons selectedType={selectedType} onTypeChange={handleTypeChange} />
       {goods.length === 0 ? (
         <Box display="flex" justifyContent="center" alignItems="center" minHeight="200px">

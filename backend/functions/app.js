@@ -102,10 +102,9 @@ router.get('/goods', async (req, res) => {
     }
 
     if (searchQuery) {
-      allGoods = allGoods.filter((good) =>
-        good.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        good.description.toLowerCase().includes(searchQuery.toLowerCase())
-      );
+      allGoods = allGoods.filter((good) => {
+        return good.name.toLowerCase().includes(searchQuery.toLowerCase());
+      });
     }
 
     const startIndex = (page - 1) * limit;
