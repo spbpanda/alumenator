@@ -178,8 +178,11 @@ app.post('/create-payment', async (req, res) => {
     success_url: success_url, // URL для перенаправления после успешной оплаты
   });
 
+  console.log(params.toString())
+
   try {
     const url = `https://easydonate.ru/api/v3/shop/payment/create?${params.toString()}`;
+    console.log(url)
 
     const response = await axios.get(url, {
       headers: {
