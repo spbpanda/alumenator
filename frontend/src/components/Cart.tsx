@@ -13,6 +13,7 @@ import {
   Link,
   Snackbar,
   Alert,
+  useTheme,
 } from '@mui/material';
 import { useCart } from '../contexts/CartContext';
 import RemoveFromCartButton from './ProjectsGallery/RemoveFromCartButton';
@@ -28,6 +29,7 @@ const Cart: React.FC = () => {
   const [snackbarOpen, setSnackbarOpen] = useState<boolean>(false);
   const [snackbarMessage, setSnackbarMessage] = useState<string>('');
   const [snackbarSeverity, setSnackbarSeverity] = useState<'error' | 'success' | 'info' | 'warning'>('error');
+  const theme = useTheme(); // Получаем доступ к теме
 
   // Общая стоимость
   const totalPrice = cartItems.reduce((sum, item) => sum + item.price, 0);
@@ -99,10 +101,15 @@ const Cart: React.FC = () => {
         {cartItems.map((item) => (
           <ListItem
             key={item.id}
-            secondaryAction={
-              <RemoveFromCartButton onClick={() => removeFromCart(item.id)} />
-            }
-            sx={{ display: 'flex', alignItems: 'center', maxHeight: '100px' }}
+            sx={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              maxHeight: '100px',
+              [theme.breakpoints.down("sm")]: {
+                flexDirection: 'column',
+                maxHeight: '300px',
+              }
+            }}
           >
             <Box
               component="img"
@@ -113,17 +120,23 @@ const Cart: React.FC = () => {
                 height: { xs: '60px', sm: '80px', md: '100px' },
                 borderRadius: 2,
                 marginRight: 2,
-                objectFit: 'cover',
+                objectFit: 'cover'
               }}
             />
             <Box sx={{ flex: 1 }}>
-              <Typography variant="h5" sx={{ fontWeight: 'bold' }}>
+              <Typography variant="h5" sx={{ 
+                  fontWeight: 'bold',
+                  [theme.breakpoints.down("sm")]: {
+                    fontSize: '1rem'
+                  } 
+                }}>
                 {item.name}
               </Typography>
               <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
                 {item.price} ₽
               </Typography>
             </Box>
+            <RemoveFromCartButton onClick={() => removeFromCart(item.id)} />
           </ListItem>
         ))}
       </List>

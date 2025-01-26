@@ -25,7 +25,7 @@ const CartButton: React.FC = () => {
         // Стили только для мобильных устройств (ширина экрана < 600px)
         [theme.breakpoints.down('sm')]: {
           position: 'fixed',
-          left: '35vh',
+          right: '5vh',
           top: '90vh',
         },
       }}
