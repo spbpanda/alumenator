@@ -37,7 +37,7 @@ app.get('/', (req, res) => {
 // Mock data for server images
 const serverImages = [
   {
-    name: "Магическое выживание №1 и №2",
+    name: "Магическое выживание",
     url: "/images/magic-survival.jpg",
   },
   {
@@ -58,7 +58,7 @@ app.get('/servers', async (req, res) => {
 
     // Map server names to images
     const serversWithImages = serverImages.map((server: any) => {
-      const serverResp = easydonateResponse.response.find((serverResp: any) => serverResp.name === server.name);
+      const serverResp = easydonateResponse.response.find((serverResp: any) => serverResp.name.includes(server.name));
       return {
         ...serverResp,
         imageUrl: server ? server.url : '/images/background.jpeg', // Add image URL if found

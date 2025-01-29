@@ -20,13 +20,18 @@ const Footer: React.FC = () => {
         {/* Логотип и описание */}
         <Grid item xs={12} md={4} textAlign="center">
           <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 1 }}>
-            Alumenator
+            AlumenatoR
           </Typography>
           <Typography variant="body2" sx={{ mb: 1 }}>
-            Мы предоставляем лучшие товары для вашего игрового опыта. Присоединяйтесь к нам!
+          ИП Трофимов Евгений Валерьевич
+          </Typography>
+          <Typography variant="body2" sx={{ mb: 1 }}>
+          ОГРНИП 321784700202193
+          </Typography>
+          <Typography variant="body2" sx={{ mb: 1 }}>
+          ИНН 780442025717
           </Typography>
         </Grid>
-
         {/* Контактная информация */}
         <Grid item xs={12} md={4} textAlign="center">
           <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1 }}>
@@ -114,7 +119,7 @@ const Footer: React.FC = () => {
         }}
       >
         <Typography variant="body2" sx={{ mb: 1 }}>
-          © {new Date().getFullYear()} Alumenator. Все права защищены.
+          © {new Date().getFullYear()} AlumenatoR. Все права защищены.
         </Typography>
           <Link
             href="https://legal.easyx.ru/general/rules"

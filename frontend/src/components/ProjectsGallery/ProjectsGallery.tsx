@@ -172,7 +172,7 @@ const ProjectsGallery: React.FC = () => {
       <TextField
         fullWidth
         variant="outlined"
-        placeholder="Поиск товаров..."
+        placeholder="Введите товар который хотите найти..."
         value={searchQuery}
         onChange={handleSearchChange}
         sx={{ marginBottom: 3 }}

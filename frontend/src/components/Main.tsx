@@ -7,15 +7,31 @@ const Main: React.FC = () => {
 
   // Функция для копирования текста в буфер обмена
   const handleCopyText = () => {
-    navigator.clipboard
-      .writeText('play.alumenator.net')
-      .then(() => {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard
+        .writeText('play.alumenator.net')
+        .then(() => {
+          setOpenSnackbar(true); // Показываем Snackbar
+        })
+        .catch((err) => {
+          console.error('Ошибка при копировании:', err);
+        });
+    } else {
+      // Альтернативный метод
+      try {
+        const textArea = document.createElement('textarea');
+        textArea.value = 'play.alumenator.net';
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand('copy'); // Копируем текст
+        document.body.removeChild(textArea);
         setOpenSnackbar(true); // Показываем Snackbar
-      })
-      .catch((err) => {
-        console.error('Ошибка при копировании:', err);
-      });
+      } catch (err) {
+        console.error('Ошибка при копировании (альтернативный метод):', err);
+      }
+    }
   };
+  
 
   // Функция для закрытия Snackbar
   const handleCloseSnackbar = () => {

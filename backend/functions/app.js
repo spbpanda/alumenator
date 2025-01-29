@@ -10,9 +10,7 @@ const PORT = 5000;
 const ShopKey = '537e232713010526cc1ae04c14ed979d';
 
 // Middleware
-app.use(cors({
-    origin: 'https://alumenator.netlify.app',
-  }));
+app.use(cors());
 app.use(bodyParser.json());
 
 // Функция для задержки
@@ -35,7 +33,7 @@ const fetchWithRetry = async (url, options, retries = 3, backoff = 300) => {
 // Mock data for server images
 const serverImages = [
   {
-    name: "Магическое выживание №1 и №2",
+    name: "Магическое выживание",
     url: "/images/magic-survival.jpg",
   },
   {
@@ -54,7 +52,7 @@ router.get('/servers', async (req, res) => {
     });
 
     const serversWithImages = serverImages.map((server) => {
-      const serverResp = easydonateResponse.response.find((serverResp) => serverResp.name === server.name);
+      const serverResp = easydonateResponse.response.find((serverResp) => serverResp.name.includes(server.name));
       return {
         ...serverResp,
         imageUrl: serverResp ? server.url : '/images/background.jpeg',

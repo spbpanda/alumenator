@@ -5,6 +5,7 @@ import AddToCartButton from './AddToCartButton';
 import { Good } from '../../types/Good';
 import { useTheme } from '@mui/material/styles';
 import RemoveFromCartButton from './RemoveFromCartButton';
+import { useCachedImage } from '../../hooks/useCacheImage';
 
 interface GoodsItemProps {
   project: Good;
@@ -13,22 +14,21 @@ interface GoodsItemProps {
   onRemoveFromCart: (projectId: number) => void;
 }
 
-const GoodsItem: React.FC<GoodsItemProps> = ({
-  project,
-  isInCart,
-  onAddToCart,
-  onRemoveFromCart,
-}) => {
+const GoodsItem: React.FC<GoodsItemProps> = ({ project, isInCart, onAddToCart, onRemoveFromCart }) => {
   const theme = useTheme();
+  const cachedImage = useCachedImage(project.image);
 
   return (
     <Box
       sx={{
+        display: 'flex',
+        flexDirection: 'column',
         border: '2px solid rgba(255,255,255,.4)',
         borderRadius: '10px',
         overflow: 'hidden',
         padding: '14px',
         transition: 'transform 0.2s, box-shadow 0.2s',
+        height: '100%',
         '&:hover': {
           transform: 'translateY(-4px)',
           boxShadow: 3,
@@ -45,9 +45,9 @@ const GoodsItem: React.FC<GoodsItemProps> = ({
         },
       }}
     >
-      <Link to={`/goods/${project.id}`} style={{ textDecoration: 'none' }}>
+      <Link to={`/goods/${project.id}`} style={{ textDecoration: 'none', flex: 1 }}>
         <img
-          src={project.image}
+          src={cachedImage || project.image} // Используем закэшированное изображение
           alt={project.name}
           style={{ width: '60%', height: 'auto', margin: 'auto', display: 'flex' }}
         />
@@ -70,12 +70,12 @@ const GoodsItem: React.FC<GoodsItemProps> = ({
 
       <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: 0 }}>
         {isInCart ? (
-        <RemoveFromCartButton
+          <RemoveFromCartButton
             onClick={(e: any) => {
-                e.stopPropagation();
-                onRemoveFromCart(project.id)
+              e.stopPropagation();
+              onRemoveFromCart(project.id);
             }}
-        />
+          />
         ) : (
           <AddToCartButton
             item={project}
