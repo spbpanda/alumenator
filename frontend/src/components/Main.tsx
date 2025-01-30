@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Box, Typography, Button, Snackbar, Alert } from '@mui/material';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy'; // Иконка копирования
+import ServerInfo from './ProjectsGallery/ServerInfo';
 
 const Main: React.FC = () => {
   const [openSnackbar, setOpenSnackbar] = useState(false); // Состояние для управления Snackbar
@@ -77,6 +78,7 @@ const Main: React.FC = () => {
         >
           play.alumenator.net
         </Button>
+        <ServerInfo />
       </Box>
       {/* Уведомление Snackbar */}
       <Snackbar

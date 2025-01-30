@@ -46,11 +46,12 @@ const GoodsItem: React.FC<GoodsItemProps> = ({ project, isInCart, onAddToCart, o
       }}
     >
       <Link to={`/goods/${project.id}`} style={{ textDecoration: 'none', flex: 1 }}>
+        {project.image || cachedImage ? (
         <img
           src={cachedImage || project.image} // Используем закэшированное изображение
           alt={project.name}
           style={{ width: '60%', height: 'auto', margin: 'auto', display: 'flex' }}
-        />
+        />) : null}
         <Box
           sx={{
             padding: 2,

@@ -1,5 +1,4 @@
-// ProjectsGallery.tsx
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Box,
   Typography,
@@ -11,13 +10,14 @@ import {
   IconButton,
   TextField,
 } from '@mui/material';
-import ClearIcon from '@mui/icons-material/Clear'; // Иконка для очистки
+import ClearIcon from '@mui/icons-material/Clear';
 import ServerSlider from './ServerSlider';
 import FilterButtons from './FilterButtons';
 import GoodsList from './GoodsList';
 import { Good } from '../../types/Good';
 import { useCart } from '../../contexts/CartContext';
 import api from '../../api';
+import axios, { CancelTokenSource } from 'axios';
 
 const ProjectsGallery: React.FC = () => {
   const [goods, setGoods] = useState<Good[]>([]);
@@ -38,7 +38,8 @@ const ProjectsGallery: React.FC = () => {
   const [initialSelectedIndex, setInitialSelectedIndex] = useState<number>(0);
   const { cartItems, addToCart, removeFromCart, clearCart } = useCart();
 
-  
+  const cancelTokenSourceRef = useRef<CancelTokenSource | null>(null);
+
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(event.target.value);
     setCurrentPage(1);
@@ -49,7 +50,6 @@ const ProjectsGallery: React.FC = () => {
     setCurrentPage(1);
   };
 
-  // Загружаем выбранный сервер и тип товаров из localStorage при монтировании компонента
   useEffect(() => {
     const savedServer = localStorage.getItem('selectedServer');
     const savedType = localStorage.getItem('selectedType');
@@ -61,17 +61,14 @@ const ProjectsGallery: React.FC = () => {
     }
   }, []);
 
-  // Сохраняем выбранный сервер в localStorage при его изменении
   useEffect(() => {
     localStorage.setItem('selectedServer', selectedServer);
   }, [selectedServer]);
 
-  // Сохраняем выбранный тип товаров в localStorage при его изменении
   useEffect(() => {
     localStorage.setItem('selectedType', selectedType);
   }, [selectedType]);
 
-  // Вычисляем initialSelectedIndex после загрузки servers и при изменении selectedServer
   useEffect(() => {
     if (servers.length > 0) {
       const index = servers.findIndex(server => server.name === selectedServer);
@@ -79,10 +76,24 @@ const ProjectsGallery: React.FC = () => {
     }
   }, [servers, selectedServer]);
 
-  const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+  const fetchProjects = async (
+    page: number,
+    type: string = selectedType,
+    query: string = searchQuery,
+    server: string = selectedServer
+  ) => {
+    // Отмена предыдущего запроса, если он существует
+    if (cancelTokenSourceRef.current) {
+      cancelTokenSourceRef.current.cancel('Request canceled due to new request');
+    }
 
-  const fetchProjects = async (page: number, type: string = selectedType, query: string = searchQuery, server: string = selectedServer) => {
+    // Создаем новый источник токена отмены
+    const cancelTokenSource = axios.CancelToken.source();
+    cancelTokenSourceRef.current = cancelTokenSource;
+
     try {
+      setLoading(true);
+
       const response = await api.get('/goods', {
         params: {
           page,
@@ -91,36 +102,48 @@ const ProjectsGallery: React.FC = () => {
           server,
           search: query,
         },
+        cancelToken: cancelTokenSource.token,
       });
+
       setGoods(response.data.goods);
       setTotalPages(response.data.totalPages);
       setLoading(false);
     } catch (error) {
-      console.error('Error fetching projects:', error);
-      setLoading(false);
-      showSnackbar('Failed to load projects. Please try again later.', 'error');
+      if (axios.isCancel(error)) {
+        console.log('Request canceled:', error.message);
+      } else {
+        console.error('Error fetching projects:', error);
+        setLoading(false);
+      }
+    } finally {
+      // Сбрасываем токен отмены после завершения запроса
+      cancelTokenSourceRef.current = null;
     }
   };
 
-  // Загружаем товары при изменении currentPage, selectedType, searchQuery или selectedServer
   useEffect(() => {
     fetchProjects(currentPage, selectedType, searchQuery, selectedServer);
+
+    // Очистка при размонтировании компонента
+    return () => {
+      if (cancelTokenSourceRef.current) {
+        cancelTokenSourceRef.current.cancel('Component unmounted');
+      }
+    };
   }, [currentPage, selectedType, searchQuery, selectedServer]);
 
   const fetchServers = async () => {
     try {
       const response = await api.get('/servers');
-      await delay(1000);
       setServers(response.data);
     } catch (error) {
       console.error('Error fetching servers:', error);
       showSnackbar('Failed to load servers. Please try again later.', 'error');
-      setServers([]); // Устанавливаем пустой массив, чтобы избежать ошибок
-      setInitialSelectedIndex(0); // Устанавливаем индекс по умолчанию
+      setServers([]);
+      setInitialSelectedIndex(0);
     }
   };
 
-  // Загружаем серверы при монтировании компонента
   useEffect(() => {
     fetchServers();
   }, []);
@@ -153,14 +176,6 @@ const ProjectsGallery: React.FC = () => {
     setSnackbarOpen(false);
   };
 
-  if (loading) {
-    return (
-      <Box display="flex" justifyContent="center" alignItems="center" minHeight="200px">
-        <CircularProgress />
-      </Box>
-    );
-  }
-
   return (
     <Box sx={{ padding: 3, maxWidth: 1200, margin: 'auto' }}>
       <ServerSlider
@@ -180,7 +195,7 @@ const ProjectsGallery: React.FC = () => {
           endAdornment: (
             <InputAdornment position="end">
               {searchQuery && (
-                <IconButton onClick={handleClearSearch} edge="end">
+                <IconButton onClick={handleClearSearch} edge="end" sx={{ color: 'white' }}>
                   <ClearIcon />
                 </IconButton>
               )}
@@ -189,9 +204,13 @@ const ProjectsGallery: React.FC = () => {
         }}
       />
       <FilterButtons selectedType={selectedType} onTypeChange={handleTypeChange} />
-      {goods.length === 0 ? (
+      {loading ? (
         <Box display="flex" justifyContent="center" alignItems="center" minHeight="200px">
-          <Typography variant="h6" color="textSecondary">
+          <CircularProgress />
+        </Box>
+      ) : goods.length === 0 ? (
+        <Box display="flex" justifyContent="center" alignItems="center" minHeight="200px">
+          <Typography variant="h6" color="white">
             Товаров для этого сервера нет
           </Typography>
         </Box>

@@ -181,7 +181,6 @@ app.post('/create-payment', async (req, res) => {
 
   try {
     const url = `https://easydonate.ru/api/v3/shop/payment/create?${params.toString()}`;
-    console.log(url)
 
     const response = await axios.get(url, {
       headers: {
@@ -211,6 +210,24 @@ app.post('/create-payment', async (req, res) => {
     });
   }
 });
+
+app.get('/server-status', async (req, res) => {
+  const address = 'play.alumenator.net:25565';
+
+  try {
+    const responce = await fetchWithRetry(`https://api.mcstatus.io/v2/status/java/${address}`);
+
+    res.json(responce);
+  } catch (error: any) {
+    console.error('Failed to fetch server status', error.response ? error.response.data : error.message);
+
+    // Возвращаем ошибку клиенту
+    res.status(500).json({
+      message: 'Failed to fetch server status',
+      error: error.response ? error.response.data : error.message,
+    });
+  }
+})
 
 // Start server
 app.listen(PORT, () => {

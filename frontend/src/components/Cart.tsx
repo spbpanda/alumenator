@@ -21,7 +21,7 @@ import PageHeader from './PageHeader';
 import api from '../api';
 
 const Cart: React.FC = () => {
-  const { cartItems, removeFromCart, clearCart } = useCart();
+  const { cartItems, removeFromCart } = useCart();
   const [nickname, setNickname] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [agree, setAgree] = useState<boolean>(false);
