@@ -192,6 +192,21 @@ app.post('/create-payment', (req, res) => __awaiter(void 0, void 0, void 0, func
         });
     }
 }));
+app.get('/server-status', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const address = 'play.alumenator.net:25565';
+    try {
+        const responce = yield fetchWithRetry(`https://api.mcstatus.io/v2/status/java/${address}`);
+        res.json(responce);
+    }
+    catch (error) {
+        console.error('Failed to fetch server status', error.response ? error.response.data : error.message);
+        // Возвращаем ошибку клиенту
+        res.status(500).json({
+            message: 'Failed to fetch server status',
+            error: error.response ? error.response.data : error.message,
+        });
+    }
+}));
 // Start server
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
