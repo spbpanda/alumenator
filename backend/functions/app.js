@@ -83,7 +83,7 @@ app.get('/goods', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const page = parseInt(req.query.page) || 1; // Страница
     const limit = parseInt(req.query.limit) || 6; // Лимит товаров на странице
     const type = req.query.type || 'all'; // Тип
-    const server = req.query.server || 'Магическое выживание №1 и №2'; // Сервер
+    const server = req.query.server || 'Магическое выживание'; // Сервер
     const searchQuery = req.query.search || ''; // Поисковый запрос
     try {
         // Получаем товары из EasyDonate API

@@ -2,14 +2,42 @@ import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import axios from 'axios';
+import helmet from 'helmet';
+
 
 const app = express();
 const PORT = 5000;
 const ShopKey = '537e232713010526cc1ae04c14ed979d'
 
+const allowedOrigins = [
+  'https://alumenator.net',
+];
+
 // Middleware
-app.use(cors());
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true); // Разрешаем запрос
+      } else {
+        callback(new Error('Origin not allowed by CORS')); // Блокируем запрос
+      }
+    },
+    credentials: true,
+  })
+);
+
+app.use(helmet());
 app.use(bodyParser.json());
+
+// Обработка ошибок CORS
+app.use((err: any, req: any, res: any, next: any) => {
+  if (err.message === 'Origin not allowed by CORS') {
+    res.status(403).json({ message: 'Origin not allowed' });
+  } else {
+    next(err);
+  }
+});
 
 // Функция для задержки
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
@@ -80,7 +108,7 @@ app.get('/goods', async (req, res) => {
   const page = parseInt(req.query.page as string) || 1; // Страница
   const limit = parseInt(req.query.limit as string) || 6; // Лимит товаров на странице
   const type = req.query.type || 'all'; // Тип
-  const server = req.query.server || 'Магическое выживание №1 и №2'; // Сервер
+  const server = req.query.server || 'Магическое выживание'; // Сервер
   const searchQuery = req.query.search || ''; // Поисковый запрос
 
   try {

@@ -29,7 +29,7 @@ const ProjectsGallery: React.FC = () => {
   const [totalPages, setTotalPages] = useState<number>(1);
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedServer, setSelectedServer] = useState<string>(
-    localStorage.getItem('selectedServer') || 'Магическое выживание №1 и №2'
+    localStorage.getItem('selectedServer') || 'Магическое выживание'
   );
   const [servers, setServers] = useState<any[]>([]);
   const [snackbarOpen, setSnackbarOpen] = useState<boolean>(false);

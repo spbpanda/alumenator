@@ -6,7 +6,7 @@ module.exports = function (app) {
     createProxyMiddleware({
       // target: 'http://localhost:5000', // Backend server URL
       // target: 'https://alumenator-api.netlify.app/.netlify/functions/app', // Backend server URL
-      target: 'http://45.145.43.153:5000/', // Backend server URL
+      target: 'https://api-shop.alumenator.net/', // Backend server URL
       changeOrigin: true,
     })
   );
