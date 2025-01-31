@@ -1,5 +1,5 @@
 // Cart.tsx
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Box,
   Typography,
@@ -30,6 +30,10 @@ const Cart: React.FC = () => {
   const [snackbarMessage, setSnackbarMessage] = useState<string>('');
   const [snackbarSeverity, setSnackbarSeverity] = useState<'error' | 'success' | 'info' | 'warning'>('error');
   const theme = useTheme(); // Получаем доступ к теме
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [])
 
   // Общая стоимость
   const totalPrice = cartItems.reduce((sum, item) => sum + item.price, 0);

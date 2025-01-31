@@ -9,6 +9,7 @@ import {
   InputAdornment,
   IconButton,
   TextField,
+  useTheme,
 } from '@mui/material';
 import ClearIcon from '@mui/icons-material/Clear';
 import ServerSlider from './ServerSlider';
@@ -18,8 +19,10 @@ import { Good } from '../../types/Good';
 import { useCart } from '../../contexts/CartContext';
 import api from '../../api';
 import axios, { CancelTokenSource } from 'axios';
+import CartButton from './CartButton';
 
 const ProjectsGallery: React.FC = () => {
+  const theme = useTheme(); // Получаем доступ к теме
   const [goods, setGoods] = useState<Good[]>([]);
   const [selectedType, setSelectedType] = useState<string>(
     localStorage.getItem('selectedType') || 'all'
@@ -241,6 +244,20 @@ const ProjectsGallery: React.FC = () => {
           {snackbarMessage}
         </Alert>
       </Snackbar>
+          
+      <Box 
+        sx={{
+          position: 'sticky',
+          bottom: 0,
+          padding: '20px 0',
+          justifyContent: 'center',
+          display: 'block', // По умолчанию скрываем текст
+          [theme.breakpoints.up('sm')]: {
+            display: 'none', // Показываем текст на десктопах
+          },
+        }}>
+        <CartButton />
+      </Box>
     </Box>
   );
 };

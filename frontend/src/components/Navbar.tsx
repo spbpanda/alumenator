@@ -1,5 +1,5 @@
 import React from 'react';
-import { AppBar, Toolbar, Button, Container, Box } from '@mui/material';
+import { AppBar, Toolbar, Button, Container, Box, useTheme } from '@mui/material';
 import DiscordIcon from './Icons/DiscordIcon';
 import TelegramIcon from './Icons/TelegramIcon';
 import VKIcon from './Icons/VKIcon';
@@ -8,6 +8,7 @@ import LogoIcon from './Icons/LogoIcon';
 import CartButton from './ProjectsGallery/CartButton';
 
 const Navbar: React.FC = () => {
+  const theme = useTheme(); // Получаем доступ к теме
 
   const contacts = (
     <>
@@ -70,7 +71,15 @@ const Navbar: React.FC = () => {
             >
             </Button>
           </Box>
-          <CartButton/>
+          <Box 
+            sx={{
+              display: 'none', // По умолчанию скрываем текст
+              [theme.breakpoints.up('sm')]: {
+                display: 'block', // Показываем текст на десктопах
+              },
+            }}>
+            <CartButton />
+          </Box>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>{contacts}</Box>
         </Toolbar>
       </Container>
