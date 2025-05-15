@@ -37,6 +37,7 @@ class UpdateGiftRequest extends FormRequest
             'end_balance' => 'required|regex:/^\d*([\.,]\d{1,2})?$/',
             'expire_at' => 'required',
             'note' => '',
+            'username' => 'nullable|string|min:2|max:24',
         ];
     }
 }
