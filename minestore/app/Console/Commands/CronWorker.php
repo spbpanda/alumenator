@@ -39,7 +39,9 @@ class CronWorker extends Command
     public function handle()
     {
         while (true) {
-            $MySQL_DATATIME = Carbon::now()->format('Y-m-d H:i:00');
+            $MySQL_DATATIME = Carbon::now()->format('Y-m-d H:i:s');
+            $this->info('Cron Worker is running...');
+            $this->info('Current Time: ' . $MySQL_DATATIME);
 
             Item::query()->where([
                 ['deleted', '=', '0'],
@@ -431,7 +433,8 @@ class CronWorker extends Command
              * |--------------------------------------------------------------------------
              */
             // Handling and logging enabling donation goals.
-            $enabledDonationGoals = DonationGoal::where('is_enabled', 0)
+            $enabledDonationGoals = DonationGoal::where('is_enabled', DonationGoal::DISABLED)
+                ->where('status', '!=', DonationGoal::EXPIRED)
                 ->where('start_at', '<=', $currentTime)
                 ->get();
 
@@ -439,26 +442,36 @@ class CronWorker extends Command
                 $enabledGoalNames = $enabledDonationGoals->pluck('name')->toArray();
                 $this->info('Enabling donation goals: ' . implode(', ', $enabledGoalNames));
 
-                DonationGoal::where('is_enabled', 0)
+                DonationGoal::where('is_enabled', DonationGoal::DISABLED)
                     ->where('start_at', '<=', $currentTime)
-                    ->update(['is_enabled' => 1]);
+                    ->where('status', '!=', DonationGoal::EXPIRED)
+                    ->update([
+                        'status' => DonationGoal::ENABLED,
+                        'is_enabled' => DonationGoal::ENABLED
+                    ]);
             }
 
             // Handling and logging disabling donation goals.
-            $expiredDonationGoals = DonationGoal::where('is_enabled', 1)
+            $expiredDonationGoals = DonationGoal::where('is_enabled', DonationGoal::ENABLED)
                 ->where('disable_at', '<=', $currentTime)
+                ->where('status', '!=', DonationGoal::EXPIRED)
                 ->get();
 
             if ($expiredDonationGoals->isNotEmpty()) {
                 $expiredGoalNames = $expiredDonationGoals->pluck('name')->toArray();
                 $this->info('Disabling donation goals: ' . implode(', ', $expiredGoalNames));
 
-                DonationGoal::where('is_enabled', 1)
+                DonationGoal::where('is_enabled', DonationGoal::ENABLED)
                     ->where('disable_at', '<=', $currentTime)
-                    ->update(['is_enabled' => 0]);
+                    ->where('status', '!=', DonationGoal::EXPIRED)
+                    ->update([
+                        'status' => DonationGoal::EXPIRED,
+                        'is_enabled' => DonationGoal::DISABLED,
+                        'reached_at' => $currentTime
+                    ]);
             }
 
-            sleep(10);
+            sleep(5);
         }
     }
 }

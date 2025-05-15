@@ -5,8 +5,6 @@ namespace App\Helpers;
 use App\Models\Category;
 use App\Models\Item;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
 
 class SortHelper
 {
@@ -33,6 +31,7 @@ class SortHelper
                 if ($otherItem->id === $item->id) {
                     continue;
                 }
+
                 if ($otherItem->sorting >= $newSortingValue && $otherItem->sorting < $oldSortingValue) {
                     $otherItem->sorting++;
                     $otherItem->save();
@@ -43,6 +42,7 @@ class SortHelper
                 if ($otherItem->id === $item->id) {
                     continue;
                 }
+
                 if ($otherItem->sorting <= $newSortingValue && $otherItem->sorting > $oldSortingValue) {
                     $otherItem->sorting--;
                     $otherItem->save();
@@ -65,30 +65,32 @@ class SortHelper
      */
     public static function updateCategoriesSorting(Collection &$categories, Category $category, int $oldIndex, int $newIndex): void
     {
-        //Log::info("Moving category from index {$oldIndex} to {$newIndex}");
-
         if ($newIndex < $oldIndex) {
             foreach ($categories as $otherCategory) {
+                if ($otherCategory->id === $category->id) {
+                    continue;
+                }
+
                 if ($otherCategory->sorting >= $newIndex && $otherCategory->sorting < $oldIndex) {
                     $otherCategory->sorting++;
-                    //Log::info("Incrementing category {$otherCategory->id} sorting to {$otherCategory->sorting}");
                     $otherCategory->save();
                 }
             }
         } elseif ($newIndex > $oldIndex) {
             foreach ($categories as $otherCategory) {
+                if ($otherCategory->id === $category->id) {
+                    continue;
+                }
+
                 if ($otherCategory->sorting > $oldIndex && $otherCategory->sorting <= $newIndex) {
                     $otherCategory->sorting--;
-                    //Log::info("Decrementing category {$otherCategory->id} sorting to {$otherCategory->sorting}");
                     $otherCategory->save();
                 }
             }
         }
 
         $category->sorting = $newIndex;
-        //Log::info("Setting moved category {$category->id} sorting to {$newIndex}");
         $category->save();
-        //Log::info("Saved moved category {$category->id} with sorting {$category->sorting}");
     }
 
     /**

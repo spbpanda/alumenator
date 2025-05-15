@@ -61,4 +61,55 @@ class CurrencyHelper
 
         return $value;
     }
+
+    public static function getCurrencyCode(string $currencyCode): string
+    {
+        $symbols = [
+            'USD' => '$',
+            'EUR' => '€',
+            'GBP' => '£',
+            'JPY' => '¥',
+            'CNY' => '¥',
+            'RUB' => '₽',
+            'UAH' => '₴',
+            'CHF' => 'CHF',
+            'CAD' => 'C$',
+            'AUD' => 'A$',
+            'NZD' => 'NZ$',
+            'SGD' => 'S$',
+            'HKD' => 'HK$',
+            'SEK' => 'kr',
+            'NOK' => 'kr',
+            'DKK' => 'kr',
+            'INR' => '₹',
+            'KRW' => '₩',
+            'BRL' => 'R$',
+            'MXN' => 'Mex$',
+            'ARS' => 'AR$',
+            'CLP' => 'CL$',
+            'COP' => 'COL$',
+            'PEN' => 'S/',
+            'UYU' => 'UY$',
+            'BOB' => 'Bs.',
+            'PYG' => '₲',
+            'VES' => 'Bs.S',
+            'CZK' => 'Kč',
+            'PLN' => 'zł',
+            'HUF' => 'Ft',
+            'RON' => 'lei',
+            'BGN' => 'лв',
+            'HRK' => 'kn',
+            'ISK' => 'kr',
+            'TRY' => '₺',
+            'GEL' => '₾',
+            'MDL' => 'L',
+            'BYN' => 'Br',
+            'RSD' => 'дин',
+            'MKD' => 'ден',
+            'ALL' => 'L',
+            'BAM' => 'KM',
+        ];
+
+        return $symbols[$currencyCode] ?? $currencyCode;
+    }
 }
