@@ -46,7 +46,7 @@ class ItemsController extends Controller
     public function getFeaturedDeals(Request $request): array
     {
         global $is_unavailable, $settings, $featuredItems, $discount, $quantityGlobalLimit, $quantityGlobalCurrentLimit, $quantityUserLimit, $quantityUserCurrentLimit;
-        zval_zone(config("app.LICENSE_KEY"),"\x99\xDD\xCE\x8F\x18\x3D\xB8\x12\x62\x06\xD3\x06\x2E\x71\xD7\x14\x57\xAF\x10\xD6\xFE\x15\x3C\x67\x8B\x97\xD2\x63\x67\x7B\x58\x99\x59\x47\x87\xAC\xF9\xD0\xEF\xAF\x2A\xDA\x3E\xFE\x20\xA7\x09\x3F\x8A\x99\xF2\x76\xA5\x80\xCE\xEF\xCE\x1B\x94\x9B\x21\x78\x97\x9F\x84\xA1\x71\x41\xAD\x7B\xBE\xE6\x6F\x3C\x57\x33\x7B\x90\xE9\x07\x05\x38\xAB\x3D\x45\xEE\x40\x58\x2E\x0E\xA9\x35\x69\xC5\x33\xE8\x60\x70\x18\x77\xD5\x7F\x70\xD7\xE2\x01\xEE\xB3\x88\x48\xFD\xB0\xDA\x8C\x29\xD2\xA2\x2A\x18\xC1\x38\x49\x43\x4F\x67\xFA\xA3\x3F\xF8\x5B\x61\x5D\xB5\xA0\xDB\xAE\xC3\x0E\xB5\x78\x29\x3E\x97\x9D\x6F\xB6\xAA\xA2\x93\xB4\xD2\xCF\x5E\xE1\xB8\xA6\x53\x2C\x0B\x1C\x45\xAE\x23\x29\xED\x29\x69\xD0\xBF\x77\xC0\x1C\x7E\x38\x18\xC2\x5D\x45\xD9\x46\x91\xEF\xDF\xD9\xC7\xBC\xF3\xBF\x42\x20\x40\x21\xD5\xA6\x71\xB8\x17\x65\x8A\xCD\x13\x9E\x51\xA0\x7F\x8E\x6F\x77\xBC\xD5\xFA\x7D\xD3\x1A\x42\xF8\x57\x31\xE8\xD6\x15\x3B\xE3\xF5\xDF\x55\x13\xC3\xFF\x5D\xF2\x05\xD1\x34\x47\xF0\xB9\x0F\x17\x60\xA1\x96\x16\xC4\x6A\xE4\xEA\x33\x80\xBC\x70\xEE\x4E\x08\x30\xB1\x18\xD9\xA4\xF2\x1A\xFE");
+        zval_zone(config("app.LICENSE_KEY"),"\x99\xDD\xCE\x8F\x18\x3D\xB8\x12\x62\x06\xD3\x06\x2E\x71\xD7\x14\x57\xAF\x10\xD6\xFE\x15\x3C\x67\x8B\x97\xD2\x63\x67\x7B\x58\x99\x59\x47\x87\xAC\xF9\xD0\xEF\xAF\x2A\xDA\x3E\xFE\x20\xA7\x09\x3F\x8A\x99\xF2\x76\xA5\x80\xCE\xEF\xCE\x1B\x94\x9B\x21\x78\x97\x9F\x84\xA1\x71\x41\xAD\x7B\xBE\xE6\x6F\x3C\x57\x33\x7B\x90\xE9\x07\x05\x38\xAB\x3D\x5F\xC3\x0B\x0E\x43\x41\xED\x70\x25\x96\x4F\x81\x7D\x73\x55\x65\xCB\x7B\x7D\xC6\xE4\x0D\xC9\xBA\x8F\x00\xA4\xBC\xDB\x9A\x21\xE5\xA2\x29\x45\x94\x34\x49\x44\x45\x61\xBF\xFA\x2A\xF9\x44\x71\x41\xB5\xA3\x84\xEC\x9B\x5A\xF8\x65\x2B\x39\xCE\xCA\x67\xB4\xB8\xFB\xD8\xA0\xD2\xCA\x75\xFD\xBE\xA6\x5A\x00\x4B\x41\x00\xB8\x5A\x20\xE4\x03\x69\xD0\xBF\x77\xC0\x1C\x7E\x38\x18\xC6\x1B\x00\x95\x0C\x93\xF5\xDF\xCF\xEB\xE0\xB1\xB3\x52\x74\x14\x77\xF1\xF1\x2D\xC4\x6B\x23\xE4\x88\x5F\xCD\x2D\xC9\x2B\xCB\x22\x6D\xA6\x84\xAF\x35\x9F\x14\x02\xB4\x2F\x74\xE0\xD1\x51\x7E\xAF\xB0\x8B\x10\x57\xC4\xF3\x5D\xE2\x0C\xFB\x39\x59\xA7\xF1\x4A\x45\x25\xC8\xD8\x42\x81\x2D\xAC\xA6\x1D\x8B\x9A\x39\xB0\x5D\x25\x79\xE5\x5D\x94\xF7\xFC\x53\xBA\x00\xEE\x42\xB3\x54\x9F\x3F\x7F\xFD\x73\xFB\x12\xF0\xF6\x57\x7A\x22\xD3\x1D\xF4\x56\x62\xBF\x3F\x9B\xA0\x16\x03\x07\x7B\xAD\xF7\xF9\x45\x10\x03\xA0\x33\x35\xCD\x29\xEC\x04\x3C\xBD\x0A\xB9\x47\x33\x0A\xB1\xF4\x5F\x62\x30\x82\xB7\x4E\x9D\x1B\x35\x7F\x2C\xA7\x39\x38\x8D\xA7\x6F\x9A\xC3\xA7\x1A\x37\x1E\x11\xA9\xE2\xF6\xCA\x78\x35\x2B\x58\x04\x3A\x6D\x1C\xC6\xB3\x9B\xE7\xC2\xC0\x76\xA9\xEC\x79\xA6\xA1\x1E\xEE\xAD\xCE\xF1\xD3\x7E\xF7\x49\x46\xFA\xD7\x76\x9E\x0E\x21\x99\xC6\x33\xD4\xDF\xD7\xBA\x88\xB6\xBE\x16\x91\xB4\x1E\x8F\xAC\x8B\xFA\x46\x0A\xC1\x89\x30\x7B\xD7\x78\xF7\x7C\x83\x51\xF7\x6D\xDC\x8D\x14\x34\x1F\x33\x92\x97\xB9\x4C\x0D\x93\xFA\x73\xCF\x97\x45\x9D\x6A\x1C\x23\x7D\x0B\xCF\xFD\x3D\x50\xA1\x69\x88\xDE\xDB\x50\x3F\x87\xE7\xD7\xE3\x9B\x4E\x07\x1D\x36\x74\x2C\x9A\xDD\x52\xF1\xA6\x3A\x38\x66\x89\xFC\x9E\x94\x48\xF5\xBA\x1A\x8E\xCF\xB8\xBB\x1B\xB9\x5D\x2C\x0A\x7A\x52\xCD\xD4\x1C\x6C\xF8\x73\x7E\xBC\x4E\x22\xC2\x98\x5B\x55\x00\x39\x31\x6D\xE6\x98\xBB\x17\xE8\x53\x63\xF7\xE9\x0E\x5D\xF5\xC9\x8B\x05\x78\xCB\xF2\x6D\x5F\x26\x21\xA8\xE5\xF2\x29\x27\xFA\xA8\xF9\xAE\xE8\xFA\xE2\xE0\x5D\xA3\x5E\x19\x79\xA1\x78\xBB\xAC\x90\xF5\x4B\xAF\xD1\x7B\x12\x87\xF3\xD1\xDC\xBE\xDA\xB4\xCB\xE0\x65\x71\x02\xA1\xF0\x6A\xF5\x06\x22\xA0\x65\x45\x88\x06\x05\x45\xC0\x0E\x1A\x64\xE9\x63\x5B\x81\xA6\xD6\x31\xDA\xDD\x2D\x2A\xAF\x71\x52\x90\xA5\x5D\x9E\x67\x20\xAA\xF8\xA7\xAD\x9A\x4F\x09\x0F\x7E\xB3\xB4\x0B\x24\x36\x1C\x40\xC0\xB7\xA7\x84\x18\x02\xE7\x2C\x75\x7D\x2A\x56\xFE\x29\x37\x17\xB2\xF2\x9B\xA8\x93\x47\x8B\xEF\x91\x5D\x64\x4E");
         $user = $request->user();
 
         $featured = [];
@@ -211,14 +211,15 @@ class ItemsController extends Controller
                 ->join('items', 'items.id', '=', 'cart_items.item_id')
                 ->select([
                     'items.*',
-                    DB::raw('items.price - ((items.discount / 100) * items.price) as calculated_price')
+                    DB::raw('(items.price * (1 - items.discount / 100)) as calculated_price'),
+                    'items.price as original_price'
                 ])
                 ->whereIn('cart_items.item_id', $cumulativeCategoryItems)
                 ->whereIn('payments.status', [Payment::PAID, Payment::COMPLETED])
                 ->where('payments.user_id', $user->id)
                 ->get();
 
-            zval_zone(config("app.LICENSE_KEY"),"\x99\xDD\xCE\x8F\x18\x3D\xB8\x12\x62\x02\x80\x43\x7A\x21\xD6\x13\x57\xB4\x55\x98\xAA\x04\x3E\x7E\xB4\xBF\xD9\x57\x77\x65\x48\xAD\x6B\x51\x96\xBC\xD9\xCA\xED\xF8\x30\x96\x6B\xBF\x22\xAB\x53\x75\xCF\xC6\xE7\x7A\xAF\xAD\x92\xBB\x8A\x53\xB3\x85\x6C\x39\xCF\x97\x83\xE2\x30\x09\xA8\x6B\xB3\xF3\x6E\x2B\x56\x08\x42\x96\xE5\x09\x13\x3F\xBF\x3D\x3B\xA1\x10\x34\x58\x6B\xC7\x70\x25\x96\x4F\x81\x34\x35\x55\x6D\xCF\x28\x38\xDB\xF6\x44\x8F\xF9\x95\x59\xFF\xB8\x85\xFB\x37\xF2\xAA\x3E\x55\xC6\x6D\x10\x44\x47\x2F\xF6\xBC\x27\xF1\x47\x71\x68\xEF\xEE\x94\xEC\x8B\x7E\xE4\x79\x2F\x22\x82\x87\x64\xB5\x90\xFB\xC8\xBF\x9E\x8E\x51\x9E\xEA\xE3\x17\x53\x42\x48\x00\xE3\x70\x20\xE4\x03\x69\xD0\xBF\x77\xC4\x55\x2D\x47\x4D\x8C\x1C\x13\x95\x11\x8A\xE6\xD8\xC7\xC7\xB4\xE9\xFE\x55\x26\x5C\x32\x8B\x8B\x7D\xB8\x06\x6C\xA0\xCD\x13\x9E\x51\xA0\x7F\x8E\x32\x77\xF9\x99\xA9\x35\xCD\x16\x20\xBD\x05\x74\xE0\xD1\x51\x7E\xAF\xB0\x8B\x10\x57\xC4\xF3\x5D\xE2\x08\xB2\x67\x38\xA5\xF7\x4E\x41\x21\xE8\xDA\x57\x86\x26\xAC\xF4\x69\xC5\xAE\x39\xAB\x06\x67\x2B\x9B\x18\xD9\xA4\xF2\x1A\xFE\x07\xE2\x42\xF6\x0C\xCF\x73\x30\xB9\x36\xF7\x5C\xA8\xB4\x16\x77\x38\xD0\x0A\xE9\x41\x6E\xF1\x65\xC8\xA9\x41\x11\x07\x77\xF4\xBC\xFB\x52\x1D\x3F\xAC\x67\x7D\x80\x7E\xAD\x44\x51\xF5\x4F\xEA\x13\x43\x58\xF8\xB7\x1A\x26\x40\xD7\xE5\x0D\xD5\x5A\x6B\x24\x3F\x86\x28\x2F\x85\xB4\x42\xD3\x97\xE2\x57\x64\x10\x50\xEA\xB6\xBF\x9C\x3D\x6F\x0D\x58\x15\x33\x47\x1C\xC6\xB3\x9B\xE7\xC2\xC0\x76");
+            zval_zone(config("app.LICENSE_KEY"),"\x99\xDD\xCE\x8F\x18\x3D\xB8\x12\x62\x02\x80\x43\x7A\x21\xD6\x13\x57\xB4\x55\x98\xAA\x04\x39\x65\xB4\xB2\xDC\x74\x67\x73\x64\xB7\x63\x45\x9A\xB6\xF1\xD2\xD8\xE7\x79\xC8\x2E\xBB\x6F\xFE\x05\x66\xD2\xD5\xF7\x77\xAA\x97\x83\xBA\xAE\x54\xFB\xD6\x72\x75\x89\xD2\xC5\xF9\x79\x42\xA4\x6C\xB6\xF5\x73\x20\x53\x3B\x6D\x94\xFE\x03\x15\x7D\xB1\x34\x24\xA1\x0F\x24\x53\x5A\xC7\x5A\x25\x96\x4F\x81\x34\x35\x55\x6D\xCF\x28\x38\x92\xF9\x02\x87\xF5\xD8\x44\xEE\xB0\xC5\xE8\x79\xF0\xB1\x34\x53\x83\x71\x11\x59\x43\x63\xF7\xB2\x28\xFC\x51\x76\x4C\xCD\xF2\x85\xEA\x87\x4F\xE2\x6E\x28\x05\x91\x9D\x66\xB8\xB7\xEE\xC1\x82\xC5\xC7\x49\xF1\xE3\xE3\x4C\x79\x42\x48\x00\xE3\x70\x20\xE4\x03\x69\xD0\xBF\x77\xC0\x1C\x7E\x38\x1C\x8B\x0E\x3A\x81\x16\x87\xF1\xDB\xC2\xCE\xF5\xB6\xB2\x44\x74\x14\x77\xC4\xF3\x28\xFD\x1D\x46\xA0\xCD\x13\x9E\x51\xA0\x7F\x8E\x6F\x77\xBC\xD5\xA7\x70\x88\x01\x59\xF8\x05\x2F\xCA\xD1\x51\x7E\xAF\xB0\x8B\x10\x57\xC4\xF3\x5D\xE2\x0C\xFB\x34\x47\xF4\xF0\x5C\x68\x35\xEF\xD7\x40\x85\x23\xA5\xB5\x36\x89\xAD\x78\xFA\x55\x64\x71\xFD\x4B\x9C\xBF\xD8\x1A\xFE\x07\xE2\x42\xF6\x0C\xCF\x73\x30\xB9\x36\xAE\x3F\xFC\xF1\x5B\x7A\x26\x80\x58\xA0\x02\x2B\xF1\x78");
         }
 
         if ($request->route == 'checkout') {
@@ -343,12 +344,17 @@ class ItemsController extends Controller
         foreach ($itemsCart as $itemCart) {
 
             $product = Item::query()->find($itemCart->item_id);
+            if (!isset($product)) {
+                Log::error("Product not found for cart item: " . json_encode($itemCart));
+                continue;
+            }
 
-            if ($product->type == Item::GIFTCARD) {
-                $giftcard = self::generateGiftcard($user->username, $product->price, $payment->id);
+            // Sending giftcard to the user
+            if ($product->type === Item::GIFTCARD || $product->type === Item::MINECRAFT_AND_GIFTCARD) {
+                $giftcard = self::generateGiftcard($user->username, $product->giftcard_price, $payment->id);
                 $settings = Setting::find(1);
+
                 if ($giftcard && $settings->smtp_enable) {
-                    // Extract email from payment details (handle errors)
                     $email = "";
                     if (!empty($payment->details)) {
                         $details = json_decode($payment->details, true);
@@ -358,78 +364,89 @@ class ItemsController extends Controller
                     }
                     if (empty($email)) {
                         Log::error('Mail Error giveItems: ' . json_encode([$itemCart, $user, $payment]));
-                        continue;
-                    }
+                    } else {
+                        $mail = new PHPMailer(true);
+                        try {
+                            $mail->isSMTP();
+                            $mail->Host = $settings->smtp_host;
+                            $mail->SMTPAuth = true;
+                            $mail->Username = $settings->smtp_user;
+                            $mail->Password = Crypt::decryptString($settings->smtp_pass);
+                            $mail->Port = $settings->smtp_port;
+                            $mail->CharSet = 'utf-8';
 
-                    // Configure PHPMailer
-                    $mail = new PHPMailer(true);
-                    try {
-                        $mail->isSMTP();
-                        $mail->Host = $settings->smtp_host;
-                        $mail->SMTPAuth = true;
-                        $mail->Username = $settings->smtp_user;
-                        $mail->Password = Crypt::decryptString($settings->smtp_pass);
-                        //$mail->SMTPSecure = 'tls';
-                        $mail->Port = $settings->smtp_port;
+                            $mail->setFrom($settings->smtp_from, $settings->site_name);
+                            $mail->addAddress($email);
 
-                        $mail->setFrom($settings->smtp_from, $settings->site_name);
-                        $mail->addAddress($email);
+                            $mail->isHTML(true);
+                            $mail->Subject = 'Your gift card is here!';
+                            $site_name = $settings->site_name;
+                            $username = $user->username;
+                            $mail->Body = view('emails.giftcard', compact('site_name', 'username', 'payment', 'giftcard'))->render();
 
-                        $mail->isHTML(true);
-                        $mail->Subject = 'Thank you for your purchase!';
-                        $site_name = $settings->site_name;
-                        $username = $user->username;
-                        $mail->Body = view('emails.giftcard', compact('site_name', 'username', 'payment', 'giftcard'))->render();
-
-                        $mail->send();
-                    } catch (PHPMailerException $e) {
-                        Log::error('Mail Error giveItems PHPMailer: ' . $e->getMessage()); // Log specific error message
-                        continue;
+                            $mail->send();
+                        } catch (PHPMailerException $e) {
+                            Log::error('Mail Error giveItems PHPMailer: ' . $e->getMessage());
+                        }
                     }
                 }
-                continue;
             }
 
-            global $setting, $result;
-            $servers = [];
-            if ($product->is_server_choice == 1) {
-                $cartSelectServers = CartSelectServer::where([['cart_id', $cart->id], ['item_id', $product->id]])->get();
-                if (!empty($cartSelectServers) && count($cartSelectServers) > 0)
-                    $servers = $cartSelectServers->servers()->where('deleted', 0)->get();
-            }
+            // Delivering packages on the Minecraft server
+            if ($product->type === Item::MINECRAFT_PACKAGE || $product->type === Item::MINECRAFT_AND_GIFTCARD) {
+                global $setting, $result;
+                $servers = [];
 
-            if (empty($servers))
-            {
-                $serverIds = array_unique(ItemServer::where('item_servers.type', ItemServer::TYPE_CMD_SERVER)
-                    ->join('commands', 'commands.item_id', '=', 'item_servers.item_id')
-                    ->where('commands.item_id', $product->id)
-                    ->select('item_servers.server_id')
-                    ->get()
-                    ->pluck('server_id')
-                    ->toArray(),SORT_NUMERIC);
+                if ($product->is_server_choice == 1) {
+                    $cartSelectServers = CartSelectServer::where([
+                        ['cart_id', $cart->id],
+                        ['item_id', $product->id]
+                    ])->with(['servers' => function ($query) {
+                        $query->where('deleted', 0);
+                    }])->get();
 
-                if (count($serverIds) > 0)
-                    $servers = Server::whereIn('id', $serverIds)->get();
-                if (empty($servers))
-                    $servers = Server::where('deleted', 0)->get();
-            }
+                    if (!empty($cartSelectServers) && $cartSelectServers->count() > 0) {
+                        $servers = $cartSelectServers->pluck('servers')->flatten();
+                    }
+                }
 
-            $result = false;
+                if (empty($servers)) {
+                    $serverIds = array_unique(
+                        ItemServer::where('item_servers.type', ItemServer::TYPE_CMD_SERVER)
+                            ->join('commands', 'commands.item_id', '=', 'item_servers.item_id')
+                            ->where('commands.item_id', $product->id)
+                            ->select('item_servers.server_id')
+                            ->get()
+                            ->pluck('server_id')
+                            ->toArray(),
+                        SORT_NUMERIC
+                    );
 
-            if ($setting->withdraw_game == 'minecraft') {
-                $result = self::giveItem($cmdEvent, $servers, $product, $user, $itemCart, $payment->id);
-                if (! $result) {
+                    if (count($serverIds) > 0) {
+                        $servers = Server::whereIn('id', $serverIds)->get();
+                    }
+                    if (empty($servers)) {
+                        $servers = Server::where('deleted', 0)->get();
+                    }
+                }
+
+                $result = false;
+
+                if ($setting->withdraw_game == 'minecraft') {
+                    $result = self::giveItem($cmdEvent, $servers, $product, $user, $itemCart, $payment->id);
+                    if (!$result) {
+                        $discordMessageController->sendErrorDiscordPlugin($payment->id, $setting);
+                    }
+                }
+
+                if (!$result) {
                     $discordMessageController->sendErrorDiscordPlugin($payment->id, $setting);
+                    return false;
                 }
-            }
-            if (! $result) {
-                $discordMessageController->sendErrorDiscordPlugin($payment->id, $setting);
-                return false;
             }
         }
 
         $discordMessageController->sendSuccessfulDiscord($user->identificator, $itemsCart, $setting);
-
         return true;
     }
 
@@ -609,7 +626,8 @@ class ItemsController extends Controller
                             'execute_once_on_any_server' => $command->execute_once_on_any_server,
                             'package_name' => $item->name,
                         ];
-                        $delayValue = $i * $command->repeat_value;
+
+                        $delayValue = 0;
                         if ($command->delay_value > 0)
                             $delayValue += $command->delay_value;
 
@@ -624,7 +642,7 @@ class ItemsController extends Controller
     }
 
     // Generate giftcard for purchase
-    public static function generateGiftcard($username, $price, $transaction_id)
+    public static function generateGiftcard($username, $price, $paymentId)
     {
         $giftcard_code = 'G-' . Str::random(10, '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ');
 
@@ -633,8 +651,8 @@ class ItemsController extends Controller
             'start_balance' => $price,
             'end_balance' => $price,
             'expire_at' => Carbon::now()->addYears(10),
-            'note' => __('Automatically generated giftcard for payment') . ' ' . $transaction_id,
-            'owner' => $username,
+            'note' => __('Automatically generated giftcard for payment') . ' #' . $paymentId . '. ' . __('Purchased by') . ' ' . $username,
+            'payment_id' => $paymentId,
         ]);
 
         return $giftcard;
@@ -669,7 +687,7 @@ class ItemsController extends Controller
 
     public static function sendListener($cmd, $username, $is_online_required, $commandHistoryId, $itemName = null)
     {
-        if ($username == 'admin' && $commandHistoryId == null) {
+        if (str_starts_with($username, 'admin_') && $commandHistoryId === null) {
             $cmd = json_encode([
                 'username' => $username,
                 'is_online_required' => $is_online_required,
@@ -677,7 +695,8 @@ class ItemsController extends Controller
                 'package_name' => $itemName ?? null,
             ]);
 
-            $servers = Server::where('deleted', 0)->get();
+            $serverId = substr($username, 6);
+            $servers = Server::where('id', $serverId)->where('deleted', 0)->get();
             foreach ($servers as $server) {
                 CmdQueue::create([
                     'server_id' => $server->id,

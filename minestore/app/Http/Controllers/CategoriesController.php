@@ -156,20 +156,27 @@ class CategoriesController extends Controller
                     ->join('items', 'items.id', '=', 'cart_items.item_id')
                     ->select([
                         'items.*',
-                        DB::raw('items.price - ((items.discount / 100) * items.price) as calculated_price')
+                        DB::raw('(items.price * (1 - items.discount / 100)) as calculated_price'),
+                        'items.price as original_price'
                     ])
                     ->whereIn('cart_items.item_id', $cumulativeCategoryItems)
                     ->whereIn('payments.status', [Payment::PAID, Payment::COMPLETED])
                     ->where('payments.user_id', $user->id)
                     ->get();
 
-                $highestPricedPurchasedItem = $purchasedItems->max('calculated_price') ?? 0;
+                $is_unavailable = false;
 
-                if ($item->price <= $highestPricedPurchasedItem) {
+                if ($purchasedItems->where('id', $item->id)->isNotEmpty()) {
                     $is_unavailable = true;
                 } else {
-                    $is_unavailable = false;
-                    $item->price = $item->price - $highestPricedPurchasedItem;
+                    $highestPricedPurchasedItem = $purchasedItems->max('calculated_price') ?? 0;
+                    $highestPurchasedOriginalPrice = $purchasedItems->max('original_price') ?? 0;
+
+                    if ($item->price <= $highestPurchasedOriginalPrice) {
+                        $is_unavailable = true;
+                    } else {
+                        $item->price = max(0, $item->price - $highestPricedPurchasedItem);
+                    }
                 }
             }
 

@@ -7,6 +7,7 @@ use App\Models\Setting;
 use App\Models\SiteVisit;
 use GeoIp2\Database\Reader;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 
 class PagesController extends Controller
@@ -55,7 +56,7 @@ class PagesController extends Controller
             }
         }
 
-        if (!$this->hasVisit($r->ip())) {
+        if (!$this->hasVisit($ip)) {
             SiteVisit::query()
                 ->firstOrNew(['created_at' => today()])
                 ->visit();
@@ -81,20 +82,13 @@ class PagesController extends Controller
 
     private function hasVisit(string $ipAddress): bool
     {
-        $time = now()->endOfDay()->diffInMinutes(now());
-        $visitIps = [];
+        $cacheKey = 'visit_ip:' . $ipAddress . ':' . date('Y-m-d');
 
-        if (cache()->has('visit_ips')) {
-            $visitIps = cache()->get('visit_ips');
-        }
-
-        if (in_array($ipAddress, $visitIps)) {
+        if (Cache::has($cacheKey)) {
             return true;
         }
 
-        $visitIps[] = $ipAddress;
-        cache()->put('visit_ips', $visitIps, $time);
-
+        Cache::put($cacheKey, true, now()->endOfDay());
         return false;
     }
 

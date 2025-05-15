@@ -91,15 +91,15 @@ class InstallController extends Controller
             return response()->json(['status' => false, 'message' => 'Application is already installed'], 403);
         }
 
-        $request = $r->validate([
-            'preInstall_licenseKey' => 'required|string',
+        $r->validate([
+            'preInstall_licenseKey' => 'required|string|regex:/^[a-zA-Z0-9\-_]+$/',
         ]);
 
         SettingsController::setEnvironmentValue([
             'LICENSE_KEY' => $r->input('preInstall_licenseKey'),
         ]);
-        Artisan::call('config:clear');
 
+        Artisan::call('config:clear');
         return response()->json(['status' => true]);
     }
 

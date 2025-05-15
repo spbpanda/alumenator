@@ -59,11 +59,10 @@ class AuthController extends Controller
 
         curl_close($ch);
 
-        if (! is_null($uuid)) {
-            $bannedUser = Ban::query()->where('username', $username)->orWhere('uuid', $uuid)->first();
-        } else {
-            $bannedUser = Ban::query()->where('username', $username)->first();
-        }
+        $bannedUser = Ban::query()
+            ->where('username', $username)
+            ->when($uuid, fn($query) => $query->orWhere('uuid', $uuid))
+            ->first();
 
         if ($bannedUser) {
             $searchWhitelistUser = Whitelist::where('username', $username)
