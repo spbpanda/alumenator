@@ -16,7 +16,7 @@ return [
     */
 
     'name' => env('APP_NAME', 'MineStoreCMS'),
-    'version' => '3.3.1',
+    'version' => '3.4.4',
     'is_installed' => env('INSTALLED', 0),
     'LICENSE_KEY' => env('LICENSE_KEY', ''),
 
@@ -255,5 +255,7 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+        'PaynowManagement' => App\Facades\PaynowStorefront::class,
+        'PaynowStorefront' => App\Facades\PaynowStorefront::class,
     ],
 ];
