@@ -6,7 +6,10 @@ use App\Http\Requests\StoreGiftRequest;
 use App\Http\Requests\UpdateGiftRequest;
 use App\Models\Gift;
 use App\Models\SecurityLog;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 use Illuminate\View\View;
 use Illuminate\Http\JsonResponse;
 
@@ -47,6 +50,8 @@ class GiftsController extends Controller
         $data = $request->validated();
         $data['end_balance'] = $request->start_balance;
         $data['note'] = $data['note'] ?? '';
+        $data['user_id'] = isset($request->username) ? $this->getUserID($request->username) : null;
+        unset($data['username']);
 
         $gift = Gift::create($data);
 
@@ -60,7 +65,6 @@ class GiftsController extends Controller
         return to_route('gifts.index');
     }
 
-
     public function edit(int $id): View|RedirectResponse
     {
         if (!UsersController::hasRule('discounts', 'read')) {
@@ -68,6 +72,7 @@ class GiftsController extends Controller
         }
 
         $gift = Gift::findOrFail($id);
+        $gift->username = $gift->user->username ?? null;
 
         if ($gift->deleted == 1)
             return redirect()->route('gifts.index');
@@ -81,9 +86,13 @@ class GiftsController extends Controller
             return redirect('/admin');
         }
 
-        $request['note'] = $request['note'] ?? '';
+        $data = $request->validated();
 
-        Gift::where('id', $id)->update($request->validated());
+        $data['note'] = $request['note'] ?? '';
+        $data['user_id'] = isset($request->username) ? $this->getUserID($request->username) : null;
+        unset($data['username']);
+
+        Gift::where('id', $id)->update($data);
 
 
         return to_route('gifts.index');
@@ -117,5 +126,19 @@ class GiftsController extends Controller
         }
 
         return to_route('gifts.index');
+    }
+
+    private function getUserID(string $username): int
+    {
+        return User::firstOrCreate(
+            ['username' => $username],
+            [
+                'avatar' => "https://mc-heads.net/body/{$username}/150px",
+                'system' => 'minecraft',
+                'identificator' => $username,
+                'uuid' => null,
+                'api_token' => Str::random(60),
+            ]
+        )->id;
     }
 }

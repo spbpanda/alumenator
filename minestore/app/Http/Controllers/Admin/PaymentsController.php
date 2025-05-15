@@ -10,8 +10,10 @@ use App\Jobs\ManualPaymentCommandProccessingJob;
 use App\Models\Ban;
 use App\Models\CartItem;
 use App\Models\Cart;
+use App\Models\Category;
 use App\Models\CmdQueue;
 use App\Models\DiscordRoleQueue;
+use App\Models\Gift;
 use App\Models\Item;
 use App\Models\CommandHistory;
 use App\Models\Currency;
@@ -62,7 +64,10 @@ class PaymentsController extends Controller
 
         $packages = Item::query()
             ->where('deleted', 0)
-            ->select(['id', 'name', 'price'])
+            ->select(['id', 'name', 'price', 'category_id'])
+            ->with(['category' => function($query) {
+                $query->select(['id', 'name']);
+            }])
             ->get();
 
         $gateways = PaymentMethod::orderBy('name')
@@ -75,6 +80,19 @@ class PaymentsController extends Controller
     {
         if (!UsersController::hasRule('payments', 'write')) {
             return redirect('/admin');
+        }
+
+        $email = $request->email ?? "";
+
+        $settings = Setting::find(1);
+        if (!empty($email) && $request->send_mail == 1) {
+            if (!$settings->details) {
+                return redirect()->route('payments.create')->with('warning', __('Enable "Collecting Customer Details" at the "Transactions" tab to send emails.'));
+            }
+
+            if (!$settings->smtp_enable) {
+                return redirect()->route('payments.create')->with('warning', __('Enable SMTP at the "Settings" tab to send emails.'));
+            }
         }
 
         $user = User::query()->where([
@@ -169,10 +187,7 @@ class PaymentsController extends Controller
             return to_route('payments.index');
         }
 
-        $email = $request->email ?? "";
-
-        $settings = Setting::find(1);
-        if ($request->send_mail == 'on' && $settings->smtp_enable && !empty($email) && filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        if ($request->send_mail == 1 && $settings->smtp_enable && !empty($email) && filter_var($email, FILTER_VALIDATE_EMAIL)) {
             //$user->notify(new SuccessfulPayment($payment));
 
             // Configure PHPMailer
@@ -188,6 +203,7 @@ class PaymentsController extends Controller
                 $mail->Password = $smtp_password;
                 //$mail->SMTPSecure = 'tls';
                 $mail->Port = $settings->smtp_port;
+                $mail->CharSet = 'utf-8';
 
                 $mail->setFrom($settings->smtp_user, $settings->site_name);
                 $mail->addAddress($email);
@@ -238,9 +254,7 @@ class PaymentsController extends Controller
         $items = CartItem::query()->with(['item'])->where('cart_id', $payment->cart_id)->get();
         $discordRoles = DiscordRoleQueue::query()->with(['role'])->where('payment_id', $payment->id)->get();
 
-        // Reworked in v2.6: Handling 404 page for bedrock users with unsupported symbols
         // Updated in 3.0: Added own UUID API
-
         $get_uuid = 'https://minestorecms.com/api/uuid/name/' . $payment->user->username;
 
         $handle = curl_init();
@@ -273,8 +287,6 @@ class PaymentsController extends Controller
             $uuid = __("Can't get the UUID for this user.");
         }
 
-        //
-
         $system_price = [];
         $system_currency = Currency::query()->where('name', $this->settings->currency)->first();
 
@@ -304,7 +316,9 @@ class PaymentsController extends Controller
 
         $ban = Ban::where('username', $payment->user->username)->first();
 
-        return view('admin.payments.show', compact('payment', 'items', 'discordRoles', 'uuid', 'system_price', 'details', 'ban', 'system_currency', 'isVirtualCurrency'));
+        $giftcards = Gift::where('payment_id', $payment->id)->get();
+
+        return view('admin.payments.show', compact('payment', 'items', 'discordRoles', 'uuid', 'system_price', 'details', 'ban', 'system_currency', 'isVirtualCurrency', 'giftcards'));
     }
 
     public function resend(int $id): JsonResponse {

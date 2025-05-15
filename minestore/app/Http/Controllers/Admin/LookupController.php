@@ -36,7 +36,7 @@ class LookupController extends Controller
         $user = User::where('username', $username)->first();
 
         if (!$user) {
-            return redirect()->back()->with('error', __('User not found'));
+            return redirect()->back()->with('error', __('User not found in your webstore. Make sure the user has been detected on your webstore.'));
         }
 
         $uuid = null;
@@ -46,12 +46,16 @@ class LookupController extends Controller
             $uuid = $uuid_temp['uuid'];
         }
 
+        if ($uuid == 'undefined') {
+            $uuid = null;
+        }
+
         $history = [];
 
         // Check if user banned
         $ban = Ban::where('username', $username)
-            ->orWhere('uuid', $uuid)
-            ->orWhere('ip', $user->ip_address)
+            ->when($uuid, fn($query) => $query->orWhere('uuid', $uuid))
+            ->when($user->ip_address, fn($query) => $query->orWhere('ip', $user->ip_address))
             ->first();
 
         if ($ban) {
@@ -116,8 +120,6 @@ class LookupController extends Controller
                 'date' => Carbon::parse($row['date']),
             ];
         }
-
-        //dd($history);
 
         $rate = $info['total'] <= 0 ? 0 : ($info['back'] / $info['total'] * 100);
 

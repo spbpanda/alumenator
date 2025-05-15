@@ -6,6 +6,7 @@ use App\Events\PaymentPaid;
 use App\Http\Controllers\Admin\DonationGoalsController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ItemsController;
+use App\Jobs\ProcessCartSubscriptionsJob;
 use App\Jobs\SendEmail;
 use App\Models\CartItem;
 use App\Models\Currency;
@@ -19,7 +20,12 @@ class FinalHandlerController extends Controller
 {
     public function finalHandler($paymentId)
     {
-        $payment = Payment::query()->with(['user'])->where([['id', $paymentId], ['status', Payment::PROCESSED]])->first();
+        $payment = Payment::query()
+            ->with('user')
+            ->where('id', $paymentId)
+            ->where('status', Payment::PROCESSED)
+            ->first();
+
         if (! $payment) {
             exit('Unable to find the payment!');
         }
@@ -45,18 +51,16 @@ class FinalHandlerController extends Controller
 
         $usdPrice = $payment->price;
         if ($payment->currency != 'USD') {
-            $usd_currency = Currency::query()->where('name', 'USD')->first();
-            $currencyRate = Currency::query()->where('name', $payment->currency)->first();
-            $usdPrice = round($this->toActualCurrency($payment->price, $currencyRate->value, $usd_currency->value), 2);
+            $usd_currency = Currency::where('name', 'USD')->firstOrFail();
+            $currencyRate = Currency::where('name', $payment->currency)->firstOrFail();
+            $usdPrice = round($payment->price / $currencyRate->value * $usd_currency->value, 2);
         }
 
-        $nick = User::where('id', $payment->user_id)->first()->username;
-        $ip = '';
-        if (! empty($payment->ip)) {
-            $ip = '&ip='.$payment->ip;
-        }
+        $nick = $payment->user->username;
+        $ip = $payment->ip ? '&ip=' . $payment->ip : '';
 
         @file_get_contents("https://minestorecms.com/p/".config('app.LICENSE_KEY')."?nick=$nick&id=".$payment->id.$ip.'&amount='.$usdPrice, false, stream_context_create(['https' => ['timeout' => 6]]));
+        ProcessCartSubscriptionsJob::dispatch($cart->id);
 
         return true;
     }

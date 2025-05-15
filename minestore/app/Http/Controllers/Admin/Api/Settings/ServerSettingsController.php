@@ -118,7 +118,7 @@ class ServerSettingsController extends Controller
                 return response()->json(['message' => 'Success']);
             }
         } elseif ($server->method == 'listener') {
-            if (\App\Http\Controllers\ItemsController::sendListener('say Official MineStoreCMS.com Plugin Connected Successfully', 'admin', false, null))
+            if (\App\Http\Controllers\ItemsController::sendListener('say Official MineStoreCMS.com Plugin Connected Successfully', 'admin_' . $id, false, null))
             {
                 return response()->json(['message' => 'Success']);
             }
