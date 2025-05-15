@@ -2,9 +2,11 @@
 
 use App\Http\Controllers\AdvertController;
 use App\Http\Controllers\API\PaymentCheckingController;
+use App\Http\Controllers\API\PaymentsControllers\PayPalIPNController;
 use App\Http\Controllers\API\PaymentsControllers\PhonepeController;
 use App\Http\Controllers\API\PaymentsControllers\PixController;
 use App\Http\Controllers\API\PaymentsControllers\SepayController;
+use App\Http\Controllers\API\PaymentsControllers\UnitPayController;
 use App\Http\Controllers\API\PaymentsControllers\VirtualCurrencyController;
 use App\Http\Controllers\API\REST\RestOrderController;
 use App\Http\Controllers\API\SubscriptionController;
@@ -73,7 +75,7 @@ Route::prefix('/auth')->group(function () {
 
 Route::prefix('payments')->group(function () {
     Route::POST('/handle/paypal', [PaymentController::class, 'paypalHandle']);
-    Route::POST('/handle/paypalIPN', [PaymentController::class, 'paypalIPNHandle']);
+    Route::POST('/handle/paypalIPN', [PayPalIPNController::class, 'handle']);
     Route::POST('/handle/coinpayments', [PaymentController::class, 'CoinpaymentsHandle']);
     Route::POST('/handle/g2a', [PaymentController::class, 'G2AHandle']);
     Route::POST('/handle/stripe', [PaymentController::class, 'StripeHandle']);
@@ -85,7 +87,7 @@ Route::prefix('payments')->group(function () {
     Route::POST('/handle/mercadopago', [PaymentController::class, 'MercadoPagoHandle']);
     Route::GET('/handle/gopay', [PaymentController::class, 'GoPayHandle']);
     Route::POST('/handle/razorPay', [PaymentController::class, 'RazorPayHandle']);
-    Route::GET('/handle/unitpay', [PaymentController::class, 'UnitPayHandle']);
+    Route::GET('/handle/unitpay', [UnitPayController::class, 'handle']);
     Route::POST('/handle/freekassa', [PaymentController::class, 'FreeKassaHandle']);
     Route::POST('/handle/qiwi', [PaymentController::class, 'QiwiHandle']);
     Route::POST('/handle/enot', [PaymentController::class, 'EnotHandle']);
@@ -128,6 +130,7 @@ Route::prefix('items')->group(function () {
 
 Route::ANY('/categories/get', [CategoriesController::class, 'get']);
 Route::POST('/cart/getGift', [CartController::class, 'getGift']); // Get giftcard value for the index page (v3.x) (don't need auth)
+Route::GET('/patrons/get', [SettingsController::class, 'getPatrons']);
 
 Route::prefix('rest/v2')->group(function () {
     Route::POST('{api_key}/payment/create', [RestOrderController::class, 'create']);

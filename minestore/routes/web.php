@@ -75,6 +75,11 @@ Route::prefix('admin')->middleware('installed')->group(function () {
             Route::post('/edit/{id}', [Admin\PagesController::class, 'edit'])->name('edit');
         });
 
+        Route::prefix('patrons')->name('patrons.')->group(function () {
+            Route::get('/', [Admin\PatronsController::class, 'index'])->name('index');
+            Route::post('/', [Admin\PatronsController::class, 'store'])->name('store');
+        });
+
         Route::prefix('payments')->name('payments.')->group(function () {
             Route::post('/markAsPaid/{id}', [Admin\PaymentsController::class, 'markAsPaid'])->name('markAsPaid');
             Route::post('/resend/{id}', [Admin\PaymentsController::class, 'resend'])->name('resend');
