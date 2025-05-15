@@ -29,6 +29,9 @@ class Tax extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'name', 'country', 'percent', 'is_included',
+        'name',
+        'country',
+        'percent',
+        'is_included'
     ];
 }

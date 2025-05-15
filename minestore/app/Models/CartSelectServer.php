@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\hasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * App\Models\CartSelectServer
@@ -30,8 +30,9 @@ class CartSelectServer extends Model
         'cart_id', 'item_id', 'server_id',
     ];
 
-    public function servers(): HasMany
+    public function servers(): BelongsToMany
     {
-        return $this->hasMany(Server::class, 'server_id', 'id')->where('item_servers.type', '=', ItemServer::TYPE_CMD_SERVER);
+        return $this->belongsToMany(Server::class, 'item_servers', 'cart_select_server_id', 'server_id')
+            ->where('item_servers.type', '=', ItemServer::TYPE_CMD_SERVER);
     }
 }

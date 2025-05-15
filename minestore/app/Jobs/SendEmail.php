@@ -42,6 +42,7 @@ class SendEmail implements ShouldQueue
             $mail->Password = $this->data['settings']['Password'];
             //$mail->SMTPSecure = $this->data['settings']['SMTPSecure'];
             $mail->Port = $this->data['settings']['Port'];
+            $mail->CharSet = 'utf-8';
 
             $mail->setFrom($this->data['settings']['setFrom'][0], $this->data['settings']['setFrom'][1]);
             $mail->addAddress($this->data['settings']['addAddress']);

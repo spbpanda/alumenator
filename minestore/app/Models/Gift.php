@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string|null $expire_at
  * @property int $deleted
  * @property string $note
- * @property string|null $owner
+ * @property int|null $user_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @method static \Illuminate\Database\Eloquent\Builder|Gift newModelQuery()
@@ -32,7 +32,27 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Gift extends Model
 {
+    protected $table = 'gifts';
+    public $timestamps = true;
+
     protected $fillable = [
-        'name', 'start_balance', 'end_balance', 'expire_at', 'deleted', 'note', 'owner'
+        'name',
+        'start_balance',
+        'end_balance',
+        'expire_at',
+        'deleted',
+        'note',
+        'user_id',
+        'payment_id'
     ];
+
+    public function user(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(User::class, 'id', 'user_id');
+    }
+
+    public function payment(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(Payment::class, 'id', 'payment_id');
+    }
 }

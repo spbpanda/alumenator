@@ -48,10 +48,20 @@ class Command extends Model
 
     protected $table = 'commands';
 
-    public $timestamps = false;
+    public $timestamps = true;
 
     protected $fillable = [
-        'item_type', 'item_id', 'command', 'event', 'is_online_required', 'execute_once_on_any_server', 'delay_value', 'delay_unit', 'repeat_unit', 'repeat_value', 'repeat_cycles',
+        'item_type',
+        'item_id',
+        'command',
+        'event',
+        'is_online_required',
+        'execute_once_on_any_server',
+        'delay_value',
+        'delay_unit',
+        'repeat_unit',
+        'repeat_value',
+        'repeat_cycles'
     ];
 
     public function servers()

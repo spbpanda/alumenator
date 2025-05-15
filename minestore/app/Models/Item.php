@@ -33,6 +33,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property int $chargePeriodUnit
  * @property int $is_virtual_currency_only
  * @property int $is_any_price
+ * @property int $is_server_choice
  * @property int $active
  * @property int $deleted
  * @property string|null $item_id
@@ -96,6 +97,7 @@ class Item extends Model
     //type
     const MINECRAFT_PACKAGE = 0;
     const GIFTCARD = 1;
+    const MINECRAFT_AND_GIFTCARD = 2;
 
     protected $fillable = [
         'id',

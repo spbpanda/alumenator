@@ -21,19 +21,28 @@ use Illuminate\Database\Eloquent\Model;
  */
 class SiteVisit extends Model
 {
+    public $timestamps = false;
+
     protected $fillable = [
         'created_at',
         'count'
     ];
 
-    public $timestamps = false;
-
     protected $casts = [
         'created_at' => 'datetime'
+    ];
+
+    protected $attributes = [
+        'count' => 0
     ];
 
     public function visit(){
         $this->count++;
         $this->save();
+    }
+
+    public function scopeToday($query)
+    {
+        return $query->whereDate('created_at', today());
     }
 }

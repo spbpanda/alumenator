@@ -9,6 +9,10 @@ class DonationGoal extends Model
 {
     use HasFactory;
 
+    const DISABLED = 0;
+    const ENABLED = 1;
+    const EXPIRED = 2;
+
     protected $table = 'donation_goals';
     public $timestamps = true;
 

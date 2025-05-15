@@ -79,6 +79,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $maintenance_ips
  * @property int $is_sale_email_notify
  * @property int $developer_mode
+ * @property int $patrons_enabled
+ * @property string $patrons_groups
+ * @property string $patrons_description
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @method static \Illuminate\Database\Eloquent\Builder|Setting newModelQuery()
@@ -175,6 +178,7 @@ class Setting extends Model
         'theme', 'developer_mode',
         'is_maintenance', 'maintenance_ips',
         'developer_mode',
+        'patrons_enabled', 'patrons_groups', 'patrons_description',
         'is_sale_email_notify',
         'categories_level',
     ];
