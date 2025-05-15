@@ -1,0 +1,1269 @@
+{
+	"You can not buy this item!": "لا يمكنك شراء هذا العنصر!",
+	"This item is eliminated from the cart because the maximum quantity of this item has been purchased!": "تم حذف هذا العنصر من السلة لأن الكمية القصوى من هذا العنصر قد تم شراؤها!",
+	"You have purchased the maximum amount of this item!": "لقد اشتريت الكمية القصوى من هذا العنصر!",
+	"This cart already has subscription item!": "هذه السلة تحتوي بالفعل على عنصر اشتراك!",
+	"This cart already has this item!": "السلة تحتوي بالفعل على هذا العنصر!",
+	"You can not buy this cumulative item!": "لا يمكنك شراء هذا العنصر التراكمي!",
+	"You reached an exceeded spending limit": "لقد تجاوزت الحد الأقصى للإنفاق",
+	"You can not buy more than the maximum quantity of this item!": "لا يمكنك شراء أكثر من الكمية القصوى من هذا العنصر!",
+	"This item do not allow any custom price.": "هذا العنصر لا يسمح بأي سعر مخصص.",
+	"The custom price cannot be less than the minimum price of": "السعر المخصص لا يمكن أن يكون أقل من السعر الأدنى لـ",
+	"Referral code is empty!": "رمز الإحالة فارغ!",
+	"Referral code does not exist!": "رمز الإحالة غير موجود!",
+	"Referral code has been successfully applied!": "تم تطبيق رمز الإحالة بنجاح!",
+	"Referral code is not set!": "لم يتم تعيين رمز الإحالة!",
+	"Referral code has been successfully removed!": "تمت إزالة رمز الإحالة بنجاح!",
+	"Incorrect item for this variable!": "عنصر غير صحيح لهذا المتغير!",
+	"Incorrect item!": "عنصر غير صحيح!",
+	"There are no available variables for this package!": "لا توجد متغيرات متاحة لهذه الحزمة!",
+	"Incorrect variable value!": "قيمة متغير غير صحيحة!",
+	"Incorrect selected server": "خادم مختار غير صحيح",
+	"Code does not exist.": "الرمز غير موجود.",
+	"You have no items in your cart.": "ليس لديك أي عناصر في سلتك.",
+	"You have already used this coupon.": "لقد استخدمت هذا القسيمة بالفعل.",
+	"The coupon is eliminated.": "تمت إزالة القسيمة.",
+	"You have already used a coupon.": "لقد استخدمت قسيمة بالفعل.",
+	"The minimum order amount for this coupon is": "المبلغ الأدنى للطلب لهذه القسيمة هو",
+	"You have reached the limit of using this coupon.": "لقد تجاوزت الحد الأقصى لاستخدام هذه القسيمة.",
+	"The coupon is not active yet.": "القسيمة ليست نشطة بعد.",
+	"The coupon has expired.": "انتهت صلاحية القسيمة.",
+	"Coupon was used for available items. Discount is": "تم استخدام القسيمة للعناصر المتاحة. الخصم هو",
+	"The gift card is already used by another user for an active cart.": "تم استخدام بطاقة الهدية بالفعل من قبل مستخدم آخر لسلة نشطة.",
+	"You have already used a gift card.": "لقد استخدمت بطاقة هدية بالفعل.",
+	"The gift card has expired.": "انتهت صلاحية بطاقة الهدية.",
+	"The gift card has empty balance.": "بطاقة الهدية ليس لها رصيد.",
+	"Gift Card successfully applied! Remaining balance:": "تم تطبيق بطاقة الهدية بنجاح! الرصيد المتبقي:",
+	"Coupon was successfully removed!": "تمت إزالة القسيمة بنجاح!",
+	"Coupon was not found!": "لم يتم العثور على القسيمة!",
+	"Gift Card was successfully removed!": "تمت إزالة بطاقة الهدية بنجاح!",
+	"Gift Card was not found!": "لم يتم العثور على بطاقة الهدية!",
+	"Gift card not found!": "لم يتم العثور على بطاقة الهدية!",
+	"Gift card has empty balance!": "بطاقة الهدية ليس لها رصيد!",
+	"To begin shopping, please select a category from the sidebar. Please note that ranks cost a one-time fee and are unlocked permanently!": "لبدء التسوق، يرجى اختيار فئة من الشريط الجانبي. يرجى ملاحظة أن الرتب تكلف رسومًا لمرة واحدة ويتم فتحها بشكل دائم!",
+	"SUPPORT / QUESTIONS": "الدعم / الأسئلة",
+	"Need any questions answered before checkout? Waited more than 20 minutes but your package still has not arrived? Ask the community/staff on Discord, or for payment support, submit a support ticket on our website.": "هل تحتاج إلى إجابة على أي أسئلة قبل الدفع؟ انتظرت أكثر من 20 دقيقة ولكن لم يصل حزمة الخاصة بك بعد؟ اسأل المجتمع / الموظفين على Discord، أو للحصول على دعم الدفع، قدم تذكرة دعم على موقعنا.",
+	"REFUND POLICY": "سياسة الاسترداد",
+	"All payments are final and non-refundable. Attempting a chargeback or opening a PayPal dispute will result in permanent and irreversible banishment from all of our servers, and other minecraft stores.": "جميع المدفوعات نهائية وغير قابلة للاسترداد. محاولة استرداد الأموال أو فتح نزاع في PayPal سيؤدي إلى حظر دائم وغير قابل للإلغاء من جميع خوادمنا وأي متجر ماينكرافت آخر.",
+	"It could take between 1-20 minutes for your purchase to be credited in-game. If you are still not credited after this time period, please open a support ticket on our forums with proof of purchase and we will look into your issue.": "قد يستغرق الأمر بين 1-20 دقيقة لإضافة مشترياتك في اللعبة. إذا لم تُضاف المشتريات بعد هذه الفترة، يُرجى فتح تذكرة دعم في منتدياتنا مع دليل الشراء وسنحقق في مشكلتك.",
+	"Unauthorized access": "دخول غير مصرح به",
+	"Item not found": "العنصر غير موجود",
+	"Item is not active": "العنصر ليس نشطًا",
+	"Automatically generated giftcard for payment": "بطاقة هدية مُنشأة تلقائيًا للدفع",
+	"Woooohooo! New donator 💪": "وووو! متبرع جديد 💪",
+	"just bought something from our store! Thank him very much for his support!": "اشترى شيئًا من متجرنا! أشكره كثيرًا على دعمه!",
+	"Items:": "العناصر:",
+	"Your country is banned to visit this website.": "تم حظر بلدك من زيارة هذا الموقع.",
+	"Our website is currently undergoing scheduled maintenance.": "موقعنا يخضع حاليًا لأعمال صيانة مجدولة.",
+	"You are banned to visit this website.": "أنت محظور من زيارة هذا الموقع.",
+	"Your cart is empty!": "سلتك فارغة!",
+	"The minimum basket amount for the active sale is": "الحد الأدنى لمبلغ السلة للبيع النشط هو",
+	"You have an item from the sale. The minimum basket amount is": "لديك عنصر من البيع. الحد الأدنى لمبلغ السلة هو",
+	"Incorrect currency!": "عملة غير صحيحة!",
+	"To purchase a": "لشراء",
+	"you need also purchase one of:": "بجب عليك شراء واحد من:",
+	"you must also buy": "يجب عليك أيضًا شراء",
+	"Please fill in all the data fields!": "يرجى ملء جميع حقول البيانات!",
+	"Unable to find your virtual currency balance on the server.": "تعذر العثور على رصيد العملة الافتراضية الخاصة بك على الخادم.",
+	"You do not have enough virtual currency to purchase.": "ليس لديك ما يكفي من العملة الافتراضية للشراء.",
+	"Thank you for your purchase!": "شكرًا لك على شرائك!",
+	"Admin Profile": "ملف المسؤول",
+	"Password was changed successfully!": "تم تغيير كلمة المرور بنجاح!",
+	"There is nothing to change!": "ليس هناك شيء لتغييره!",
+	"Current password is not correct!": "كلمة المرور الحالية غير صحيحة!",
+	"Announcement Settings": "إعدادات الإعلان",
+	"API Access Settings": "إعدادات الوصول لواجهة برمجة التطبيقات",
+	"Bans": "الحظر",
+	"The reason for the has not been provided.": "لم يتم توفير السبب.",
+	"Categories": "الفئات",
+	"Chargebacks": "استرداد الأموال",
+	"Has edited chargeback detection settings": "تم تعديل إعدادات اكتشاف استرداد الأموال",
+	"Coupons": "القسائم",
+	"Donation Goals": "أهداف التبرع",
+	"Gift Cards": "بطاقات الهدايا",
+	"Record not found": "السجل غير موجود",
+	"Global Commands": "الأوامر العالمية",
+	"Dashboard": "لوحة التحكم",
+	"IP Checks Settings": "إعدادات فحص IP",
+	"Packages": "الحزم",
+	"Lookup": "بحث",
+	"Pages": "الصفحات",
+	"Import Payment Data": "استيراد بيانات الدفع",
+	"Transactions": "المعاملات",
+	"Promoted Packages": "الحزم المروجة",
+	"RCON": "RCON",
+	"Player Referrals": "إحالات اللاعبين",
+	"Sales Settings": "إعدادات المبيعات",
+	"Security Logs": "سجلات الأمان",
+	"Settings": "الإعدادات",
+	"edited settings": "تم تعديل الإعدادات",
+	"The webstore name field is required.": "حقل اسم المتجر مطلوب.",
+	"edited webstore name.": "تم تعديل اسم المتجر.",
+	"The webstore description field is required.": "حقل وصف المتجر مطلوب.",
+	"edited webstore description.": "تم تعديل وصف المتجر.",
+	"The server IP field is required.": "حقل IP الخادم مطلوب.",
+	"The server IP must be a valid IP address.": "يجب أن يكون عنوان IP للخادم صالحًا.",
+	"edited server IP.": "تم تعديل IP الخادم.",
+	"The server port field is required.": "حقل منفذ الخادم مطلوب.",
+	"edited server port.": "تم تعديل منفذ الخادم.",
+	"The logo field is required.": "حقل الشعار مطلوب.",
+	"The logo must be an image.": "يجب أن يكون الشعار صورة.",
+	"The logo must be a file of type: png.": "يجب أن يكون الشعار ملفًا من النوع: png.",
+	"The logo may not be greater than 4 megabytes.": "يجب ألا يزيد حجم الشعار عن 4 ميغابايت.",
+	"edited webstore logo.": "تم تعديل شعار المتجر.",
+	"The favicon field is required.": "حقل الأيقونة مطلوب.",
+	"The favicon must be an image.": "يجب أن تكون الأيقونة صورة.",
+	"The favicon must be a file of type: png.": "يجب أن تكون الأيقونة ملفًا من النوع: png.",
+	"The favicon may not be greater than 2048 kilobytes.": "يجب ألا يزيد حجم الأيقونة عن 2048 كيلوبايت.",
+	"edited webstore favicon.": "تم تعديل أيقونة المتجر.",
+	"The banner field is required.": "حقل اللافتة مطلوب.",
+	"The banner must be an image.": "يجب أن تكون اللافتة صورة.",
+	"The banner must be a file of type: png.": "يجب أن تكون اللافتة ملفًا من النوع: png.",
+	"The banner may not be greater than 2048 kilobytes.": "يجب ألا يزيد حجم اللافتة عن 2048 كيلوبايت.",
+	"edited webstore banner.": "تم تعديل لافتة المتجر.",
+	"enabled maintenance mode.": "تم تمكين وضع الصيانة.",
+	"edited email settings": "تم تعديل إعدادات البريد الإلكتروني",
+	"edited discord settings": "تم تعديل إعدادات ديسكورد",
+	"The link name field is required.": "حقل اسم الرابط مطلوب.",
+	"The link icon field is required.": "حقل أيقونة الرابط مطلوب.",
+	"The link URL field is required.": "حقل عنوان URL للرابط مطلوب.",
+	"edited links settings": "تم تعديل إعدادات الروابط",
+	"edited homepage settings": "تم تعديل إعدادات الصفحة الرئيسية",
+	"edited featured packages at the Index Page": "تم تعديل الحزم المميزة على الصفحة الرئيسية",
+	"has done rest of donation goals": "تم إنجاز باقي أهداف التبرع",
+	"has removed all payments": "تم إزالة جميع المدفوعات",
+	"has removed all existed users": "تمت إزالة جميع المستخدمين الموجودين",
+	"has done reset of the ban list": "تم إعادة تعيين قائمة الحظر",
+	"has wiped transferred by plugin player data": "تم مسح بيانات اللاعبين المنقولة بواسطة البرنامج المساعد",
+	"has done full wipe of the web store": "تم مسح المتجر الإلكتروني بالكامل",
+	"has changed authorization type": "تم تغيير نوع التفويض",
+	"Statistics": "الإحصائيات",
+	"Subscriptions": "الاشتراكات",
+	"Taxes": "الضرائب",
+	"Themes": "السمات",
+	"Tickets": "تذاكر الدعم",
+	"Variables": "المتغيرات",
+	"Whitelist": "القائمة البيضاء",
+	"The reason for the whitelist record is not provided.": "لم يتم تقديم سبب لتسجيل القائمة البيضاء.",
+	"User has been banned already!": "تم حظر المستخدم بالفعل!",
+	"All items were successfully delivered!": "تم تسليم جميع العناصر بنجاح!",
+	"Unable to deliver the items!": "تعذر تسليم العناصر!",
+	"Referral code does not exist.": "رمز الإحالة غير موجود.",
+	"The user is in the whitelist already!": "المستخدم موجود بالفعل في القائمة البيضاء!",
+	"Failed to connect the SMTP server": "فشل في الاتصال بخادم SMTP",
+	"has changed merchant settings": "تم تعديل إعدادات التاجر",
+	"Changes successfully saved!": "تم حفظ التغييرات بنجاح!",
+	"Failed to Connect to the Minecraft Server": "فشل في الاتصال بخادم Minecraft",
+	"Adding a New Minecraft Server": "إضافة خادم Minecraft جديد",
+	"Chargeback Case #": "حالة استرداد المال #",
+	"Proudly powered by": "مدعوم بفخر من",
+	"Official Website": "الموقع الرسمي",
+	"Marketplace": "السوق",
+	"Documentation": "التوثيق",
+	"Support": "الدعم",
+	"Search (Ctrl+/)": "البحث (Ctrl+/)",
+	"Notification": "الإشعارات",
+	"Mark all as read": "تحديد الكل كمقروء",
+	"View all notifications": "عرض جميع الإشعارات",
+	"Admin": "المسؤول",
+	"Account Settings": "إعدادات الحساب",
+	"Logout": "تسجيل الخروج",
+	"Login": "تسجيل الدخول",
+	"Search...": "البحث...",
+	"Announcement Message": "رسالة الإعلان",
+	"Display Announcement Message on the Index Page?": "عرض رسالة الإعلان في الصفحة الرئيسية؟",
+	"Your customers will see Announcement Message on the main page of your webstore.": "سيشاهد عملاؤك رسالة الإعلان على الصفحة الرئيسية لمتجرك.",
+	"Title": "العنوان",
+	"Content": "المحتوى",
+	"This content will be displayed for announcement message on the index page.": "سيتم عرض هذا المحتوى كرسالة إعلان في الصفحة الرئيسية.",
+	"Text for Button": "نص الزر",
+	"Link for Button": "رابط الزر",
+	"Save Announcement": "حفظ الإعلان",
+	"API Authentication Key": "مفتاح مصادقة API",
+	"Having this key will allow you to add additional authentication to your API requests.": "سيمكنك وجود هذا المفتاح من إضافة مصادقة إضافية إلى طلبات API الخاصة بك.",
+	"Example": "مثال",
+	"Save Changes": "حفظ التغييرات",
+	"Invalid 2FA code!": "رمز التحقق الثنائي غير صحيح!",
+	"Incorrect Login or Password!": "تسجيل الدخول أو كلمة المرور غير صحيحة!",
+	"Welcome to the Dashboard": "مرحبًا بك في لوحة التحكم",
+	"Please sign in to your account and start manage your store": "يرجى تسجيل الدخول إلى حسابك والبدء في إدارة متجرك",
+	"Enter your login": "أدخل تسجيل الدخول الخاص بك",
+	"Password": "كلمة المرور",
+	"Remember Me": "تذكرني",
+	"Sign in": "تسجيل الدخول",
+	"Two Step Verification": "التحقق بخطوتين",
+	"Enter the code from the mobile auth app in the field below.": "أدخل الرمز من تطبيق المصادقة على الهاتف المحمول في الحقل أدناه.",
+	"Type your 6 digit security code": "أدخل رمز الأمان المكون من 6 أرقام",
+	"Verify my account": "تحقق من حسابي",
+	"Important": "مهم",
+	"You need to fill at least ONE field related to the user. If you have both type of information, fill it with asked information!": "يجب عليك ملء حقل واحد على الأقل متعلق بالمستخدم. إذا كان لديك كلا النوعين من المعلومات، املأ بالمعلومات المطلوبة!",
+	"Username": "اسم المستخدم",
+	"IP (IPv4 or IPv6) to Ban": "IP (IPv4 أو IPv6) للحظر",
+	"Enter a reason for ban.": "أدخل سبب الحظر.",
+	"Ban User": "حظر المستخدم",
+	"User was unbanned!": "تم رفع الحظر عن المستخدم!",
+	"Unable to unban user!": "تعذر رفع الحظر عن المستخدم!",
+	"Users ban list": "قائمة حظر المستخدمين",
+	"Ban a New User": "حظر مستخدم جديد",
+	"UUID": "UUID",
+	"IP": "IP",
+	"Date": "التاريخ",
+	"Action": "الإجراء",
+	"Are you sure?": "هل أنت متأكد؟",
+	"Yes, delete it!": "نعم، احذفه!",
+	"Deleted!": "تم الحذف!",
+	"Command has been deleted successfully.": "تم حذف الأمر بنجاح.",
+	"Edit": "تعديل",
+	"New": "جديد",
+	"Category": "الفئة",
+	"Name": "الاسم",
+	"Description": "الوصف",
+	"The description might include review of the package that user purchase. It will be displayed when client checks it.": "الوصف قد يتضمن مراجعة للحزمة التي يشتريها المستخدم. سيتم عرضها عندما يفحص العميل ذلك.",
+	"Image": "الصورة",
+	"Recommended max height of 180px.": "الارتفاع الأقصى الموصى به هو 180 بكسل.",
+	"Image is not uploaded yet": "لم يتم تحميل الصورة بعد",
+	"Upload Image": "تحميل الصورة",
+	"Minecraft GUI Item": "عنصر واجهة المستخدم في ماينكرافت",
+	"General Settings": "الإعدادات العامة",
+	"Category URL": "رابط الفئة",
+	"Setup the category URL to access your category.": "إعداد رابط الفئة للوصول إلى فئتك.",
+	"Category Display Type": "نوع عرض الفئة",
+	"Grid Mode": "وضع الشبكة",
+	"This is a default way how store owners display their packages as cards inside of grids.": "هذه هي الطريقة الافتراضية التي يعرض بها أصحاب المتاجر حزمهم كبطاقات داخل الشبكات.",
+	"Comparison Mode": "وضع المقارنة",
+	"This mode displays category in table mode to compare each packages features.": "يعرض هذا الوضع الفئة في وضع الجداول لمقارنة ميزات كل حزمة.",
+	"Listing Mode": "وضع القائمة",
+	"This mode displays category in the listing way. Good choice for small packages.": "يعرض هذا الوضع الفئة بطريقة القائمة. خيار جيد للحزم الصغيرة.",
+	"Comparison Category Options": "خيارات فئة المقارنة",
+	"Add Comparison Field": "إضافة حقل المقارنة",
+	"Comparison Name": "اسم المقارنة",
+	"Comparison Description": "وصف المقارنة",
+	"Comparison Type": "نوع المقارنة",
+	"Actions": "الإجراءات",
+	"Advanced Settings": "الإعدادات المتقدمة",
+	"Cumulate the purchases inside of this category so customers only pay the difference when purchasing a higher priced package.": "تجميع المشتريات داخل هذه الفئة بحيث يدفع العملاء فقط الفرق عند شراء حزمة بسعر أعلى.",
+	"Enable this category and make it visible?": "تمكين هذه الفئة وجعلها مرئية؟",
+	"Save": "حفظ",
+	"Create": "إنشاء",
+	"the Category": "الفئة",
+	"Arrow Checks": "فحوصات السهم",
+	"Custom Text (Supports HTML)": "نص مخصص (يدعم HTML)",
+	"PENDING": "قيد الانتظار",
+	"COMPLETED": "مكتمل",
+	"CHARGEBACK": "استرداد المال",
+	"Chargeback was successfully deleted!": "تم حذف استرداد المال بنجاح!",
+	"Unable to delete the chargeback!": "تعذر حذف استرداد المال!",
+	"Chargeback marked as completed!": "تم وضع علامة مكتمل على استرداد المال!",
+	"Unable to finish the chargeback!": "تعذر إنهاء استرداد المال!",
+	"Chargebacks List": "قائمة استرداد الأموال",
+	"ID": "المعرف",
+	"Amount": "المبلغ",
+	"Status": "الحالة",
+	"Chargeback Prevention Settings": "إعدادات منع استرداد الأموال",
+	"Chargeback Threshold": "حد استرداد الأموال",
+	"The name that will be used for webstore and CEO settings.": "الاسم الذي سيتم استخدامه لإعدادات المتجر والمدير التنفيذي.",
+	"Customers who pass this threshold (across all MineStore Network) will be blocked from purchasing on your store.": "العملاء الذين يتجاوزون هذا الحد (عبر كل شبكة MineStore) سيتم حظرهم من الشراء في متجرك.",
+	"Chargeback Time Period": "فترة استرداد الأموال",
+	"The time frame in which we will check for chargebacks from customers.": "الإطار الزمني الذي سنفحص فيه استرداد الأموال من العملاء.",
+	"Username Threshold Blocker": "حاجز حد اسم المستخدم",
+	"Deny customers from purchasing which go over your chargeback threshold.": "رفض العملاء الذين يتجاوزون حد استرداد الأموال الخاص بك من الشراء.",
+	"IP Address Threshold Blocker": "حاجز حد عنوان IP",
+	"Deny IP addresses from purchasing which go over your chargeback threshold.": "رفض عناوين IP من الشراء التي تتجاوز حد استرداد الأموال الخاص بك.",
+	"Chargeback Value Bypass": "تجاوز قيمة استرداد الأموال",
+	"Allow customers to checkout if the total value of their chargebacks is less than X% of the value of their total purchases.": "السماح للعملاء بالدفع إذا كانت القيمة الإجمالية لاسترداد الأموال الخاصة بهم أقل من X٪ من قيمة إجمالي مشترياتهم.",
+	"Local Ban Chargeback Threshold": "حد الحظر المحلي لاسترداد الأموال",
+	"Autoban customers who make X or more chargebacks on your store.": "الحظر التلقائي للعملاء الذين يقومون بعمل X أو أكثر من استرداد الأموال في متجرك.",
+	"Important Note": "ملاحظة مهمة",
+	"This is the chargeback case for this payment. It will display as much details as possible regarding the chargeback and gateway API.<br>Please control and respond to the chargeback as normal through your payment gateway and the details will update here!": "هذه هي حالة استرداد الأموال لهذا الدفع. ستعرض أكبر قدر ممكن من التفاصيل فيما يتعلق باسترداد الأموال وواجهة برمجة التطبيقات لبوابة الدفع.<br>يرجى التحكم والرد على استرداد الأموال كالمعتاد من خلال بوابة الدفع الخاصة بك وسيتم تحديث التفاصيل هنا!",
+	"Back": "العودة",
+	"Generate Evidence (PDF)": "توليد الدليل (PDF)",
+	"Submit to Stripe": "إرسال إلى Stripe",
+	"Dispute ID:": "معرف النزاع:",
+	"Status:": "الحالة:",
+	"Chargeback": "استرداد المال",
+	"Payment Gateway:": "بوابة الدفع:",
+	"Creation Date:": "تاريخ الإنشاء:",
+	"Username:": "اسم المستخدم:",
+	"User information": "معلومات المستخدم",
+	"Unban User": "رفع الحظر عن المستخدم",
+	"Spending Limit": "حد الإنفاق",
+	"The amount a customer can spend on your webstore in a specified period of time.": "المبلغ الذي يمكن للعميل إنفاقه في متجرك خلال فترة زمنية محددة.",
+	"None": "لا شيء",
+	"Hourly": "بالساعة",
+	"Daily": "يومي",
+	"Weekly": "أسبوعي",
+	"Monthly": "شهري",
+	"Annualy": "سنوي",
+	"New Coupon": "قسيمة جديدة",
+	"Coupon Name": "اسم القسيمة",
+	"Need to be unique.": "يجب أن يكون فريدًا.",
+	"Discount Type": "نوع الخصم",
+	"Select the discount type for a coupon.": "اختر نوع الخصم للقسيمة.",
+	"Percentage": "النسبة المئوية",
+	"Discount": "الخصم",
+	"Amount in percents that will decrease original price as a sale.": "المبلغ بالنسب المئوية الذي سيقلل من السعر الأصلي كبيع.",
+	"Amount of money that will decrease original price as a sale.": "مقدار المال الذي سيقلل من السعر الأصلي كبيع.",
+	"Max Uses": "أقصى استخدامات",
+	"Leave empty for unlimited.": "اتركها فارغة لغير محدد.",
+	"Redeem Limit Per Customer/IP": "حد الاسترداد لكل عميل / IP",
+	"Set a limit to use this coupon for each Customer/IP.": "حدد حدًا لاستخدام هذه القسيمة لكل عميل / IP.",
+	"Minimum Basket Value": "الحد الأدنى لقيمة السلة",
+	"Set the minimal basket price to apply this coupon for a basket.": "عيّن السعر الأدنى للسلة لتطبيق هذه القسيمة على السلة.",
+	"Apply coupon to": "تطبيق القسيمة على",
+	"Select the option that you want to apply your coupon for.": "اختر الخيار الذي ترغب في تطبيق القسيمة عليه.",
+	"Whole Webstore": "كل المتجر الإلكتروني",
+	"Note": "ملاحظة",
+	"Make a note for yourself.": "اكتب ملاحظة لنفسك.",
+	"Publish On Webstore At": "نشر في المتجر الإلكتروني في",
+	"Set a datetime when coupon will be available to use in your webstore.": "حدد التاريخ والوقت الذي ستكون فيه القسيمة متاحة للاستخدام في متجرك الإلكتروني.",
+	"Remove From Webstore After": "إزالة من المتجر الإلكتروني بعد",
+	"Set a datetime when coupon will be inaccessible from your webstore.": "حدد التاريخ والوقت الذي ستكون فيه القسيمة غير متاحة من متجرك الإلكتروني.",
+	"Create a Coupon": "إنشاء قسيمة",
+	"Edit Coupon": "تحرير القسيمة",
+	"Update a Coupon": "تحديث القسيمة",
+	"Deleted Successfully!": "تم الحذف بنجاح!",
+	"Unable to Delete!": "تعذر الحذف!",
+	"A voucher entitling to the customer for a discount off a particular package.": "قسيمة تمنح العميل خصمًا على حزمة معينة.",
+	"Add a Coupon": "إضافة قسيمة",
+	"Coupons List": "قائمة القسائم",
+	"Type": "النوع",
+	"Uses": "الاستخدامات",
+	"Command to Execute": "الأمر للتنفيذ",
+	"Enter the command to execute on your server. Use {} to use variables.": "أدخل الأمر المراد تنفيذه على خادمك. استخدم {} لاستخدام المتغيرات.",
+	"Donation Goal": "هدف التبرع",
+	"Donation Goal Name": "اسم هدف التبرع",
+	"Current Amount": "المبلغ الحالي",
+	"Amount of money that will be displayed as collected already.": "المبلغ النقدي الذي سيتم عرضه كأما تم جمعه بالفعل.",
+	"Goal Amount": "مبلغ الهدف",
+	"Amount of money that will be set as a goal.": "المبلغ المالي الذي سيتم تحديده كهدف.",
+	"Enable this Donation Goal and mark as Active?": "تمكين هذا الهدف من التبرع ووضع علامة نشط عليه؟",
+	"Automatically disable when hits 100%?": "تعطيل تلقائي عند الوصول إلى 100٪؟",
+	"Execute Global Commands when donation goal hits 100%?": "تنفيذ الأوامر العالمية عند الوصول إلى هدف التبرع 100٪؟",
+	"Commands List": "قائمة الأوامر",
+	"Available Variables": "المتغيرات المتاحة",
+	"Add Goal Command": "إضافة أمر الهدف",
+	"Servers to execute commands": "الخوادم لتنفيذ الأوامر",
+	"Select the server.": "اختر الخادم.",
+	"All servers": "جميع الخوادم",
+	"Create a Donation Goal": "إنشاء هدف التبرع",
+	"List of Variables": "قائمة المتغيرات",
+	"Variable": "المتغير",
+	"Meaning of the variable / Replaces with": "معنى المتغير / يستبدل بـ",
+	"Donation goal name": "اسم هدف التبرع",
+	"Current amount": "المبلغ الحالي",
+	"Total goal amount": "إجمالي مبلغ الهدف",
+	"Goal reached date and time (YYYY-MM-DD H:i:s)": "تاريخ ووقت الوصول إلى الهدف (YYYY-MM-DD H:i:s)",
+	"Is goal automatic disabling? (0 - NO, 1 - YES)": "هل يتم تعطيل الهدف تلقائيًا؟ (0 - لا، 1 - نعم)",
+	"Command execution time": "وقت تنفيذ الأمر",
+	"Command execution date": "تاريخ تنفيذ الأمر",
+	"A Donation Goal encourages your customers to spend money on a common community goal.": "يحث هدف التبرع عملائك على إنفاق المال على هدف مجتمعي مشترك.",
+	"Add a Donation Goal": "إضافة هدف التبرع",
+	"Finished At": "انتهى في",
+	"Not Active": "غير نشط",
+	"Active": "نشط",
+	"Not Reached Yet": "لم يصل بعد",
+	"Gift Card": "بطاقة هدية",
+	"Gift Card Name": "اسم بطاقة الهدية",
+	"Gift Card Value": "قيمة بطاقة الهدية",
+	"Enter how much money will be included in this gift card.": "أدخل مقدار المال الذي سيتم تضمينه في هذه البطاقة.",
+	"Expire date": "تاريخ انتهاء الصلاحية",
+	"Set a datetime when gift card will be expired.": "حدد التاريخ والوقت الذي ستنتهي فيه صلاحية بطاقة الهدية.",
+	"Create a Gift Card": "إنشاء بطاقة هدية",
+	"Gift Card Current Value": "القيمة الحالية لبطاقة الهدية",
+	"Enter how much money the gift card currently has.": "أدخل مقدار المال الذي تحتويه بطاقة الهدية حاليًا.",
+	"Update a Gift Card": "تحديث بطاقة الهدية",
+	"Here you can create a gift card to make user pay as with prepaid wallet.": "هنا يمكنك إنشاء بطاقة هدية لجعل المستخدم يدفع كما هو الحال مع المحفظة المدفوعة مسبقًا.",
+	"Add a Gift Card": "إضافة بطاقة هدية",
+	"Gift Cards List": "قائمة بطاقات الهدايا",
+	"Gift Card Identifier": "معرف بطاقة الهدية",
+	"Start Balance": "رصيد البدء",
+	"Current Balance": "الرصيد الحالي",
+	"Creation Date": "تاريخ الإنشاء",
+	"Expire Date": "تاريخ انتهاء الصلاحية",
+	"Command to Run": "الأمر للتشغيل",
+	"Select Servers to Run the Command": "اختر الخوادم لتشغيل الأمر",
+	"All selected servers": "جميع الخوادم المحددة",
+	"Check if the User is Online?": "تحقق مما إذا كان المستخدم متصلاً بالإنترنت؟",
+	"Minimal Price to Run": "السعر الأدنى للتشغيل",
+	"Command has been deleted successfully!": "تم حذف الأمر بنجاح!",
+	"Enable Global Commands?": "تمكين الأوامر العالمية؟",
+	"Do you want to use this module, which will execute commands after each purchase that meet the requirements?": "هل ترغب في استخدام هذه الوحدة، التي ستنفذ الأوامر بعد كل عملية شراء تلبي المتطلبات؟",
+	"Created Global Commands": "تم إنشاء الأوامر العالمية",
+	"Add a New Global Command": "إضافة أمر عالمي جديد",
+	"Success!": "نجاح!",
+	"No updated were found!": "لم يتم العثور على أي تحديثات!",
+	"Are you sure you want to upgrade the webstore?": "هل أنت متأكد أنك تريد ترقية المتجر الإلكتروني؟",
+	"It might overwrite your theme files and other files that you modified. However, we will create a backup of your current version in the site path.": "قد يتم استبدال ملفات السمة والملفات الأخرى التي قمت بتعديلها. ومع ذلك، سنقوم بإنشاء نسخة احتياطية من الإصدار الحالي في مسار الموقع.",
+	"Yes, upgrade now!": "نعم، قم بالترقية الآن!",
+	"Do not refresh page!": "لا تقم بتحديث الصفحة!",
+	"Upgrading MineStoreCMS...": "ترقية MineStoreCMS...",
+	"Updated!": "تم التحديث!",
+	"MineStoreCMS updated successfully!": "تم تحديث MineStoreCMS بنجاح!",
+	"Home": "الرئيسية",
+	"Store Visitors": "زوار المتجر",
+	"This Week": "هذا الأسبوع",
+	"Total in Sales": "إجمالي المبيعات",
+	"All Time Sales": "مبيعات جميع الأوقات",
+	"Sales": "المبيعات",
+	"Today Sales": "مبيعات اليوم",
+	"Today": "اليوم",
+	"Warning!": "تحذير!",
+	"You do not have access to the dashboard statistics. Please contact the administrator to get access.": "ليس لديك حق الوصول إلى إحصائيات لوحة التحكم. يرجى الاتصال بالمسؤول للحصول على حق الوصول.",
+	"Welcome back": "مرحبًا بعودتك",
+	"The update was found for MineStoreCMS. Do you want to upgrade to the latest version now?": "تم العثور على تحديث لـ MineStoreCMS. هل تريد الترقية إلى أحدث إصدار الآن؟",
+	"Upgrade MineStore": "ترقية MineStore",
+	"You are using the latest MineStoreCMS web-application version. You can always check for updates.": "أنت تستخدم آخر إصدار من تطبيق الويب MineStoreCMS. يمكنك دائمًا التحقق من التحديثات.",
+	"Check for Updates": "تحقق من التحديثات",
+	"You do not have access to the dashboard update. Please contact the administrator to get access.": "ليس لديك حق الوصول إلى تحديث لوحة التحكم. يرجى الاتصال بالمسؤول للحصول على حق الوصول.",
+	"Total Income": "إجمالي الدخل",
+	"Yearly report overview": "نظرة عامة على التقرير السنوي",
+	"Recent Payments": "المدفوعات الأخيرة",
+	"View more": "عرض المزيد",
+	"Price": "السعر",
+	"View": "عرض",
+	"ERROR": "خطأ",
+	"GEO-IP Address Verification": "التحقق من عنوان IP الجغرافي",
+	"Validate that the user`s IP matches the billing address entered. (Requires address field on the checkout).": "تحقق من تطابق عنوان IP للمستخدم مع عنوان الفاتورة المُدخل. (يتطلب حقل العنوان عند الدفع).",
+	"Banned Countries": "الدول المحظورة",
+	"The countries, which IPs can`t reach the webstore and their IPs will be banned.": "الدول التي لا يمكن الوصول إلى متجرك من خلال IPs الخاصة بها وسيتم حظرها.",
+	"Packages & Categories": "الحزم والفئات",
+	"Quick Search Packages...": "بحث سريع عن الحزم...",
+	"Hide Disabled": "إخفاء المعطلين",
+	"Add New": "إضافة جديد",
+	"Package": "الحزمة",
+	"Loading...": "جارٍ التحميل...",
+	"Select the category (or subcategory) that this package will appear.": "اختر الفئة (أو الفئة الفرعية) التي ستظهر فيها هذه الحزمة.",
+	"Package Type": "نوع الحزمة",
+	"Select the type for package delivery.": "اختر النوع لتسليم الحزمة.",
+	"Minecraft Package": "حزمة ماينكرافت",
+	"Giftcard": "بطاقة الهدايا",
+	"Allowed PNG, JPG, GIF": "يسمح بـ PNG، JPG، GIF",
+	"Browse": "تصفح",
+	"Pricing": "التسعير",
+	"Setup Pricing and Type": "إعداد التسعير والنوع",
+	"Visibility": "الظهور",
+	"Setup Timing & Visibility": "إعداد التوقيت والظهور",
+	"Limits": "القيود",
+	"Setup Limits for the Package": "إعداد القيود على الحزمة",
+	"Others": "أخرى",
+	"Setup Other Settings for the Package": "إعداد الإعدادات الأخرى للحزمة",
+	"Price amount that customer will pay for this package and currency to pay. If you select Virtual Currency, you can NOT give your customers ability to pay with real money.": "مبلغ السعر الذي سيدفعه العميل لهذه الحزمة والعملة للدفع. إذا اخترت عملة افتراضية، فلا يمكنك منح عملائك القدرة على الدفع بالمال الحقيقي.",
+	"Allow customers to pay what they want?": "السماح للعملاء بالدفع كما يريدون؟",
+	"Server to charge Virtual Currency": "الخادم لشحن العملة الافتراضية",
+	"Select the server to charge customers virtual currency by economy plugin.": "اختر الخادم لشحن عملة افتراضية للعملاء بواسطة المكون الإضافي للاقتصاد.",
+	"Amount in percents that will dicrease original price as a sale.": "المبلغ بالنسبة المئوية الذي سيقلل السعر الأصلي كبيع.",
+	"Recurring Payment Type": "نوع الدفعة المتكررة",
+	"Recurring Payment Type: One-Time-Charge or Subscription-Based Recurring Plan.": "نوع الدفعة المتكررة: دفع لمرة واحدة أو خطة متكررة تعتمد على الاشتراك.",
+	"Charge the customer once": "تحصيل الدفعة من العميل مرة واحدة",
+	"Charge the customer every X amount of time (Subscription Mode)": "تحصيل الدفعة من العميل كل فترة زمنية معينة (وضع الاشتراك)",
+	"Remove Package From Customer After": "إزالة الحزمة من العميل بعد",
+	"Configure": "تهيئة",
+	"Disable": "تعطيل",
+	"Charge Period": "فترة الدفع",
+	"Day": "يوم",
+	"Week": "أسبوع",
+	"Month": "شهر",
+	"Year": "سنة",
+	"Minute": "دقيقة",
+	"Hour": "ساعة",
+	"Previous": "السابق",
+	"Next": "التالي",
+	"Set a datetime when package will be published in your webstore.": "حدد التاريخ والوقت الذي سيتم فيه نشر الحزمة في متجرك الإلكتروني.",
+	"Set a datetime when package will be removed from your webstore.": "حدد التاريخ والوقت الذي سيتم فيه إزالة الحزمة من متجرك الإلكتروني.",
+	"Enable this package and make it visible?": "تمكين هذه الحزمة وجعلها مرئية؟",
+	"Quantity Limit per User": "الحد الأقصى للكمية لكل مستخدم",
+	"purchase every": "شراء كل",
+	"No Period": "لا فترة",
+	"Global Quantity Limit": "الحد الأقصى للكمية عالميًا",
+	"Required Packages": "الحزم المطلوبة",
+	"Select required packages that customer need to have to buy this item.": "حدد الحزم المطلوبة التي يحتاجها العميل لشراء هذا العنصر.",
+	"Required to have": "مطلوب للحصول",
+	"Select the type for required packages ownership to purchase this package.": "حدد النوع لملكية الحزم المطلوبة لشراء هذه الحزمة.",
+	"All Packages": "جميع الحزم",
+	"One Package": "حزمة واحدة",
+	"Select Variables": "اختر المتغيرات",
+	"Select the variables that would allow customer option to select specific settings for executable commands.": "حدد المتغيرات التي ستسمح للعميل باختيار إعدادات محددة لأوامر التنفيذ.",
+	"Mark this package as a featured package for category?": "ضع علامة على هذه الحزمة كحزمة مميزة للفئة؟",
+	"Comparison Package Values": "قيم حزم المقارنة",
+	"Setup values for each comparison parameter.": "إعداد القيم لكل معلمة مقارنة.",
+	"Available Values": "القيم المتاحة",
+	"Comparison Parameter (Read Only)": "معلمة المقارنة (قراءة فقط)",
+	"Comparison Value": "قيمة المقارنة",
+	"Package Delivery": "تسليم الحزمة",
+	"Setup in which way customers should receive upon purchasing this package.": "إعداد الطريقة التي يجب أن يتلقى بها العملاء عند شراء هذه الحزمة.",
+	"the Package": "الحزمة",
+	"User nickname": "لقب المستخدم",
+	"Package name": "اسم الحزمة",
+	"Package price": "سعر الحزمة",
+	"Currency": "العملة",
+	"Used coupon": "القسيمة المستخدمة",
+	"Customer": "العميل",
+	"Server name": "اسم الخادم",
+	"Examples for Minecraft Commands": "أمثلة على أوامر ماينكرافت",
+	"Command": "الأمر",
+	"Meaning of the Command": "معنى الأمر",
+	"Example of LuckyPerms command that add the role VIP to<br>the user who bought the package.": "مثال على أمر LuckyPerms الذي يضيف دور VIP إلى<br>المستخدم الذي اشترى الحزمة.",
+	"Announces that user bought the specific package for specific price.": "يعلن أن المستخدم اشترى الحزمة المحددة بسعر محدد.",
+	"Unbans user after the purchasing the package.": "يرفع الحظر عن المستخدم بعد شراء الحزمة.",
+	"Unbans user IP after the purchase.": "يرفع الحظر عن IP المستخدم بعد الشراء.",
+	"category": "الفئة",
+	"Create subcategory": "إنشاء فئة فرعية",
+	"Create package": "إنشاء حزمة",
+	"Delete": "حذف",
+	"Disabled": "معطل",
+	"Clone": "استنساخ",
+	"Selling Gift Card": "بيع بطاقة الهدية",
+	"You can set the amount of money supplied in this gift card.": "يمكنك تحديد المبلغ المالي المخصص في هذه البطاقة.",
+	"Enter an amount to send gift card to the customer after purchase.": "أدخل مبلغًا لإرسال بطاقة الهدية إلى العميل بعد الشراء.",
+	"Same as Package Price": "نفس سعر الحزمة",
+	"Minecraft Server Commands": "أوامر خادم ماينكرافت",
+	"Minecraft Servers": "خوادم ماينكرافت",
+	"Select servers assigned to delivery of this package.": "اختر الخوادم المخصصة لتسليم هذه الحزمة.",
+	"CONFIGURE": "تهيئة",
+	"Minecraft Servers Configurations": "تكوينات خوادم ماينكرافت",
+	"Allow customers to select the server they want to receive purchased package on.": "السماح للعملاء باختيار الخادم الذي يرغبون في تلقي الحزمة المشتراة عليه.",
+	"Close": "إغلاق",
+	"Save changes": "حفظ التغييرات",
+	"Examples": "أمثلة",
+	"Add Command": "إضافة أمر",
+	"Add commands here to execute on your Minecraft: Java Edition game server to reward customers with in-game products.": "أضف الأوامر هنا لتنفيذها على خادم لعبة ماينكرافت: Java Edition لمكافأة العملاء بمنتجات داخل اللعبة.",
+	"When the package is purchased": "عند شراء الحزمة",
+	"When the package is chargebacked": "عند استرداد الحزمة",
+	"When the package is removed": "عند إزالة الحزمة",
+	"When the subscription renews": "عند تجديد الاشتراك",
+	"Check if the player online?": "تحقق مما إذا كان اللاعب متصل؟",
+	"Only execute the command when player is online.": "نفذ الأمر فقط عندما يكون اللاعب متصلاً.",
+	"Execute the command even if the player offline.": "نفذ الأمر حتى إذا كان اللاعب غير متصل.",
+	"Delay Before Executing": "تأخير قبل التنفيذ",
+	"Seconds": "ثواني",
+	"Repeat": "تكرار",
+	"Every": "كل",
+	"for": "لمدة",
+	"cycles": "دورات",
+	"Should this command be executed only once on any of the selected servers?": "هل يجب تنفيذ هذا الأمر مرة واحدة فقط على أي من الخوادم المحددة؟",
+	"User Lookup": "بحث عن المستخدم",
+	"Search for a Customer": "البحث عن عميل",
+	"User was banned!": "تم حظر المستخدم!",
+	"Unable to ban user!": "تعذر حظر المستخدم!",
+	"User was added to whitelist!": "تمت إضافة المستخدم إلى القائمة البيضاء!",
+	"Unable to add user to whitelist!": "غير قادر على إضافة المستخدم إلى القائمة البيضاء!",
+	"Lookup for user": "البحث عن مستخدم",
+	"Purchases": "المشتريات",
+	"Chargeback rate": "معدل استرداد الأموال",
+	"(How is this calculated?)": "(كيف يحسب هذا؟)",
+	"Reason": "السبب",
+	"New Page": "صفحة جديدة",
+	"Page Name": "اسم الصفحة",
+	"The name will be displayed in the title and dashboard.": "سيتم عرض الاسم في العنوان ولوحة التحكم.",
+	"Page URL": "رابط الصفحة",
+	"Set the URL for this page to access it.": "عيّن عنوان URL لهذه الصفحة للوصول إليها.",
+	"Page Content": "محتوى الصفحة",
+	"Content of the page. You can use source mode to edit HTML and CSS code.": "محتوى الصفحة. يمكنك استخدام وضع المصدر لتحرير أكواد HTML وCSS.",
+	"Create Page": "إنشاء صفحة",
+	"Edit Page": "تحرير الصفحة",
+	"Custom Pages": "الصفحات المخصصة",
+	"Pages gives you possibility to make custom static pages for your webstore.": "تتيح لك الصفحات إمكانية إعداد صفحات ثابتة مخصصة لمتجرك الإلكتروني.",
+	"Create your first Page": "أنشئ صفحتك الأولى",
+	"Added Pages": "الصفحات المضافة",
+	"Add Page": "إضافة صفحة",
+	"Profiles Module": "وحدة الملفات الشخصية",
+	"Enable this module?": "تمكين هذه الوحدة؟",
+	"You need to enable \"Profiles\" module to make it available at your Webstore.": "تحتاج إلى تمكين وحدة \"Profiles\" لجعلها متاحة في متجرك الإلكتروني.",
+	"Enable Synchronization between Webstore and Minecraft Plugin?": "تمكين التزامن بين المتجر الإلكتروني والإضافة في ماينكرافت؟",
+	"You could enable it, if you want to display information about user group & prefix.": "يمكنك تمكينها إذا كنت ترغب في عرض معلومات حول مجموعة المستخدم والبادئة.",
+	"Username Display Format": "تنسيق عرض اسم المستخدم",
+	"Example: {prefix} {username}.": "مثال: {prefix} {username}.",
+	"Available variables:": "المتغيرات المتاحة:",
+	"and Minecraft Color Codes": "وأكواد ألوان ماينكرافت",
+	"Group Display Format": "تنسيق عرض المجموعة",
+	"Example:": "مثال:",
+	"Save Settings": "حفظ الإعدادات",
+	"Staff Page Module": "وحدة صفحة الموظفين",
+	"You need to enable \"Staff Page\" module to display it at your Webstore.": "تحتاج إلى تمكين وحدة \"Staff Page\" لعرضها في متجرك الإلكتروني.",
+	"Groups to Display at the Staff Page": "المجموعات لعرضها في صفحة الموظفين",
+	"Groups will be displayed at the Staff Page.": "سيتم عرض المجموعات في صفحة الموظفين.",
+	"Display Prefix Before Username?": "عرض البادئة قبل اسم المستخدم؟",
+	"Groups & Users Sorting Settings": "إعدادات فرز المجموعات والمستخدمين",
+	"Add a New User": "إضافة مستخدم جديد",
+	"Add User to Players Data": "إضافة مستخدم إلى بيانات اللاعبين",
+	"Prefix": "بادئة",
+	"Prefix to display if this option enabled.": "البادئة لعرضها إذا تم تمكين هذا الخيار.",
+	"Group": "مجموعة",
+	"Group to attach user.": "المجموعة لربط المستخدم.",
+	"Add User": "إضافة مستخدم",
+	"Edit Staff User": "تحرير مستخدم الموظفين",
+	"Update User": "تحديث المستخدم",
+	"Make a Manual Payment": "إجراء دفعة يدوية",
+	"Enter the username to initiate a transaction.": "أدخل اسم المستخدم لبدء المعاملة.",
+	"Transaction Price": "سعر المعاملة",
+	"The price for current transaction.": "سعر المعاملة الحالية.",
+	"Email": "البريد الإلكتروني",
+	"Enter the email attached to this transaction.": "أدخل البريد الإلكتروني المرفق بهذه المعاملة.",
+	"Payment Method": "طريقة الدفع",
+	"The note for this transaction that will see you and your staff team.": "الملاحظة للمعاملة التي سترى أنت وفريق عملك.",
+	"Transaction ID": "معرف المعاملة",
+	"Transaction ID attached to this purchase, you can leave it empty.": "معرف المعاملة المرفق بهذا الشراء، يمكنك تركه فارغًا.",
+	"Packages to delivery...": "الحزم للتسليم...",
+	"Execute commands attached to these packages?": "تنفيذ الأوامر المرفقة بهذه الحزم؟",
+	"Send an email order about successfully purchase?": "إرسال طلب بريد إلكتروني بشأن الشراء الناجح؟",
+	"Create a Payment": "إنشاء دفعة",
+	"Payments List": "قائمة المدفوعات",
+	"Add manual payment": "إضافة دفعة يدوية",
+	"Time": "الوقت",
+	"User was Unbanned!": "تم رفع الحظر عن المستخدم!",
+	"Unable to Unban this User!": "تعذر رفع الحظر عن هذا المستخدم!",
+	"User was Banned!": "تم حظر المستخدم!",
+	"Unable to Ban this User!": "تعذر حظر هذا المستخدم!",
+	"All commands were successfully delivered!": "تم تسليم جميع الأوامر بنجاح!",
+	"Commands were successfully resent!": "تم إعادة إرسال الأوامر بنجاح!",
+	"Unable to Delete the Payment!": "تعذر حذف الدفعة!",
+	"Note was Added!": "تمت إضافة الملاحظة!",
+	"Unable to Add the Note!": "تعذر إضافة الملاحظة!",
+	"Payment Details": "تفاصيل الدفع",
+	"WARNING !": "تحذير!",
+	"This payment was chargeback by the user.": "تم استرداد هذا الدفع من قبل المستخدم.",
+	"Click here": "انقر هنا",
+	"to view the case.": "لعرض الحالة.",
+	"Re-Delivery": "إعادة التسليم",
+	"Transaction ID:": "معرف المعاملة:",
+	"Completed": "مكتمل",
+	"Error": "خطأ",
+	"Pending": "قيد الانتظار",
+	"Amount:": "المبلغ:",
+	"Taxes:": "الضرائب:",
+	"Date:": "التاريخ:",
+	"IP Address:": "عنوان IP:",
+	"Email:": "البريد الإلكتروني:",
+	"Full Name:": "الاسم الكامل:",
+	"Billing Address:": "عنوان الفاتورة:",
+	"Commands": "الأوامر",
+	"Resend All Commands": "إعادة إرسال جميع الأوامر",
+	"Server": "الخادم",
+	"Updated": "محدث",
+	"Package not found": "لم يتم العثور على الحزمة",
+	"Global command": "الأمر العالمي",
+	"Referral command": "أمر الإحالة",
+	"Virtual currency": "العملة الافتراضية",
+	"Executed": "تم التنفيذ",
+	"In queue": "في قائمة الانتظار",
+	"UNKNOWN": "غير معروف",
+	"Resend": "إعادة الإرسال",
+	"Referrals": "الإحالات",
+	"Referral Username": "اسم المستخدم للإحالة",
+	"Share Percent": "النسبة المئوية للحصة",
+	"Share Amount": "مبلغ الحصة",
+	"Referrers were not found for this transaction.": "لم يتم العثور على المحيلين لهذه المعاملة.",
+	"Applied Coupons": "القسائم المطبقة",
+	"Final Price": "السعر النهائي",
+	"No coupons were used for this transaction.": "لم يتم استخدام أي قسائم لهذه المعاملة.",
+	"Used Giftcards": "بطاقات الهدايا المستخدمة",
+	"Giftcard Code": "رمز بطاقة الهدية",
+	"No gift cards were used for this transaction.": "لم يتم استخدام أي بطاقات هدية لهذه المعاملة.",
+	"Notes": "الملاحظات",
+	"Create Note": "إنشاء ملاحظة",
+	"Add a Note": "إضافة ملاحظة",
+	"Add a note for this transaction.": "أضف ملاحظة لهذه المعاملة.",
+	"Enter the note content for this transaction": "أدخل محتوى الملاحظة لهذه المعاملة",
+	"Submit": "إرسال",
+	"Cancel": "إلغاء",
+	"Incorrect code, try again": "رمز غير صحيح، جرب مرة أخرى",
+	"Something went wrong!": "حدث خطأ ما!",
+	"Profile Settings": "إعدادات الملف الشخصي",
+	"Well done": "عمل جيد",
+	"Be Aware": "كن على علم",
+	"Change Password": "تغيير كلمة المرور",
+	"Current Password": "كلمة المرور الحالية",
+	"New Password": "كلمة المرور الجديدة",
+	"Confirm New Password": "تأكيد كلمة المرور الجديدة",
+	"Password Requirements:": "متطلبات كلمة المرور:",
+	"Minimum 8 characters long - the more, the better": "بطول لا يقل عن 8 حروف - كلما كان أطول كان أفضل",
+	"At least one lowercase character": "حرف صغير واحد على الأقل",
+	"At least one number, symbol, or whitespace character": "رقم واحد على الأقل، رمز، أو فاصل بيضاوي",
+	"Two-steps verification": "التحقق على مرحلتين",
+	"Two-factor authentication is not enabled yet.": "لم يتم تفعيل التحقق الثنائي بعد.",
+	"Two-factor authentication adds a layer of security to your account by requiring more than just a password to log in.": "إضافة التحقق الثنائي توفر طبقة إضافية من الأمان لحسابك عن طريق طلب أكثر من مجرد كلمة مرور للدخول.",
+	"Enable Two-Factor Authentication": "تمكين التحقق الثنائي",
+	"Add Authenticator App": "إضافة تطبيق الموثق",
+	"Authenticator Apps": "تطبيقات الموثق",
+	"Using an authenticator app like Google Authenticator, Microsoft Authenticator, Authy, or 1Password, scan the QR code. It will generate a 6-digit code for you to enter below.": "باستخدام تطبيق موثوق مثل Google Authenticator أو Microsoft Authenticator أو Authy أو 1Password، امسح رمز QR. سيولد لك رمزًا مكونًا من 6 أرقام لإدخاله في الأسفل.",
+	"Enter Authentication Code": "أدخل رمز التحقق",
+	"Continue": "استمر",
+	"Two-factor authentication is enabled.": "تم تمكين التحقق الثنائي.",
+	"Two-factor authentication adds an additional layer of security to your account by requiring more than just a password to log in.": "إضافة التحقق الثنائي توفر طبقة إضافية من الأمان لحسابك عن طريق طلب أكثر من مجرد كلمة مرور للدخول.",
+	"Disable Two-Factor Authentication": "تعطيل التحقق الثنائي",
+	"New Promoted Package": "حزمة ترويجية جديدة",
+	"Select the Package": "اختر الحزمة",
+	"Offer Price": "سعر العرض",
+	"Provide a discounted price to make customer buy this package as well": "تقديم سعر مخفض لجعل العميل يشتري هذه الحزمة أيضًا",
+	"Send this offer to the customer email after purchase?": "إرسال هذا العرض إلى بريد العميل الإلكتروني بعد الشراء؟",
+	"(Ultimate Feature)": "(ميزة نهائية)",
+	"Create Promoted Package": "إنشاء حزمة مروجة",
+	"Upselling Packages": "حزم البيع المتقاطع",
+	"Upsell Top Packages": "ترقية الحزم العلوية",
+	"Display the most popular products to customers during the checkout process.": "عرض أكثر المنتجات شعبية للعملاء أثناء عملية الدفع.",
+	"Send Upselling Packages Offers by Email": "إرسال عروض الحزم الترويجية عبر البريد الإلكتروني",
+	"Ultimate Feature": "ميزة نهائية",
+	"Recommended packages are displayed during the checkout flow, giving customers the option to add them to their basket.": "الحزم الموصى بها تُعرض أثناء عملية الدفع، مما يمنح العملاء الخيار لإضافتها إلى سلتهم.",
+	"Add Promoted Package": "إضافة حزمة مروجة",
+	"Create a Promoted Package": "إنشاء حزمة مروجة",
+	"Select": "اختر",
+	"Enter a command": "أدخل أمراً",
+	"Enable Player Referrals?": "تمكين إحالات اللاعبين؟",
+	"Your customers will be asked if they have a referral (creator) code during checkout process.": "سيتم سؤال عملائك عما إذا كان لديهم رمز إحالة (منشئ) أثناء عملية الدفع.",
+	"Referrers list": "قائمة المحيلين",
+	"Add referrer": "إضافة المحيل",
+	"Referrer": "المحيل",
+	"Code": "الرمز",
+	"Percent": "النسبة المئوية",
+	"Total sum": "الإجمالي",
+	"Invite users": "دعوة المستخدمين",
+	"Creator Code": "رمز المنشئ",
+	"Creator Name": "اسم المنشئ",
+	"The information about referrer (inviter) user to display in the dashboard.": "المعلومات حول المستخدم المُحيل (الداعي) تظهر في لوحة القيادة.",
+	"This code will be used by client to activate it in the checkout.": "سيستخدم العميل هذا الرمز لتفعيله أثناء الخروج.",
+	"Sharing part": "حصة المشاركة",
+	"This is shared percentage amount that will automatically calculate the profit for the creator.": "هذه نسبة مئوية مشتركة ستقوم بحساب الربح تلقائيًا للمنشئ.",
+	"Enable command execution after success transaction made by using this creator code?": "تمكين تنفيذ الأوامر بعد نجاح المعاملة باستخدام رمز المنشئ هذا؟",
+	"the Referral Code": "رمز الإحالة",
+	"Inviter nickname": "لقب الداعي",
+	"Inviter": "الداعي",
+	"Inviter IP address": "عنوان IP للداعي",
+	"Referral username": "اسم المستخدم للإحالة",
+	"Referral": "الإحالة",
+	"Never repeat this command.": "لا تكرر هذا الأمر أبدًا.",
+	"Create a Sale": "إنشاء عرض خاص",
+	"Apply sale to": "تطبيق العرض على",
+	"Select the option that you want to apply your sale for.": "اختر الخيار الذي تريد تطبيق العرض عليه.",
+	"Set the minimal basket price to apply this sale for a basket.": "حدد الحد الأدنى لسعر السلة لتطبيق هذا العرض على السلة.",
+	"Starts the Sale at": "يبدأ العرض في",
+	"Set a datetime when coupon will be started in your webstore.": "حدد التاريخ والوقت الذي ستبدأ فيه القسيمة في متجرك الإلكتروني.",
+	"Expires the Sale after": "ينتهي العرض بعد",
+	"Set a datetime when sale will be expired in your webstore.": "حدد التاريخ والوقت الذي سينتهي فيه العرض في متجرك.",
+	"Make an announcement of the sale?": "إعلان عن العرض؟",
+	"Custom Commands for Sale Packages": "أوامر مخصصة لحزم البيع",
+	"Add a Custom Command": "إضافة أمر مخصص",
+	"Customer IP": "عنوان IP العميل",
+	"Edit Sale": "تحرير العرض",
+	"Update a Sale": "تحديث عرض",
+	"Here you can create a Global Sale for your Webstore.": "هنا يمكنك إنشاء عرض عالمي لمتجرك الإلكتروني.",
+	"Add a First Sale": "إضافة عرض أول",
+	"Enable Email Customers Notifications about Sales?": "تمكين إشعارات البريد الإلكتروني للعملاء حول المبيعات؟",
+	"Your customers will receive notification on the email when sale started with sale announcement and promoted packages.": "سيحصل عملاؤك على إشعار عبر البريد الإلكتروني عند بدء العرض مع إعلان عن العرض والحزم المروجة.",
+	"Starts": "يبدأ",
+	"Expires": "ينتهي",
+	"ACTIVE": "نشيط",
+	"NOT STARTED": "لم يبدأ",
+	"EXPIRED": "منتهي الصلاحية",
+	"Enter the command to execute. Use {} to use variables.": "أدخل الأمر للتنفيذ. استخدم {} لاستخدام المتغيرات.",
+	"Security logs": "سجلات الأمان",
+	"Authorization Settings": "إعدادات التفويض",
+	"Authorization Game": "لعبة التفويض",
+	"Select the authorization game for your webstore.": "اختر لعبة التفويض لمتجرك الإلكتروني.",
+	"Minecraft": "ماينكرافت",
+	"Authorization Type": "نوع التفويض",
+	"Select the authorization type for your store.": "اختر نوع التفويض لمتجرك.",
+	"In-Game Verification (Plugin Required)": "التحقق داخل اللعبة (المكون الإضافي مطلوب)",
+	"Currency management": "إدارة العملة",
+	"Default Currency": "العملة الافتراضية",
+	"The currency your customers will be charged in.": "العملة التي سيتم فرض رسوم على عملائك بها.",
+	"Allowed Currency List": "قائمة العملات المسموح بها",
+	"Customers can select currency to display package price.": "يمكن للعملاء اختيار العملة لعرض سعر الحزمة.",
+	"Enable Virtual Currency?": "تمكين العملة الافتراضية؟",
+	"You need to configure MySQL connection between your Minecraft server plugin and store. Use the same database as you use for a webstore.": "تحتاج إلى تكوين اتصال MySQL بين المكون الإضافي لخادم Minecraft ومتجرك. استخدم نفس قاعدة البيانات التي تستخدمها للمتجر الإلكتروني.",
+	"This option enables Virtual Currency feature and synchronize it with your Minecraft server.": "يتيح هذا الخيار ميزة العملة الافتراضية ويزامنها مع خادم Minecraft الخاص بك.",
+	"Virtual Currency Code": "رمز العملة الافتراضية",
+	"Set which code you want to use for your Virtual Currency.": "حدد الرمز الذي تريد استخدامه لعملتك الافتراضية.",
+	"Command to charge Economy on the Minecraft Server": "الأمر لشحن الاقتصاد على خادم Minecraft",
+	"Available variables to use:": "المتغيرات المتاحة للاستخدام:",
+	"the username need to be charged;": "اسم المستخدم الذي يجب فرض رسوم عليه؛",
+	"amount that will be charged.": "المبلغ الذي سيتم تحصيله.",
+	"Connect your Discord Server": "ربط خادم Discord الخاص بك",
+	"Webhook URL": "رابط Webhook",
+	"You can find by following: Discord Server Settings -> Integrations -> Create Webhook.": "يمكنك العثور على الرابط من خلال: إعدادات خادم Discord -> التكاملات -> إنشاء Webhook.",
+	"Enter your Discord Webhook URL...": "أدخل رابط Webhook الخاص بك على Discord...",
+	"Server ID": "معرف الخادم",
+	"You can find by following: Discord Server Settings -> Widget -> Server ID.": "يمكنك العثور عليه من خلال: إعدادات خادم Discord -> ويدجت -> معرف الخادم.",
+	"Enter your Discord Server ID...": "أدخل معرف خادم Discord الخاص بك...",
+	"Discord Invite Link": "رابط دعوة Discord",
+	"You can fill it with any URL that will redirect user to your Discord server.": "يمكنك ملؤه بأي رابط URL سيعيد توجيه المستخدم إلى خادم Discord الخاص بك.",
+	"Enter your Discord Invite URL...": "أدخل رابط دعوة Discord الخاص بك...",
+	"Success": "نجاح",
+	"SMTP server works properly!": "خادم SMTP يعمل بشكل صحيح!",
+	"Failed to connect the SMTP server!": "فشل الاتصال بخادم SMTP!",
+	"Email Settings": "إعدادات البريد الإلكتروني",
+	"Enable Email Customers Notifications?": "تمكين إشعارات البريد الإلكتروني للعملاء؟",
+	"You need to setup SMTP settings to use this feature.": "تحتاج إلى إعداد إعدادات SMTP لاستخدام هذه الميزة.",
+	"Your customers will receive notifications about purchases.": "سيحصل عملاؤك على إشعارات حول المشتريات.",
+	"New Feature": "ميزة جديدة",
+	"SMTP/IMAP Settings": "إعدادات SMTP/IMAP",
+	"Test an SMTP Settings": "اختبار إعدادات SMTP",
+	"SMTP Hostname": "اسم مضيف SMTP",
+	"SMTP Port": "منفذ SMTP",
+	"SMTP User": "مستخدم SMTP",
+	"From Address": "من العنوان",
+	"SMTP Password": "كلمة مرور SMTP",
+	"Featured Items": "العناصر المميزة",
+	"You need to enable \"Featured Packages\" module to use it.": "تحتاج إلى تمكين وحدة \"الحزم المميزة\" لاستخدامها.",
+	"Featured Packages": "الحزم المميزة",
+	"These packages will be displayed on the homepage depends on your theme.": "ستعرض هذه الحزم على الصفحة الرئيسية بناءً على الثيم الخاص بك.",
+	"Homepage Content": "محتوى الصفحة الرئيسية",
+	"Content Text Block #1": "كتلة النص للمحتوى #1",
+	"Content Text Block #2": "كتلة النص للمحتوى #2",
+	"Upload Sale Banner": "تحميل لافتة البيع",
+	"Reset": "إعادة تعيين",
+	"Recommended PNG": "موصى به PNG",
+	"Appearance": "المظهر",
+	"Webstore Name": "اسم المتجر الإلكتروني",
+	"Webstore Meta Description": "وصف ميتا للمتجر الإلكتروني",
+	"This description will be used for CEO and Meta Settings.": "سيتم استخدام هذا الوصف لإعدادات الرئيس التنفيذي والميتا.",
+	"Update": "تحديث",
+	"Minecraft Server IP": "عنوان IP لخادم Minecraft",
+	"Minecraft Server IP to Display at the Header.": "عنوان IP لخادم Minecraft لعرضه في الرأس.",
+	"Minecraft Server Port": "منفذ خادم Minecraft",
+	"Minecraft Server Port to add at the Clipboard.": "منفذ خادم Minecraft لإضافته إلى الحافظة.",
+	"Upload Logo": "تحميل الشعار",
+	"Allowed PNG": "يسمح بـ PNG",
+	"Upload Favicon": "تحميل الأيقونة المفضلة",
+	"Recommended PNG (128x128px)": "موصى به PNG (128x128 بكسل)",
+	"Upload Banner": "تحميل اللافتة",
+	"Recommended PNG, JPG, GIF": "موصى به PNG ، JPG ، GIF",
+	"Theme": "السمة",
+	"Edit Theme": "تحرير السمة",
+	"Maintenance Mode": "وضع الصيانة",
+	"Prevent your store from being accessible by the public.": "منع الوصول إلى متجرك من قِبل العامة.",
+	"Enable Maintenance Mode and make your webstore inaccessible for public view?": "تمكين وضع الصيانة وجعل متجرك الإلكتروني غير متاح لجميع الأطراف؟",
+	"Allowed IP Addresses": "عناوين IP المسموح بها",
+	"Your webstore will be accessible only with these IP Addresses.": "سيكون متجرك الإلكتروني متاحًا فقط بهذه العناوين IP.",
+	"Link has been deleted successfully.": "تم حذف الرابط بنجاح.",
+	"Link settings": "إعدادات الرابط",
+	"Add link": "إضافة رابط",
+	"a link": "رابط",
+	"Invalid data, check your inputs": "بيانات غير صالحة، تحقق من المدخلات الخاصة بك",
+	"Unable to save changes!": "تعذر حفظ التغييرات!",
+	"Payment Methods": "طرق الدفع",
+	"Newest PayPal Method. We recommend to use this method for PayPal payments.": "أحدث طريقة PayPal. نوصي باستخدام هذه الطريقة للمدفوعات عبر PayPal.",
+	"Subscriptions Support": "دعم الاشتراكات",
+	"PayPal Email": "البريد الإلكتروني لـ PayPal",
+	"Enter the PayPal email that you want to use to accept payments.": "أدخل البريد الإلكتروني لـ PayPal الذي تريد استخدامه لقبول الدفعات.",
+	"Currency Code": "رمز العملة",
+	"Select the currency code to accept money on your PayPal account.": "حدد رمز العملة لقبول المال في حساب PayPal الخاص بك.",
+	"Payment Method Mode": "وضع طريقة الدفع",
+	"If you use SANDBOX mode, you need to use SANDBOX credentials.": "إذا استخدمت وضع SANDBOX ، فستحتاج إلى استخدام بيانات تعريف SANDBOX.",
+	"Production": "إنتاج",
+	"Sandbox": "صندوق الرمل",
+	"Outdated PayPal Method. We recommend to use PayPal IPN Method over this.": "طريقة PayPal قديمة. نوصي باستخدام طريقة PayPal IPN بدلاً من ذلك.",
+	"User API Login": "تسجيل دخول API المستخدم",
+	"You can find it when you generate credentials in your PayPal Developer Settings.": "يمكنك العثور عليه عند إنشاء بيانات الاعتماد في إعدادات مطور PayPal الخاصة بك.",
+	"User API Password": "كلمة مرور API للمستخدم",
+	"User API Signature": "توقيع API للمستخدم",
+	"56-characters signature that you can find in your PayPal Developer Settings.": "توقيع 56 حرفًا يمكنك العثور عليه في إعدادات مطور PayPal الخاصة بك.",
+	"The ultimate crypto payment gateway: instant, secure, and businesses-free to accept crypto currency effortlessly. ": "بوابة الدفع بالعملات المشفرة النهائية: فورية وآمنة وخالية من الشركات لقبول العملة المشفرة بسهولة.",
+	"Official Partner": "الشريك الرسمي",
+	"Notification/Webhook URL:": "رابط الإشعار / Webhook:",
+	"Enter the Server ID you can find in the \"Webstore Settings\".": "أدخل معرف الخادم الذي يمكنك العثور عليه في \"إعدادات المتجر الإلكتروني\".",
+	"Public Key": "المفتاح العام",
+	"Enter the Public Key you can find in the \"Webstore Settings\".": "أدخل المفتاح العام الذي يمكنك العثور عليه في \"إعدادات المتجر الإلكتروني\".",
+	"Secret Key": "المفتاح السري",
+	"Coinbase is a secure online platform for buying & selling cryptocurrency.": "Coinbase هي منصة آمنة عبر الإنترنت لشراء وبيع العملات المشفرة.",
+	"API Key": "مفتاح API",
+	"Enter the API key that you can find in Coinbase account settings.": "أدخل مفتاح API الذي يمكنك العثور عليه في إعدادات حساب Coinbase.",
+	"Webhook Secret": "سر Webhook",
+	"Select the currency code to accept money on your Coinbase account.": "حدد رمز العملة لقبول المال في حساب Coinbase الخاص بك.",
+	"Industry-leading cryptocurrency payment gateway and wallet with online merchant services.": "بوابة الدفع والمحفظة الرائدة في الصناعة للعملات المشفرة مع خدمات التاجر عبر الإنترنت.",
+	"Merchant ID": "معرف التاجر",
+	"Enter the Merchant ID, you can find in the Merchant Settings.": "أدخل معرف التاجر، يمكنك العثور عليه في إعدادات التاجر.",
+	"Merchant Secret (Signature)": "سر التاجر (التوقيع)",
+	"Enter the secret signature, you need to generate in the Merchant Settings.": "أدخل التوقيع السري، تحتاج إلى توليد في إعدادات التاجر.",
+	"Currency in ISO 4217 alphabetic code of the transaction.": "العملة في كود الحروف الأبجدية ISO 4217 للمعاملة.",
+	"Over 200+ unique local payment methods by Terminal3 (ex-Paymentwall).": "أكثر من 200 طريقة دفع محلية فريدة من قبل Terminal3 (السابق Paymentwall).",
+	"Pingback URL:": "رابط Pingback:",
+	"Project Key": "مفتاح المشروع",
+	"Enter the project key that you can find in the Developer Settings.": "أدخل مفتاح المشروع الذي يمكنك العثور عليه في إعدادات المطور.",
+	"Enter the terminal UUID that you can find in API & Documentation section. Example:": "أدخل UUID الطرفية الذي يمكنك العثور عليه في قسم API & Documentation. مثال:",
+	"Powerful payment method to pay by all type of local and global cards.": "طريقة دفع قوية للدفع بجميع أنواع البطاقات المحلية والعالمية.",
+	"Webhook URL:": "رابط Webhook:",
+	"Enter the public key that you can find in the Developer Settings.": "أدخل المفتاح العام الذي يمكنك العثور عليه في إعدادات المطور.",
+	"Private Key": "المفتاح الخاص",
+	"Enter the private key that you can find in API & Documentation section. Example:": "أدخل المفتاح الخاص الذي يمكنك العثور عليه في قسم API & Documentation. مثال:",
+	"Enter the webhook that you can find in API & Documentation section. Example:": "أدخل رابط webhook الذي يمكنك العثور عليه في قسم API & Documentation. مثال:",
+	"Available Payment Methods": "طرق الدفع المتاحة",
+	"Select payment methods that you allow your customers to pay with. You need to configure it in your Stripe Dashboard before activate here.": "حدد طرق الدفع التي تسمح لعملائك بالدفع بها. تحتاج إلى تكوينها في لوحة تحكم Stripe الخاصة بك قبل التفعيل هنا.",
+	"All leading payment methods. One of the best localised experience.": "جميع طرق الدفع الرائدة. واحدة من أفضل التجارب المحلية.",
+	"Notification URL:": "رابط الإشعار:",
+	"Enter the production or test API key that you can find in the Developer Settings.": "أدخل مفتاح API للإنتاج أو الاختبار الذي يمكنك العثور عليه في إعدادات المطور.",
+	"Callback URL:": "رابط الاستدعاء:",
+	"Enter the Merchant ID, you can find in the PayTM Settings page.": "أدخل معرف التاجر، يمكنك العثور عليه في صفحة إعدادات PayTM.",
+	"Merchant Key": "مفتاح التاجر",
+	"Enter the Merchant Key, you can find in the PayTM Settings page.": "أدخل مفتاح التاجر، يمكنك العثور عليه في صفحة إعدادات PayTM.",
+	"Another payment method for Indian clients.": "طريقة دفع أخرى للعملاء الهنود.",
+	"Application ID": "معرف التطبيق",
+	"Enter the Application ID, you can find in the Cashfree Merchant Settings page.": "أدخل معرف التطبيق، يمكنك العثور عليه في صفحة إعدادات التاجر Cashfree.",
+	"Application Secret Key": "مفتاح السرية للتطبيق",
+	"Enter the Application Secret Key, you can find in the Cashfree Merchant Settings page.": "أدخل مفتاح السرية للتطبيق، يمكنك العثور عليه في صفحة إعدادات التاجر Cashfree.",
+	"The most popular payment method for South and Latin American clients.": "أشهر طريقة دفع لعملاء أمريكا الجنوبية واللاتينية.",
+	"Access Token": "رمز الوصول",
+	"Enter the Application Access Token, you can find in the MercadoPago Developer Settings page.": "أدخل رمز الوصول إلى التطبيق، يمكنك العثور عليه في صفحة إعدادات المطور MercadoPago.",
+	"Select your MercadoPago Merchant Currency.": "اختر عملة التاجر الخاصة بك في MercadoPago.",
+	"The most popular payment method for Czech, Polish, Slovak, Hungarian clients.": "أشهر طريقة دفع للعملاء التشيك، البولنديين، السلوفاك والمجريين.",
+	"Webhook/Notification URL:": "رابط Webhook / الإشعار:",
+	"Enter the Client Secret, you can find in the GoPay Settings page.": "أدخل سر العميل، يمكنك العثور عليه في صفحة إعدادات GoPay.",
+	"Client ID": "معرف العميل",
+	"Enter the Client ID, you can find in the GoPay Settings page.": "أدخل معرف العميل، يمكنك العثور عليه في صفحة إعدادات GoPay.",
+	"Client Secret": "سر العميل",
+	"Another popular payment method for Indian customers.": "طريقة دفع شهيرة أخرى للعملاء الهنود.",
+	"Enter the API Key, you can find in the RazorPay Developer Settings page.": "أدخل مفتاح API، يمكنك العثور عليه في صفحة إعدادات المطور RazorPay.",
+	"API Secret": "سر API",
+	"Enter the API Secret, you can find in the RazorPay Developer Settings page.": "أدخل سر API، يمكنك العثور عليه في صفحة إعدادات المطور RazorPay.",
+	"Popular payment method for ex-Soviet Union countries.": "طريقة دفع شهيرة لدول الاتحاد السوفيتي السابق.",
+	"Shop ID": "معرف المتجر",
+	"Enter the Shop ID, you can find in the Merchant Settings page.": "أدخل معرف المتجر، يمكنك العثور عليه في صفحة إعدادات التاجر.",
+	"API Secret Key": "مفتاح السرية للـ API",
+	"Enter the Secret Key, you can find in the Merchant Settings page.": "أدخل مفتاح السرية، يمكنك العثور عليه في صفحة إعدادات التاجر.",
+	"Enter the Merchant ID, you can find in the Merchant Settings page.": "أدخل معرف التاجر، يمكنك العثور عليه في صفحة إعدادات التاجر.",
+	"API Public Key": "مفتاح API العمومي",
+	"Enter the API Public Key, you can find in the Merchant Settings page.": "أدخل مفتاح API العمومي، يمكنك العثور عليه في صفحة إعدادات التاجر.",
+	"Popular European payment method for V4 countries and rest of Eastern Europe.": "طريقة دفع أوروبية شهيرة لدول V4 وبقية دول شرق أوروبا.",
+	"Enter the POS ID, you can find in the Merchant Settings page.": "أدخل معرف POS، يمكنك العثور عليه في صفحة إعدادات التاجر.",
+	"Enter the POS Secret Key, you can find in the Merchant Settings page.": "أدخل مفتاح السرية للـ POS، يمكنك العثور عليه في صفحة إعدادات التاجر.",
+	"Enter the OAuth Client ID, you can find in the Merchant Settings page.": "أدخل معرف العميل OAuth، يمكنك العثور عليه في صفحة إعدادات التاجر.",
+	"Enter the OAuth Client Secret, you can find in the Merchant Settings page.": "أدخل سر العميل OAuth، يمكنك العثور عليه في صفحة إعدادات التاجر.",
+	"Select your PayU Merchant Currency.": "اختر عملة التاجر الخاصة بك في PayU.",
+	"Popular Indian payment method for India and rest of Asian countries.": "طريقة دفع هندية شهيرة للهند وبقية دول آسيا.",
+	"Enter the Key, you can find in the Merchant Settings page.": "أدخل المفتاح، يمكنك العثور عليه في صفحة إعدادات التاجر.",
+	"Enter the POS Salt, you can find in the Merchant Settings page.": "أدخل الملح للـ POS، يمكنك العثور عليه في صفحة إعدادات التاجر.",
+	"Popular payment method in Poland.": "طريقة دفع شهيرة في بولندا.",
+	"Enter the Secret Hash, you can find in the Merchant Settings page.": "أدخل الهاش السري، يمكنك العثور عليه في صفحة إعدادات التاجر.",
+	"Popular payment method in ex-Soviet Union countries.": "طريقة دفع شهيرة في دول الاتحاد السوفيتي السابق.",
+	"Enter the Cashbox ID, you can find in the Merchant Settings page.": "أدخل معرف صندوق النقد، يمكنك العثور عليه في صفحة إعدادات التاجر.",
+	"Popular payment method that supports Paysafecard and many others payment methods.": "طريقة دفع شهيرة تدعم Paysafecard والعديد من طرق الدفع الأخرى.",
+	"Pay To Email": "الدفع إلى البريد الإلكتروني",
+	"Enter the email where all payments will come through.": "أدخل البريد الإلكتروني الذي ستأتي جميع المدفوعات من خلاله.",
+	"Secret Key (Signature)": "المفتاح السري (التوقيع)",
+	"Enter the secret signature (key), you can find in the Merchant Settings page.": "أدخل التوقيع السري (المفتاح)، يمكنك العثور عليه في صفحة إعدادات التاجر.",
+	"Fondy is a leading one-stop payment solution for marketplaces and platforms enables the means to move money without friction.": "Fondy هو حل دفع شامل للأسواق والمنصات يوفر وسائل نقل الأموال بسلاسة.",
+	"Enter the Merchant ID from the Fondy Merchant Settings.": "أدخل معرف التاجر من إعدادات التاجر Fondy.",
+	"Enter currency code for your Merchant Account.": "أدخل رمز العملة لحساب التاجر الخاص بك.",
+	"Password Key (Signature)": "مفتاح السرية (التوقيع)",
+	"Midtrans is a leading Indonesian payment gateway, widely recognized for its reliability and convenience.": "Midtrans هو بوابة دفع إندونيسية رائدة، معترف بها على نطاق واسع بموثوقيتها وراحتها.",
+	"Server Key": "مفتاح الخادم",
+	"Enter the secret key, you can find in the Merchant Settings page.": "أدخل المفتاح السري، يمكنك العثور عليه في صفحة إعدادات التاجر.",
+	"Enter the Merchant Key, you can find in the Merchant Settings page.": "أدخل مفتاح التاجر، يمكنك العثور عليه في صفحة إعدادات التاجر.",
+	"Merchant Salt": "ملح التاجر",
+	"Enter the merchant salt, you can find in the Merchant Settings page.": "أدخل ملح التاجر، يمكنك العثور عليه في صفحة إعدادات التاجر.",
+	"SePay Bank Name": "اسم بنك SePay",
+	"Enter the Bank Name used for SePay Account.": "أدخل اسم البنك المستخدم لحساب SePay.",
+	"Bank Account": "حساب مصرفي",
+	"Enter the Bank Account Number used for SePay Account.": "أدخل رقم الحساب المصرفي المستخدم لحساب SePay.",
+	"Bank Account Owner": "مالك الحساب المصرفي",
+	"Enter the Bank Account Owner.": "أدخل مالك الحساب المصرفي.",
+	"Pay Code Prefix": "بادئة رمز الدفع",
+	"Custom prefix configured by you to scan order IDs. Example: MC": "بادئة مخصصة تم تكوينها من قبلك لمسح معرفات الطلبات. مثال: MC",
+	"Configure webhook and receive webhook API key secret and enter it in the field below.": "إعداد webhook وتلقي سر مفتاح API webhook وأدخله في الحقل أدناه.",
+	"Do you confirm this action?": "هل تؤكد هذا الإجراء؟",
+	"Yes, I confirm!": "نعم، أؤكد!",
+	"Action is completed!": "تم الإجراء!",
+	"Action was failed!": "فشل الإجراء!",
+	"Resetting Tool": "أداة إعادة التعيين",
+	"Remove All Payments from the Webstore?": "إزالة جميع المدفوعات من المتجر الإلكتروني؟",
+	"This option allows you to remove all records related to payments from MineStoreCMS database.": "يتيح لك هذا الخيار إزالة جميع السجلات المتعلقة بالمدفوعات من قاعدة بيانات MineStoreCMS.",
+	"All your webstore payments, checkout baskets records will be permanently removed.": "ستتم إزالة جميع مدفوعات متجرك وسجلات عربات الدفع بشكل دائم.",
+	"Remove Payments": "إزالة المدفوعات",
+	"Remove All Users from the Webstore Ban list?": "إزالة جميع المستخدمين من قائمة الحظر في المتجر الإلكتروني؟",
+	"This option allows you to remove all records related to ban list from MineStoreCMS database.": "يتيح لك هذا الخيار إزالة جميع السجلات المتعلقة بقائمة الحظر من قاعدة بيانات MineStoreCMS.",
+	"All records related to users ban list of your webstore will be removed.": "ستتم إزالة جميع السجلات المتعلقة بقائمة حظر المستخدمين من متجرك الإلكتروني.",
+	"Clean Up Ban list": "تنظيف قائمة الحظر",
+	"Remove All Data About Players?": "إزالة جميع البيانات حول اللاعبين؟",
+	"This option allows you to clean up player data received by plugin (prefixes, virtual currencies, groups and etc).": "يتيح لك هذا الخيار تنظيف بيانات اللاعبين المستلمة بواسطة المكون الإضافي (البادئات، العملات الافتراضية، المجموعات، إلخ).",
+	"All records received by Minecraft plugin synchronization will be removed.": "ستتم إزالة جميع السجلات المستلمة من تزامن مكون Minecraft الإضافي.",
+	"Remove Players Data": "إزالة بيانات اللاعبين",
+	"Make a Full Wipe of the Webstore?": "إجراء مسح كامل للمتجر الإلكتروني؟",
+	"This option allows you to fully clean up all your MineStoreCMS database.": "يتيح لك هذا الخيار تنظيف قاعدة بيانات MineStoreCMS بالكامل.",
+	"This option will remove all users, payments, carts, subscriptions, chargebacks.": "سيؤدي هذا الخيار إلى إزالة جميع المستخدمين والمدفوعات والسلات والاشتراكات واسترداد الأموال.",
+	"Wipe Webstore": "مسح المتجر الإلكتروني",
+	"Connect a New Minecraft Server": "توصيل خادم Minecraft جديد",
+	"Delivery Method": "طريقة التسليم",
+	"Choose Delivery Method.": "اختر طريقة التسليم.",
+	"Server Details": "تفاصيل الخادم",
+	"Configure Server Details.": "تكوين تفاصيل الخادم.",
+	"Instruction": "تعليمات",
+	"Almost done. Few steps left.": "تقريبًا انتهى. بضع خطوات متبقية.",
+	"Plugin": "المكون الإضافي",
+	"Recommended": "موصى به",
+	"Execute commands by using Official Minecraft plugin for MineStoreCMS.": "تنفيذ الأوامر باستخدام المكون الإضافي الرسمي لماينكرافت لـ MineStoreCMS.",
+	"Outdated": "قديم",
+	"Execute commands on your server by using RCON.": "تنفيذ الأوامر على الخادم الخاص بك باستخدام RCON.",
+	"Server Name": "اسم الخادم",
+	"Server Secret Token": "الرمز السري للخادم",
+	"RCON Host IP": "عنوان IP لمضيف RCON",
+	"Port for RCON": "المنفذ لـ RCON",
+	"RCON Password": "كلمة مرور RCON",
+	"Almost done!": "تقريبًا انتهى!",
+	"Few things left. We tried to make the setup process as easy as possible. So this commands will fill your plugin config but if you want to change something manually, edit your config.": "بضع أشياء متبقية. حاولنا جعل عملية الإعداد سهلة قدر الإمكان. لذا ستملأ هذه الأوامر تهيئتك الخاصة بالمكون الإضافي ولكن إذا كنت تريد تغيير شيء يدويًا، فحرر التهيئة الخاصة بك.",
+	"1. Download the MineStoreCMS Official Plugin for your Minecraft Server:": "1. قم بتنزيل المكون الإضافي الرسمي لمتجرك لماينكرافت:",
+	"2. Install the plugin into your plugin path and restart your Minecraft Server.": "2. قم بتثبيت المكون الإضافي في مسار المكونات الإضافية وأعد تشغيل خادم ماينكرافت الخاص بك.",
+	"3. Copy and paste the next command into your Minecraft Server Console:": "3. انسخ والصق الأمر التالي في وحدة تحكم خادم ماينكرافت الخاص بك:",
+	"4. Press this button to check connection with your plugin:": "4. اضغط على هذا الزر للتحقق من الاتصال بالمكون الإضافي الخاص بك:",
+	"Test Plugin Connection": "اختبار الاتصال بالمكون الإضافي",
+	"1. Configure file": "1. تهيئة الملف",
+	"according to your settings.": "وفقًا لإعداداتك.",
+	"2. Save the file and restart your Minecraft Server.": "2. احفظ الملف وأعد تشغيل خادم ماينكرافت الخاص بك.",
+	"3. Press this button to check connection with your webstore and RCON:": "3. اضغط على هذا الزر للتحقق من الاتصال بمتجرك الإلكتروني وRCON:",
+	"Test RCON Connection": "اختبار الاتصال بـ RCON",
+	"Finish": "إنهاء",
+	"Unable to Save a Minecraft Server!": "تعذر حفظ خادم ماينكرافت!",
+	"Connection Successful!": "تم الاتصال بنجاح!",
+	"Failed Connection to the Minecraft Server!": "فشل الاتصال بخادم ماينكرافت!",
+	"Check Minecraft Server Chat to Verify Connection": "تحقق من دردشة خادم ماينكرافت للتحقق من الاتصال",
+	"Connection to the Minecraft Server was failed!": "فشل الاتصال بخادم ماينكرافت!",
+	"Saved": "تم الحفظ",
+	"Unable to update server!": "تعذر تحديث الخادم!",
+	"Server was Successfully Deleted!": "تم حذف الخادم بنجاح!",
+	"Something went wrong, server deletion was failed!": "حدث خطأ ما، فشل حذف الخادم!",
+	"Here you can connect your Minecraft server (or servers) to your webstore.": "هنا يمكنك ربط خادم Minecraft الخاص بك (أو الخوادم) بمتجرك الإلكتروني.",
+	"Connect your first Minecraft Server": "اربط خادم Minecraft الخاص بك لأول مرة",
+	"Add a New Server": "أضف خادمًا جديدًا",
+	"Reveal Secret Key": "كشف المفتاح السري",
+	"Reveal RCON Settings": "كشف إعدادات RCON",
+	"Check connection": "تحقق من الاتصال",
+	"Delete the server": "احذف الخادم",
+	"Secret Token": "الرمز السري",
+	"Minecraft Server Name": "اسم خادم Minecraft",
+	"RCON Port": "منفذ RCON",
+	"Minecraft Server Settings": "إعدادات خادم Minecraft",
+	"Plugins": "المكونات الإضافية",
+	"Official plugins that used to deliver and manage packages on your Minecraft Server.": "المكونات الإضافية الرسمية التي تُستخدم لتسليم وإدارة الحزم على خادم Minecraft الخاص بك.",
+	"Download Official MineStore Plugins on your Minecraft Server.": "قم بتنزيل المكونات الإضافية الرسمية لمتجر MineStore على خادم Minecraft الخاص بك.",
+	"Social Media": "وسائل التواصل الاجتماعي",
+	"This link can be used for your theme to redirect your customers on your official social media.": "يمكن استخدام هذا الرابط لموضوعك لإعادة توجيه عملائك إلى وسائل التواصل الاجتماعي الرسمية الخاصة بك.",
+	"Enter your Facebook URL here...": "أدخل رابط الفيسبوك الخاص بك هنا...",
+	"Enter your TikTok URL here...": "أدخل رابط تيك توك الخاص بك هنا...",
+	"Enter your Instagram URL here...": "أدخل رابط انستغرام الخاص بك هنا...",
+	"Enter your Discord URL here...": "أدخل رابط ديسكورد الخاص بك هنا...",
+	"Enter your Twitter URL here...": "أدخل رابط تويتر الخاص بك هنا...",
+	"Enter your Steam URL here...": "أدخل رابط ستيم الخاص بك هنا...",
+	"Display Name": "اسم العرض",
+	"SVG Icon": "رمز SVG",
+	"Link URL": "رابط URL",
+	"Display for Footer?": "عرض في التذييل؟",
+	"Display for Header?": "عرض في الرأس؟",
+	"Statistics for selected range of dates": "الإحصائيات للفترة الزمنية المحددة",
+	"Select the range between dates to receive statistic for specific days.": "اختر المدى بين التواريخ للحصول على الإحصائيات للأيام المحددة.",
+	"Update Statistics": "تحديث الإحصائيات",
+	"Congratulations": "تهانينا",
+	"You have": "لديك",
+	"Ultimate": "نهائي",
+	"Join Ultimate Team": "انضم إلى الفريق النهائي",
+	"Weekly Visits": "الزيارات الأسبوعية",
+	"Total Revenue": "إجمالي الإيرادات",
+	"Revenue Growth": "نمو الإيرادات",
+	"Weekly Revenue": "الإيرادات الأسبوعية",
+	"Monthly Revenue": "الإيرادات الشهرية",
+	"Global Report": "التقرير العالمي",
+	"Most Popular Packages": "أشهر الحزم",
+	"Total Sales": "إجمالي المبيعات",
+	"Revenue from the Top 5 Packages": "الإيرادات من أفضل 5 حزم",
+	"Sales by Countries": "المبيعات حسب الدول",
+	"Refresh": "تحديث",
+	"Income by Players": "الدخل حسب اللاعبين",
+	"Last 28 Days": "آخر 28 يومًا",
+	"Last Month": "الشهر الماضي",
+	"Last Year": "العام الماضي",
+	"Profit": "الربح",
+	"CANCELLED": "ملغي",
+	"APPROVAL FOR PENDING": "الموافقة قيد الانتظار",
+	"Subscription List": "قائمة الاشتراكات",
+	"Subscription ID": "معرف الاشتراك",
+	"Gateway": "البوابة",
+	"Renewal Date (D/M/Y)": "تاريخ التجديد (يوم/شهر/سنة)",
+	"New Tax": "ضريبة جديدة",
+	"Name for Tax": "اسم الضريبة",
+	"The name for this tax to identify it in your admin dashboard. Just for yourself.": "الاسم لهذه الضريبة لتحديدها في لوحة تحكم المسؤول الخاصة بك. فقط لنفسك.",
+	"Select a Country": "اختر دولة",
+	"Select the country that tax will be charged by using address verification.": "اختر الدولة التي ستُفرض الضريبة باستخدام التحقق من العنوان.",
+	"Percentage will be charged by using this tax.": "ستحسب النسبة باستخدام هذه الضريبة.",
+	"Include the tax to the final transaction price?": "هل تُضمَّن الضريبة في سعر المعاملة النهائية؟",
+	"Create a Tax": "إنشاء ضريبة",
+	"Edit Tax": "تحرير الضريبة",
+	"Update the Tax": "تحديث الضريبة",
+	"Taxes gives you possibility to make your customers pay the taxes depends on their specific country.": "تتيح لك الضرائب إمكانية جعل عملائك يدفعون الضرائب حسب دولتهم المحددة.",
+	"Add a Tax": "إضافة ضريبة",
+	"Enabled Taxes": "الضرائب المفعلة",
+	"Country": "الدولة",
+	"Theme file manager": "مدير ملفات الثيم",
+	"Theme Files": "ملفات الثيم",
+	"File Editor": "محرر الملفات",
+	"Save File": "حفظ الملف",
+	"After agreeing to the installing theme, in no case can you close the current page \\n Continue action?": "بعد الموافقة على تثبيت الثيم، لا يمكنك بأي حال من الأحوال إغلاق الصفحة الحالية \\n متابعة الإجراء؟",
+	"Installing theme...": "تثبيت الثيم...",
+	"Please wait and do not refresh the page!": "يرجى الانتظار وعدم تحديث الصفحة!",
+	"After agreeing to the upgrading theme. Do NOT close this page. \\nContinue action?": "بعد الموافقة على ترقية الثيم. لا تقم بإغلاق هذه الصفحة. \\n متابعة الإجراء؟",
+	"Here you can install, select and edit a theme for your webstore.": "هنا يمكنك تثبيت وتحديد وتحرير ثيم لمتجرك الإلكتروني.",
+	"Create a Theme": "إنشاء ثيم",
+	"Custom theme name": "اسم الثيم المخصص",
+	"Available Themes": "الثيمات المتاحة",
+	"Author:": "المؤلف:",
+	"Installed": "مثبت",
+	"Install": "تثبيت",
+	"Purchase": "شراء",
+	"MineStore Frontend Service Logs": "سجلات خدمة الواجهة الأمامية لـ MineStore",
+	"Logs": "السجلات",
+	"After agreeing to the upgrading theme. Do NOT close this page?": "بعد الموافقة على ترقية الثيم. هل لا تريد إغلاق هذه الصفحة؟",
+	"Continue action": "متابعة الإجراء",
+	"After agreeing to the upgrading theme. Do NOT close this page": "بعد الاتفاق على ترقية الثيم. لا تغلق هذه الصفحة",
+	"After agreeing to the build template. Do NOT close this page": "بعد الموافقة على بناء القالب. لا تغلق هذه الصفحة",
+	"Building theme...": "بناء الثيم...",
+	"Toggle developer mode": "تبديل وضع المطور",
+	"Toggling developer mode...": "تبديل وضع المطور...",
+	"Are you sure delete this file?": "هل أنت متأكد من حذف هذا الملف؟",
+	"Theme Editing Tools": "أدوات تحرير الثيم",
+	"Theme File Manager": "مدير ملفات الثيم",
+	"Build Template": "بناء القالب",
+	"Apply all changes you did when editing template by using theme file editor. Keep in mind it WILL TAKE TIME!": "تطبيق جميع التغييرات التي أجريتها عند تحرير القالب باستخدام محرر ملفات الثيم. تذكر أن هذا سيستغرق وقتاً! ",
+	"Apply Changes": "تطبيق التغييرات",
+	"Theme Service Logs": "سجلات خدمة الثيم",
+	"View Logs": "عرض السجلات",
+	"Enable Developer Mode": "تمكين وضع المطور",
+	"Enabling developer mode activates hot-refresh function that will regenerate template everytime when you change something. Do NOT forget to disable this!": "تمكين وضع المطور يفعل وظيفة التحديث الفوري التي ستعيد إنشاء القالب في كل مرة تغير فيها شيئاً. لا تنسى تعطيل هذا!",
+	"Enable": "تمكين",
+	"Theme configuration missing (SCHEMA.json not found)": "تكوين الثيم مفقود (لم يتم العثور على SCHEMA.json)",
+	"Theme configuration has errors (SCHEMA.json filled in incorrectly)": "تكوين الثيم يحتوي على أخطاء (تم ملء SCHEMA.json بشكل غير صحيح)",
+	"Upload": "تحميل",
+	"Recommended PNG, JPG, SVG, GIF": "موصى به PNG ، JPG ، SVG ، GIF",
+	"Languages": "اللغات",
+	"Default Webstore Language": "اللغة الافتراضية للمتجر الإلكتروني",
+	"The language will be used for your webstore by default for new visitors.": "ستستخدم اللغة في متجرك الإلكتروني افتراضياً للزوار الجدد.",
+	"Selectable Languages for Customers": "اللغات القابلة للاختيار للعملاء",
+	"Configure lists of allowed to choose languages for your webstore.": "إعداد قوائم لغات المتجر الإلكتروني المسموح اختيارها.",
+	"Available Languages": "اللغات المتاحة",
+	"Language Identifier": "معرف اللغة",
+	"Add a New Team Account": "إضافة حساب فريق جديد",
+	"Grant All Privileges to this Team Account?": "منح جميع الامتيازات لحساب الفريق هذا؟",
+	"This account will have access to every element of the dashboard.": "سيتمكن هذا الحساب من الوصول إلى كل عنصر في لوحة التحكم.",
+	"This account will have access to every element of the dashboard (super user).": "سيتمكن هذا الحساب من الوصول إلى كل عنصر في لوحة التحكم (مستخدم فائق).",
+	"Create/Edit": "إنشاء / تحرير",
+	"Create a New Account": "إنشاء حساب جديد",
+	"Edit the Team Account": "تحرير حساب الفريق",
+	"Password (fill in if you need change)": "كلمة المرور (ملء إذا كنت بحاجة إلى التغيير)",
+	"Update an Account": "تحديث الحساب",
+	"DISABLED": "معطل",
+	"ENABLED": "مفعل",
+	"Teams": "الفرق",
+	"New user": "مستخدم جديد",
+	"2FA": "التحقق بخطوتين",
+	"Variables enable you to create customisable packages such as allowing users to select the colour of their name upon purchase.": "تُمكن المتغيرات من إنشاء حزم قابلة للتخصيص مثل السماح للمستخدمين باختيار لون أسمائهم عند الشراء.",
+	"Add a Variable": "إضافة متغير",
+	"Created Variables": "المتغيرات التي تم إنشاؤها",
+	"Create a Variable": "إنشاء متغير",
+	"Variable Identifier": "معرف المتغير",
+	"Variable has been deleted.": "تم حذف المتغير.",
+	"Name for Variable": "اسم المتغير",
+	"The name for this variable to identify it in your admin dashboard. Just for yourself.": "الاسم لهذا المتغير لتحديده في لوحة تحكم المسؤول الخاصة بك. فقط لنفسك.",
+	"The description customer will see when need to enter/select required option.": "الوصف الذي سيراه العميل عند الحاجة لإدخال / اختيار الخيار المطلوب.",
+	"The identifier that would be used in package command field. For example {color}.": "المعرف الذي سيتم استخدامه في حقل الأوامر للحزمة. على سبيل المثال {color}.",
+	"Variable Type": "نوع المتغير",
+	"Select the type for variable option.": "حدد النوع لخيار المتغير.",
+	"Input Text Form": "نموذج نص الإدخال",
+	"Input Digit Form": "نموذج رقم الإدخال",
+	"Dropdown": "القائمة المنسدلة",
+	"Variable Options": "خيارات المتغير",
+	"Add Variable Option": "إضافة خيار المتغير",
+	"a Variable": "متغير",
+	"The option will be displayed in dropdown.\" data-bs-original-title=\"The option will be displayed in dropdown.": "سيتم عرض الخيار في القائمة المنسدلة.\" data-bs-original-title=\"سيتم عرض الخيار في القائمة المنسدلة.",
+	"Option Value": "قيمة الخيار",
+	"The value that will be used while command getting executed.\" data-bs-original-title=\"The value that will be used while command getting executed.": "القيمة التي سيتم استخدامها أثناء تنفيذ الأمر.\" data-bs-original-title=\"القيمة التي سيتم استخدامها أثناء تنفيذ الأمر.",
+	"Additional Fee": "رسوم إضافية",
+	"Additional fee that will be added to the package price.\" data-bs-original-title=\"Additional fee that will be added to the package price.": "رسوم إضافية سيتم إضافتها إلى سعر الحزمة.\" data-bs-original-title=\"رسوم إضافية سيتم إضافتها إلى سعر الحزمة.",
+	"Enter a reason for whitelist.": "أدخل سببًا للإدراج في القائمة البيضاء.",
+	"Whitelist this User": "إدراج هذا المستخدم في القائمة البيضاء",
+	"Users whitelist": "قائمة المستخدمين البيضاء",
+	"Whitelist a New User": "إدراج مستخدم جديد في القائمة البيضاء",
+	"Hello": "مرحبًا",
+	"Thank you for your purchase! This email confirms that we have received your payment, and you should receive your items soon.": "شكرًا لشرائك! يؤكد هذا البريد الإلكتروني أننا قد تلقينا دفعتك، ويجب أن تحصل على عناصر خلال فترة قصيرة.",
+	"Gift Card Code:": "رمز بطاقة الهدية:",
+	"Thank you for your purchase! This email confirms that we have received your payment and you should receive your items soon.": "شكرًا لك على شرائك! يؤكد هذا البريد الإلكتروني أننا قد تلقينا دفعتك ويجب أن تحصل على عناصر خلال فترة قصيرة.",
+	"If you do not receive your items in the next 10-15 minutes, please contact a member of staff on our server.": "إذا لم تستلم عناصر خلال 10-15 دقيقة المقبلة، يرجى الاتصال بأحد أعضاء فريق الدعم في خادمنا.",
+	"P U R C H A S E D": "تم الشراء",
+	"P A C K A G E S": "حزم",
+	"Product": "المنتج",
+	"Quantity": "الكمية",
+	"Sub Total": "المجموع الفرعي",
+	"I N F O R M A T I O N": "معلومات",
+	"Tax": "الضريبة",
+	"If you have any questions or issues related to payments contact us and we will reply as fast as possible.": "إذا كان لديك أي أسئلة أو مشكلات تتعلق بالدفعات، اتصل بنا وسنرد في أسرع وقت ممكن.",
+	"Best Wishes": "أفضل التمنيات",
+	"Sorry for the inconvenience": "نعتذر عن الإزعاج",
+	"You are not authorized to access this page.": "ليس لديك صلاحية للوصول إلى هذه الصفحة.",
+	"Change license key": "تغيير مفتاح الترخيص",
+	"System diagnosis": "تشخيص النظام",
+	"Checking requirements": "التحقق من المتطلبات",
+	"Webstore Settings": "إعدادات المتجر الإلكتروني",
+	"General Webstore Details": "تفاصيل المتجر الإلكتروني العامة",
+	"Monitoring": "المراقبة",
+	"Minecraft & Discord for Monitoring": "ماينكرافت وDiscord للمراقبة",
+	"Database": "قاعدة البيانات",
+	"Configure Database Credentials": "تكوين اعتمادات قاعدة البيانات",
+	"Admin User": "مستخدم المسؤول",
+	"Set Up an Admin Account": "إعداد حساب مسؤول",
+	"MineStoreCMS license key": "مفتاح ترخيص MineStoreCMS",
+	"Enter Your MineStoreCMS license key": "أدخل مفتاح ترخيص MineStoreCMS الخاص بك",
+	"License key": "مفتاح الترخيص",
+	"Update Key": "تحديث المفتاح",
+	"PHP Timezone Extension status": "حالة امتداد المنطقة الزمنية PHP",
+	"PHP8.2-FPM status": "حالة PHP8.2-FPM",
+	"PHP version 8.2 status": "حالة إصدار PHP 8.2",
+	"Configure and Customize Various Aspects of Your Webstore.": "تكوين وتخصيص جوانب مختلفة لمتجر الخاص بك.",
+	"My Amazing Store": "متجري الرائع",
+	"Webstore Description": "وصف المتجر الإلكتروني",
+	"Description for My Amazing Store": "وصف لمتجري الرائع",
+	"Language": "اللغة",
+	"Monitoring Details": "تفاصيل المراقبة",
+	"Enter and Configure Setting to Display Minecraft & Discord Server Monitoring.": "أدخل وقم بتكوين الإعدادات لعرض مراقبة خادم ماينكرافت وDiscord.",
+	"Discord Server ID": "معرف خادم Discord",
+	"Discord Webhook URL": "رابط Webhook الخاص بـ Discord",
+	"Do You Want To Share Metrics with MineStoreCMS Developers?": "هل ترغب في مشاركة المقاييس مع مطوري MineStoreCMS؟",
+	"Set Up Database Credentials for MineStoreCMS": "إعداد بيانات اعتماد قاعدة البيانات لـ MineStoreCMS",
+	"Database Host": "مضيف قاعدة البيانات",
+	"Database Port": "منفذ قاعدة البيانات",
+	"Database Name": "اسم قاعدة البيانات",
+	"Database User": "مستخدم قاعدة البيانات",
+	"Database User Password": "كلمة مرور مستخدم قاعدة البيانات",
+	"Enter Your Admin Account Settings": "أدخل إعدادات حساب المسؤول الخاص بك",
+	"Confirm Password": "تأكيد كلمة المرور",
+	"Finish Installation": "إنهاء التثبيت",
+	"Installation Complete": "التثبيت مكتمل",
+	"Congratulations on successfully setting up": "تهانينا على إعدادك الناجح",
+	"for your Minecraft server webstore!": "لمتجر خادم ماينكرافت الخاص بك!",
+	"Thank you for choosing": "شكرًا لاختيارك",
+	"with our powerful ecommerce platform.": "مع منصتنا القوية للتجارة الإلكترونية.",
+	"Get ready to configure and personalize your store to create the ultimate gaming experience for your players!": "استعد لتكوين وتخصيص متجرك لإنشاء تجربة ألعاب نهائية للاعبين!",
+	"reach out": "تواصل",
+	"Webstore": "المتجر الإلكتروني",
+	"Admin Dashboard": "لوحة تحكم المسؤول",
+	"Ooooooops!": "أووووبس!",
+	"It seems like we hit a": "يبدو أننا واجهنا",
+	"little snag": "عقبة صغيرة",
+	"during the installation process. We apologize for the inconvenience": "أثناء عملية التثبيت. نعتذر عن الإزعاج",
+	"To help us resolve this issue quickly, could you please send this error message to our support team at": "لمساعدتنا في حل هذه المشكلة بسرعة، هل يمكنك من فضلك إرسال رسالة الخطأ هذه إلى فريق الدعم لدينا على",
+	"Your patience and cooperation are highly appreciated.": "نقدر صبرك وتعاونك للغاية.",
+	"and getting you back on track!": "وإعادتك إلى المسار الصحيح!",
+	"Back to Installation": "العودة إلى التثبيت",
+	"Global Command": "الأمر العالمي",
+	"Server not found": "الخادم غير موجود",
+	"Queue": "قائمة الانتظار",
+	"Pagination Navigation": "التنقل في الترقيم",
+	"pagination.previous": "pagination.previous",
+	"pagination.next": "pagination.next",
+	"Showing": "عرض",
+	"to": "إلى",
+	"of": "من",
+	"results": "النتائج",
+	"Set 0 for unlimited.": "اضبط على 0 لغير المحدود.",
+	"Not Found": "غير موجود",
+	"Unauthorized": "غير مصرح",
+	"Payment Required": "مطلوب الدفع",
+	"Forbidden": "ممنوع",
+	"Page Expired": "الصفحة منتهية",
+	"Too Many Requests": "طلبات كثيرة جدًا",
+	"Server Error": "خطأ في الخادم",
+	"Service Unavailable": "الخدمة غير متاحة"
+}

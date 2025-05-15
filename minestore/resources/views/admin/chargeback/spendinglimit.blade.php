@@ -1,0 +1,105 @@
+@extends('admin.layout')
+
+@section('vendor-style')
+<link rel="stylesheet" href="{{asset('res/vendor/libs/bootstrap-select/bootstrap-select.css')}}" />
+<link rel="stylesheet" href="{{asset('res/vendor/libs/select2/select2.css')}}" />
+@endsection
+
+@section('vendor-script')
+<script src="{{asset('res/vendor/libs/bootstrap-select/bootstrap-select.js')}}"></script>
+<script src="{{asset('res/vendor/libs/select2/select2.js')}}"></script>
+@endsection
+
+@section('page-script')
+<script type="text/javascript">
+  const select2 = $('.select2');
+  if (select2.length) {
+    select2.each(function () {
+      var $this = $(this);
+      $this.wrap('<div class="position-relative"></div>');
+      $this.select2({
+        placeholder: 'Select value',
+        dropdownParent: $this.parent()
+      });
+    });
+  }
+</script>
+@endsection
+
+@section('content')
+<style>
+.settings_icon {
+    width: 100px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0.5rem;
+	font-size: 2.5rem;
+}
+.settings_icon i {
+    font-size: 3.5rem;
+}
+</style>
+<h4 class="fw-bold py-3 mb-1">
+    <span class="text-body fw-light">{{ __('Chargeback Prevention Settings') }}</span>
+</h4>
+
+<form method="POST" autocomplete="off">
+@csrf
+<div class="row">
+	<div class="col-12 mb-4">
+		<div class="card">
+			<div class="card-body">
+				<div class="row d-flex w-100 align-self-center">
+					<div class="description col-12 col-xl-8 col-lg-8 text-center text-lg-left">
+						<div class="row align-self-center h-100">
+							<div class="col-12 col-xl-2 col-lg-3 align-self-center text-center">
+								<div class="d-flex justify-content-center mb-4">
+								  <div class="settings_icon bg-label-primary">
+									  <i class="fas fa-coins"></i>
+								  </div>
+								</div>
+							</div>
+							<div class="col-12 col-xl-10 col-lg-9 align-self-center my-3 my-lg-0" style="text-align: left;">
+								<h4>
+									{{ __('Spending Limit') }}
+								</h4>
+								<div class="mb-3 col-md-10">
+									<p class="card-text">{{ __('The amount a customer can spend on your webstore in a specified period of time.') }}</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="action col-12 col-xl-3 col-lg-4 align-self-center text-center mx-auto d-grid">
+						<div class="row">
+							<div class="col-md-5">
+								<div class="input-group input-group-merge">
+								  <input type="text" class="form-control" placeholder="100" aria-label="Amount (to the nearest dollar)" id="cb_limit" name="cb_limit" value="{{ $settings->cb_limit }}" />
+								  <span class="input-group-text">{{ $settings->currency }}</span>
+								</div>
+							</div>
+							<div class="col-md-7">
+								<select id="cb_limit_period" name="cb_limit_period" class="selectpicker w-100" data-style="btn-default">
+									<option value="0" @if($settings->cb_limit_period == 0) selected @endif>{{ __('None') }}</option>
+									<option value="1" @if($settings->cb_limit_period == 1) selected @endif>{{ __('Hourly') }}</option>
+									<option value="24" @if($settings->cb_limit_period == 24) selected @endif>{{ __('Daily') }}</option>
+									<option value="168" @if($settings->cb_limit_period == 168) selected @endif>{{ __('Weekly') }}</option>
+									<option value="720" @if($settings->cb_limit_period == 720) selected @endif>{{ __('Monthly') }}</option>
+									<option value="8640" @if($settings->cb_limit_period == 8640) selected @endif>{{ __('Annualy') }}</option>
+								</select>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row mb-4">
+	<div class="d-grid gap-2 col-lg-12 mx-auto">
+       <button class="btn btn-primary btn-lg" type="submit"><span class="tf-icon bx bx-save bx-xs"></span> {{ __('Save Changes') }}</button>
+    </div>
+</div>
+</form>
+@endsection

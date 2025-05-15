@@ -1,0 +1,6 @@
+# Ignore all files in the storage/fonts directory
+/storage/fonts/*
+
+# Do not ignore specific font files
+!/storage/fonts/Roboto-Bold.ttf
+!/storage/fonts/Roboto-Regular.ttf
