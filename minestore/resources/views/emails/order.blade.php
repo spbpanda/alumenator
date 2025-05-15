@@ -395,9 +395,9 @@
                       <table width="100%" cellpadding="0" cellspacing="0" border="0">
                         <tbody><tr>
                           <td class="v-text-align" style="padding-right: 0px;padding-left: 0px;" align="center">
-
-                            <img align="center" border="0" src="https://{{ request()->getHost() }}/img/items/{{ $item['id'] }}.png" alt="{{ $item['name'] }}" title="{{ $item['name'] }}" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: inline-block !important;border: none;height: auto;float: none;width: 67%;max-width: 79.06px;" width="79.06" class="v-src-width v-src-max-width">
-
+                            @if(isset($item['image']))
+                                <img align="center" border="0" src="https://{{ request()->getHost() }}/img/items/{{ $item['image'] }}" alt="{{ $item['name'] }}" title="{{ $item['name'] }}" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: inline-block !important;border: none;height: auto;float: none;width: 67%;max-width: 79.06px;" width="79.06" class="v-src-width v-src-max-width">
+                            @endif
                           </td>
                         </tr>
                         </tbody></table>

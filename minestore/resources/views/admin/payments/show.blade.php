@@ -260,6 +260,14 @@
                                     </tr>
                                     <tr>
                                         <td style="font-weight: 500;">
+                                            {{ __('Internal ID:') }}
+                                        </td>
+                                        <td>
+                                            {{empty($payment->internal_id) ? 'N/A' : $payment->internal_id}}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="font-weight: 500;">
                                             {{ __('Status:') }}
                                         </td>
                                         <td>
@@ -308,7 +316,7 @@
                                             {{ __('Date:') }}
                                         </td>
                                         <td>
-                                            {{ $payment->updated_at }}
+                                            {{ $payment->created_at }}
                                         </td>
                                     </tr>
                                     <tr>
@@ -368,6 +376,7 @@
                     </div>
                 </div>
             </div>
+            <!-- Commands block -->
             <div class="col-12 mb-4">
                 <div class="col-12 mb-3">
                     <div class="row align-items-center">
@@ -475,6 +484,8 @@
                     </div>
                 </div>
             </div>
+            <!-- End of Commands block -->
+            <!-- Referrals block -->
             <div class="col-12 mb-4">
                 <div class="col-12 mb-3">
                     <div class="row align-items-center">
@@ -489,7 +500,7 @@
                 <div class="card">
                     <div class="card-body">
                         <!-- Fix Ref Code -->
-                        @if(!empty($payment->ref) && $ref_code = $payment->ref_code)
+                        @if (!empty($payment->ref) && $ref_code = $payment->ref_code)
                             <div class="table-responsive">
                                 <table class="table" style="font-weight: 500;">
                                     <thead class="text-primary" style="color: #ff9800;">
@@ -529,6 +540,82 @@
                     </div>
                 </div>
             </div>
+            <!-- End of Referrals block -->
+            <!-- Gift Cards block -->
+            <div class="col-12 mb-4">
+                <div class="col-12 mb-3">
+                    <div class="row align-items-center">
+                        <div class="col-md-12">
+                            <h4 class="text-body fw-light mb-0">
+                                {{ __('Purchased Gift Cards') }}
+                                <i class="bx bx-gift" style="margin-bottom: 2px;"></i>
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        @if(!$giftcards->isEmpty())
+                            <div class="table-responsive">
+                                <table class="table" style="font-weight: 500;">
+                                    <thead class="text-primary" style="color: #ff9800;">
+                                    <tr>
+                                        <th style="padding-top: 0; padding-right: 0;">
+                                            {{ __('Identifier') }}
+                                        </th>
+                                        <th>
+                                            {{ __('Status') }}
+                                        </th>
+                                        <th>
+                                            {{ __('Starting Balance') }}
+                                        </th>
+                                        <th>
+                                            {{ __('Current Balance') }}
+                                        </th>
+                                        <th>
+                                            {{ __('Creation Date') }}
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            @foreach ($giftcards as $giftcard)
+                                                <td>
+                                                    {{ $giftcard->name }}
+                                                </td>
+                                                <td>
+                                                    @if (\Carbon\Carbon::parse($giftcard->expire_at)->isBefore(\Carbon\Carbon::now()))
+                                                        <span class="badge w-100 bg-danger">EXPIRED</span>
+                                                    @else
+                                                        @if ($giftcard->end_balance > 0)
+                                                            <span class="badge w-100 bg-success">ACTIVE</span>
+                                                        @else
+                                                            <span class="badge w-100 bg-warning">ELIMINATED</span>
+                                                        @endif
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    {{ $giftcard->start_balance }} {{ $system_currency->name ?? 'USD' }}
+                                                </td>
+                                                <td>
+                                                    {{ $giftcard->end_balance }} {{ $system_currency->name ?? 'USD' }}
+                                                </td>
+                                                <td>
+                                                    {{ $giftcard->created_at }}
+                                                </td>
+                                            @endforeach
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        @else
+                            <p class="card-text text-center" style="font-size: 16px;">{{ __('Gift cards were not purchased for this transaction.') }}</p>
+                        @endif
+                    </div>
+                </div>
+            </div>
+            <!-- End of Gift Cards block -->
+            <!-- Discord Roles block -->
             <div class="col-12 mb-4">
                 <div class="col-12 mb-3">
                     <div class="row align-items-center">
@@ -569,7 +656,7 @@
                                     </thead>
                                     <tbody>
                                     <tr>
-                                        @foreach($discordRoles as $role)
+                                        @foreach ($discordRoles as $role)
                                             <td>
                                                 {{ $role->discord_id }}
                                             </td>
@@ -615,6 +702,7 @@
                     </div>
                 </div>
             </div>
+            <!-- End of Discord Roles block -->
         </div>
         <div class="col-md-4 mb-4">
             <div class="col-md-12 mb-4">

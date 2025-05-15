@@ -33,6 +33,16 @@
 <h4 class="fw-bold py-3 mb-1">
     <span class="text-body fw-light">{{ __('Make a Manual Payment') }}</span>
 </h4>
+
+@if (session('warning'))
+    <div class="alert alert-primary alert-dismissible" role="alert">
+        <h5 class="alert-heading text-bold d-flex align-items-center mb-1">{{ __('Ooopsss! We have a problem...') }} 😢</h5>
+            <p class="mb-0">{{ session('warning') }}</p>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+        </button>
+    </div>
+@endif
+
 <div class="col-12 mb-4">
     <div class="card">
         <div class="card-body">
@@ -138,9 +148,9 @@
                             <div class="select2-primary">
                                 <select id="select2Primary" required name="packages[]" class="select2 form-select"
                                         multiple>
-                                    @foreach($packages as $package)
+                                    @foreach ($packages as $package)
                                         <option value="{{ $package->id }}">{{ $package->name }}
-                                            - {{ $package->price }} {{ $settings->currency }}</option>
+                                            - {{ $package->price }} {{ $settings->currency }} ({{ $package->category->name }} Category)</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -160,7 +170,8 @@
                                 </label>
                                 <br />
                                 <label class="switch switch-square">
-                                    <input type="checkbox" class="switch-input" id="featured" name="send_mail">
+                                    <input type="hidden" name="send_mail" value="0">
+                                    <input type="checkbox" class="switch-input" id="featured" name="send_mail" value="1">
                                     <span class="switch-toggle-slider">
                                     <span class="switch-on"></span>
                                     <span class="switch-off"></span>

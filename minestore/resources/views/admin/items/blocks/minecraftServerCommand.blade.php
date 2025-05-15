@@ -74,7 +74,7 @@
 
                 <div class="">
                   <div class="inner_commands" data-repeater-list="commands_{{ $i }}" data-repid="{{ $i }}">
-                    @if($isItemExist && $item->type == 0)
+                    @if($isItemExist && ($item->type == 0 || $item->type == 2))
                       @php($commands = \App\Models\Command::where('item_type', \App\Models\Command::ITEM_COMMAND)->where('item_id', $item->id)->get())
                       @php($c = 0)
                       @foreach($commands as $key => $command)

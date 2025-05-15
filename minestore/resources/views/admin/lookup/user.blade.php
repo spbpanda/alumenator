@@ -23,7 +23,7 @@
                     switchMainBanButton($("#main-ban-button"));
                     switchSecondaryBanButton($("#secondary-ban-button"));
                 }).fail(function(r) {
-                    if(r.status === 410){
+                    if (r.status === 410) {
                         toastr.error(r.responseJSON.message);
                     }
                     else{
@@ -38,7 +38,7 @@
                     switchMainBanButton($("#main-ban-button"));
                     switchSecondaryBanButton($("#secondary-ban-button"));
                 }).fail(function(r) {
-                    if(r.status === 410){
+                    if (r.status === 410) {
                         toastr.error(r.responseJSON.message);
                     }
                     else{
@@ -51,7 +51,7 @@
             addUserToWhitelist("{{$username}}").done(function(r) {
                 toastr.success("{{ __('User was added to whitelist!') }}");
             }).fail(function(r) {
-                if(r.status === 410){
+                if (r.status === 410) {
                     toastr.error(r.responseJSON.message);
                 }
                 else{
@@ -81,7 +81,7 @@
                                  style="width: 145px; border-radius: 4px;transform: scale(-1, 1); margin-bottom: 8px;">
                             <h5 style="font-size: 24px; font-weight: 500;">{{ $username }}</h5>
                             <h6 style="font-size: 14px;">UUID: {{ $uuid }}</h6>
-                            @if($ban == null)
+                            @if (!$ban)
                                 <button class="btn btn-lg btn-danger ban-button" id="main-ban-button">
                                     <span class="tf-icons bx bx-message-square-x me-1"></span>{{ __('Ban User') }}
                                 </button>
@@ -201,7 +201,7 @@
                                                     <a href="{{ route('payments.show', ['payment' => $row['reason']]) }}" class="text-primary">{{ __('View') }}</a>
                                                 @elseif ($row['action'] == 'chargeback')
                                                     {{ __('Made a chargeback at your webstore.') }}
-                                                    <a href="{{ route('chargeback.show', ['chargeback' => $row['reason']]) }}" class="text-primary">{{ __('View') }}</a>
+                                                    <a href="{{ route('payments.show', ['chargeback' => $row['reason']]) }}" class="text-primary">{{ __('View') }}</a>
                                                 @elseif ($row['action'] == 'ban')
                                                     {{  $row['reason'] }}
                                                 @elseif ($row['action'] == 'whitelist')

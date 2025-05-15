@@ -65,7 +65,7 @@
 </head>
 <body>
 <div class="center">
-    <img src="https://{{ request()->getHost() }}/img/logo.png" width="200" alt="Logo">
+    <img src="{{ asset('img/logo.png') }}" width="200" alt="Logo">
 </div>
 <h1>Payment Dispute/Chargeback Evidence</h1>
 <h2>Payment #{{ $chargeback->payment->id }}</h2>

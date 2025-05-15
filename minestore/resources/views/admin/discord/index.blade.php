@@ -17,7 +17,7 @@
 
     @if (session('success'))
         <div class="alert alert-primary alert-dismissible" role="alert">
-            <h6 class="alert-heading d-flex align-items-center mb-1">{{ __('Well done') }} 👍</h6>
+            <h5 class="alert-heading d-flex align-items-center mb-1">{{ __('Well done') }} 👍</h5>
             <p class="mb-0">{{ session('success') }}</p>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
             </button>

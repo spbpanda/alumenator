@@ -603,6 +603,8 @@
                         <br>
                         {{ __('Get ready to configure and personalize your store to create the ultimate gaming experience for your players!') }} 🎮
                         <br>
+                        <strong>Restart your VPS Server again to make sure everything is working fine!</strong>
+                        <br>
                         <br>
                         {!! __('Should you have any questions or need assistance, don\'t hesitate to') !!} <a href="https://minestorecms.com/discord">{{ __('reach out') }}</a>. {!! __('We\'re here to support you every step of the way!') !!} 💪
                     </p>

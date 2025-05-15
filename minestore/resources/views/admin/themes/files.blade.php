@@ -68,7 +68,7 @@
       });
 
       const editorFileTypes = {
-          'js': 'javascript', 'html': 'htmlmixed', 'css': 'css',
+          'js': 'javascript', 'html': 'htmlmixed', 'css': 'css', 'xml': 'xml', 'unknown': 'htmlmixed'
       };
 
       const editor = CodeMirror.fromTextArea(document.getElementById("code"), {

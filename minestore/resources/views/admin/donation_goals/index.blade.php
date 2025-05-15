@@ -108,14 +108,16 @@
 			</tr>
 		  </thead>
 		  <tbody class="table-border-bottom-0">
-		  	@foreach($donation_goals as $donation_goal)
+		  	@foreach ($donation_goals as $donation_goal)
 			<tr id="tableItem{{$donation_goal->id}}">
 			  <td><strong>{{ $donation_goal->name }}</strong></td>
 			  <td>
-                  @if($donation_goal->status == 0)
+                  @if ($donation_goal->status == \App\Models\DonationGoal::DISABLED)
                     <span class="badge bg-warning">{{ __('Not Active') }}</span>
-                  @elseif($donation_goal->status == 1)
+                  @elseif ($donation_goal->status == \App\Models\DonationGoal::ENABLED)
                     <span class="badge bg-success">{{ __('Active') }}</span>
+                  @elseif ($donation_goal->status == \App\Models\DonationGoal::EXPIRED)
+                    <span class="badge bg-danger">{{ __('Expired') }}</span>
                   @endif
               </td>
 			  <td>{{ $donation_goal->current_amount }}</td>

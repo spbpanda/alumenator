@@ -17,9 +17,19 @@
 @endsection
 
 @section('content')
+    @if (session('error'))
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <h5 class="alert-heading d-flex align-items-center mb-1">{{ __('Oooppps!') }} 😔</h5>
+            <p class="mb-0">{{ session('error') }}</p>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+            </button>
+        </div>
+    @endif
+
     <h4 class="fw-bold py-3 mb-1">
         <span class="text-body fw-light">{{ __('User Lookup') }}</span>
     </h4>
+
     <div class="col-12 mb-4">
         <div class="card">
             <div class="row text-center">

@@ -49,7 +49,7 @@
 			<div class="row">
 				<div class="col-md-12 mb-3">
 					<label class="form-label" for="name">
-                        {{ __('Gift Card Name') }}
+                        {{ __('Gift Card Name') }}*
 						<i class="bx bx-help-circle text-muted" style="margin-bottom: 3px;" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('Need to be unique.') }}"></i>
 					</label>
 					<div class="input-group">
@@ -62,11 +62,11 @@
 				</div>
 				<div class="col-sm-6 mb-3">
 					<label class="form-label" for="start_balance">
-                        {{ __('Gift Card Value') }}
+                        {{ __('Gift Card Value') }}*
 						<i class="bx bx-help-circle text-muted" style="margin-bottom: 3px;" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('Enter how much money will be included in this gift card.') }}"></i>
 					</label>
 					<div class="input-group">
-					  <input type="text" inputmode="numeric" pattern="^\d*([,.]\d{1,2})?$" class="form-control" id="start_balance" name="start_balance" aria-label="Amount for gift card">
+					  <input type="number" inputmode="numeric" step="0.01" pattern="^\d*([,.]\d{1,2})?$" class="form-control" id="start_balance" name="start_balance" aria-label="Amount for gift card">
 					  <span class="input-group-text">{{ $settings->currency }}</span>
 					</div>
                     @error('start_balance')
@@ -75,11 +75,21 @@
 				</div>
 				<div class="col-sm-6 mb-3">
 					<label for="expire_at" class="form-label">
-                        {{ __('Expire date') }}
+                        {{ __('Expire date') }}*
 						<i class="bx bx-help-circle text-muted" style="margin-bottom: 3px;" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('Set a datetime when gift card will be expired.') }}"></i>
 					</label>
 					<input type="text" class="form-control" id="expire_at" name="expire_at" placeholder="YYYY-MM-DD HH:MM" />
                     @error('expire_at')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
+                </div>
+                <div class="col-sm-12 mb-3">
+                    <label class="form-label" for="username">
+                        {{ __('Attached Username') }}
+                        <i class="bx bx-help-circle text-muted" style="margin-bottom: 3px;" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('Only user with specified username can use that gift card. Not required.') }}"></i>
+                    </label>
+                    <input type="text" class="form-control" id="username" name="username" />
+                    @error('username')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
                 </div>

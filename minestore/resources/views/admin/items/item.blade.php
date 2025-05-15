@@ -11,14 +11,18 @@
     <link rel="stylesheet" href="{{asset('res/vendor/libs/flatpickr/flatpickr.css')}}" />
     <link rel="stylesheet" href="{{asset('res/vendor/libs/pickr/pickr-themes.css')}}" />
     <link rel="stylesheet" href="{{asset('res/vendor/libs/spinkit/spinkit.css')}}" />
+    <link rel="stylesheet" href="{{asset('res/vendor/libs/highlight/highlight-github.css')}}" />
 @endsection
 
 @section('vendor-script')
     <script src="{{asset('res/vendor/libs/bs-stepper/bs-stepper.js')}}"></script>
     <script src="{{asset('res/vendor/libs/bootstrap-select/bootstrap-select.js')}}"></script>
     <script src="{{asset('res/vendor/libs/select2/select2.js')}}"></script>
+    <script src="{{asset('res/vendor/libs/highlight/highlight.js')}}"></script>
+    <script src="{{asset('res/vendor/libs/highlight/languages/xml.min.js')}}"></script>
     <script src="{{asset('res/vendor/libs/quill/katex.js')}}"></script>
     <script src="{{asset('res/vendor/libs/quill/quill.js')}}"></script>
+    <script src="{{asset('res/vendor/libs/quill/quill-html-btn.min.js')}}"></script>
     <script src="{{asset('res/vendor/libs/dropzone/dropzone.js')}}"></script>
     <script src="{{asset('res/vendor/libs/flatpickr/flatpickr.js')}}"></script>
     <script src="{{asset('res/vendor/libs/jquery-repeater/jquery-repeater.js')}}"></script>
@@ -33,14 +37,27 @@
         $(function () {
             repeaterUpdate();
 
-            $('#type').on('change', function(){
-                if(this.value === "1"){ //gift
-                    $('.minecraftServerCommandBlock').hide();
-                    $('.giftcardBlock').show();
-                } else { //package
-                    $('.minecraftServerCommandBlock').show();
-                    $('.giftcardBlock').hide();
+            $(document).ready(function() {
+                const $minecraftServerCommandBlock = $('.minecraftServerCommandBlock');
+                const $giftcardBlock = $('.giftcardBlock');
+
+                function handleTypeChange() {
+                    const value = $('#type').val();
+
+                    if (value === "1") { // gift
+                        $minecraftServerCommandBlock.hide();
+                        $giftcardBlock.show();
+                    } else if (value === "2") { // commands + gift hybrid
+                        $minecraftServerCommandBlock.show();
+                        $giftcardBlock.show();
+                    } else { // package
+                        $minecraftServerCommandBlock.show();
+                        $giftcardBlock.hide();
+                    }
                 }
+
+                $('#type').on('change', handleTypeChange);
+                handleTypeChange();
             });
 
             $('#is_subs').on('change', function(){
@@ -139,6 +156,10 @@
                 }
             }
 
+            hljs.configure({
+                languages: ['xml', 'javascript', 'css']
+            });
+            Quill.register('modules/htmlEditButton', htmlEditButton);
             const fullToolbar = [
                 [
                     {
@@ -203,6 +224,12 @@
                 placeholder: 'Type Something...',
                 modules: {
                     formula: true,
+                    htmlEditButton: {
+                        debug: false,
+                        msg: 'Edit HTML',
+                        buttonHTML: '&lt;&gt;',
+                        syntax: true
+                    },
                     toolbar: fullToolbar
                 },
                 theme: 'snow'
@@ -461,9 +488,10 @@
                 }
             });
 
-            @if(!$isItemExist && isset($_GET['category']))
-            $('#category_id').val('{{ $_GET['category'] }}').trigger('change');
+           @if(!$isItemExist && isset($_GET['category']))
+                $('#category_id').val('{{ $_GET['category'] }}').trigger('change');
            @endif
+
            flatpickr("#publishAt, #showUntil", {
                dateFormat: "Y-m-d H:i",
                enableTime: true,
@@ -523,6 +551,7 @@
                                     <select class="selectpicker w-100 show-tick" id="type" name="type" data-icon-base="bx" data-tick-icon="bx-check" data-style="btn-default">
                                         <option data-icon="bx-package" value="0" @selected(old('type', $isItemExist ? $item->type : \App\Models\Item::MINECRAFT_PACKAGE) == \App\Models\Item::MINECRAFT_PACKAGE)>{{ __('Minecraft Package') }}</option>
                                         <option data-icon="bx-gift" value="1" @selected(old('type', $isItemExist ? $item->type : \App\Models\Item::MINECRAFT_PACKAGE) == \App\Models\Item::GIFTCARD)>{{ __('Giftcard') }}</option>
+                                        <option data-icon="bx-cabinet" value="2" @selected(old('type', $isItemExist ? $item->type : \App\Models\Item::MINECRAFT_PACKAGE) == \App\Models\Item::MINECRAFT_AND_GIFTCARD)>{{ __('Minecraft Package & Giftcard') }}</option>
                                     </select>
                                 </div>
                             </div>
@@ -930,59 +959,70 @@
             </div>
         </div>
 
-        <div class="col-md-12 comparisonSection"
-             @if(!$isItemExist || is_null($categories->first(function ($c, $i) use ($item) {return $c->is_comparison == 1 && $c->id == $item->category_id;})))
-                 style="display: none"
-            @endif
-        >
-            @php($comparisonList = $isItemExist ? $item->parentCategory()->first()->comparison()->get() : [])
-            <div class="card text-center mb-3">
-                <div class="card-body">
-                    <h5 class="card-title">{{ __('Comparison Package Values') }}</h5>
-                    <i class="bx bx-table bx-lg bx-border-circle mb-2"></i>
-                    <p class="card-text">{{ __('Setup values for each comparison parameter.') }}</p>
-                    <div class="divider divider-dashed">
-                        <div class="divider-text">{{ __('Available Values') }}</div>
-                    </div>
-                    @php($comparisonValues = $isItemExist ? $comparisonItemValues : [''])
-                    @for($i = 0; $i < count($comparisonList); $i++)
-                        <div class="row justify-content-center comparisonSectionBlock">
-                            <div class="col-sm-3">
-                                <div class="mb-3">
-                                    <label class="form-label">{{ __('Comparison Parameter (Read Only)') }}</label>
-                                    <input type="text" class="form-control" value="{{ $comparisonList[$i]->name }}" readonly />
-                                </div>
-                            </div>
-                            <div class="col-sm-5">
-                                <div class="mb-3">
-                                    @if($comparisonList[$i]->type == 1)
-                                        <label for="comparison{{ $i }}" class="form-label">{{ __('Comparison Value') }}</label>
-                                        <input type="text" name="comparison[{{ $comparisonList[$i]->id }}]" value="{{ !empty($comparisonValues[$comparisonList[$i]->id]) ? $comparisonValues[$comparisonList[$i]->id] : '' }}" class="form-control" id="comparison{{ $comparisonList[$i]->id }}" required placeholder="<p style='color: #fff'>VIP+</p>">
-                                    @else
-                                        <label class="switch switch-square switch-lg">
-                                            <input type="hidden" value="0" name="comparison[{{ $comparisonList[$i]->id }}]">
-                                            <input type="checkbox" class="switch-input" value="1" name="comparison[{{ $comparisonList[$i]->id }}]" {{ !empty($comparisonValues[$comparisonList[$i]->id]) && $comparisonValues[$comparisonList[$i]->id] == '1' ? 'checked' : '' }}>
-                                            <span class="switch-toggle-slider" style="margin-top:35px;">
-                                  <span class="switch-on">
-                                    <i class="bx bx-check"></i>
-                                  </span>
-                                  <span class="switch-off">
-                                    <i class="bx bx-x"></i>
-                                  </span>
-                                </span>
-                                        </label>
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-                    @endfor
-                    @if(count($comparisonList) == 0)
-                        <div class="row justify-content-center comparisonSectionBlock"></div>
-                    @endif
-                </div>
-            </div>
-        </div>
+        <div class="col-md-12 comparisonSection">
+            @php
+                $isComparisonCategory = $isItemExist && !is_null($categories->first(function ($c, $i) use ($item) {
+                    return $c->is_comparison == 1 && $c->id == $item->category_id;
+                }));
+                $comparisonList = $isComparisonCategory ? $item->parentCategory()->first()->comparison()->get() : [];
+                $comparisonValues = $isItemExist ? $comparisonItemValues : [''];
+            @endphp
 
+            @if($isComparisonCategory)
+                <div class="card text-center mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ __('Comparison Package Values') }}</h5>
+                        <i class="bx bx-table bx-lg bx-border-circle mb-2"></i>
+                        <p class="card-text">{{ __('Setup values for each comparison parameter.') }}</p>
+                        <div class="divider divider-dashed">
+                            <div class="divider-text">{{ __('Available Values') }}</div>
+                        </div>
+
+                        @foreach($comparisonList as $index => $comparison)
+                            <div class="row justify-content-center comparisonSectionBlock">
+                                <div class="col-sm-3">
+                                    <div class="mb-3">
+                                        <label class="form-label">{{ __('Comparison Parameter (Read Only)') }}</label>
+                                        <input type="text" class="form-control" value="{{ $comparison->name }}" readonly />
+                                    </div>
+                                </div>
+                                <div class="col-sm-5">
+                                    <div class="mb-3">
+                                        @if($comparison->type == 1)
+                                            <label for="comparison{{ $comparison->id }}" class="form-label">{{ __('Comparison Value') }}</label>
+                                            <input type="text"
+                                                   name="comparison[{{ $comparison->id }}]"
+                                                   value="{{ !empty($comparisonValues[$comparison->id]) ? $comparisonValues[$comparison->id] : '' }}"
+                                                   class="form-control"
+                                                   id="comparison{{ $comparison->id }}"
+                                                   required
+                                                   placeholder="{{ __('Enter value') }}">
+                                        @else
+                                            <label class="switch switch-square switch-lg">
+                                                <input type="hidden" value="0" name="comparison[{{ $comparison->id }}]">
+                                                <input type="checkbox"
+                                                       class="switch-input"
+                                                       value="1"
+                                                       name="comparison[{{ $comparison->id }}]"
+                                                    {{ !empty($comparisonValues[$comparison->id]) && $comparisonValues[$comparison->id] == '1' ? 'checked' : '' }}>
+                                                <span class="switch-toggle-slider" style="margin-top:35px;">
+                                            <span class="switch-on">
+                                                <i class="bx bx-check"></i>
+                                            </span>
+                                            <span class="switch-off">
+                                                <i class="bx bx-x"></i>
+                                            </span>
+                                        </span>
+                                            </label>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            @endif
+        </div>
 
         <div class="col-md-12">
             <div class="card text-center mb-3">
@@ -990,14 +1030,12 @@
                     <h5 class="card-title">{{ __('Package Delivery') }}</h5>
                     <i class="bx bx-package bx-lg bx-border-circle mb-2"></i>
                     <p class="card-text">{{ __('Setup in which way customers should receive upon purchasing this package.') }}</p>
-                    <!-- <button style="margin-right: 5px;@if($isItemExist && $item->type != \App\Models\Item::MINECRAFT_PACKAGE) display: none; @endif" type="button" id="addMinecraftServerCommandsButton" class="btn btn-sm btn-primary mb-2"><span class="tf-icon bx bx-plus-circle bx-xs"></span> Minecraft Server Commands</button> -->
-                    <!-- <button type="button" @if(!$isItemExist || $item->type != \App\Models\Item::GIFTCARD) style="display: none;" @endif id="addGiftCardButton" class="btn btn-sm btn-primary mb-2"><span class="tf-icon bx bx-plus-circle bx-xs"></span> Gift Card</button> -->
                 </div>
             </div>
         </div>
-        @if($isItemExist && $item->type == \App\Models\Item::MINECRAFT_PACKAGE && count($item->cmds) > 0)
+        @if($isItemExist && ($item->type == \App\Models\Item::MINECRAFT_PACKAGE || $item->type == \App\Models\Item::MINECRAFT_AND_GIFTCARD) && count($item->cmds) > 0)
             @php($command = \App\Models\Command::where('item_type', \App\Models\Command::ITEM_COMMAND)->where('item_id', $item->id)->get())
-            <div class="items-repeater minecraftServerCommandBlock" @if($item->type != \App\Models\Item::MINECRAFT_PACKAGE) style="display: none;" @endif>
+            <div class="items-repeater minecraftServerCommandBlock" @if($item->type != \App\Models\Item::MINECRAFT_PACKAGE && $item->type != \App\Models\Item::MINECRAFT_AND_GIFTCARD) style="display: none;" @endif>
                 <button id="itemsRepeaterCreate" type="button" data-repeater-create style="display:none"></button>
                 <div data-repeater-list="command">
                     @php($i = 0)
@@ -1006,7 +1044,7 @@
                 </div>
             </div>
         @else
-            <div class="items-repeater minecraftServerCommandBlock" @if($isItemExist && $item->type != \App\Models\Item::MINECRAFT_PACKAGE) style="display: none;" @endif>
+            <div class="items-repeater minecraftServerCommandBlock" @if($isItemExist && $item->type != \App\Models\Item::MINECRAFT_PACKAGE && $item->type != \App\Models\Item::MINECRAFT_AND_GIFTCARD) style="display: none;" @endif>
                 <button id="itemsRepeaterCreate" type="button" data-repeater-create style="display:none"></button>
                 <div data-repeater-list="command">
                     @include('admin.items.blocks.minecraftServerCommand', ['isEmpty' => true, 'i' => 0, 'servers' => $servers, 'item' => (object)['type' => 1], 'server_command' => ['server'=>0]])
@@ -1015,14 +1053,14 @@
         @endif
 
         @if($isItemExist)
-            <div class="gifts-repeater giftcardBlock" @if($item->type != \App\Models\Item::GIFTCARD) style="display: none;" @endif>
+            <div class="gifts-repeater giftcardBlock" @if($item->type != \App\Models\Item::GIFTCARD && $item->type != \App\Models\Item::MINECRAFT_AND_GIFTCARD) style="display: none;" @endif>
                 <button id="giftsRepeaterCreate" type="button" data-repeater-create style="display:none"></button>
                 <div data-repeater-list="gift">
                     @include('admin.items.blocks.giftcard')
                 </div>
             </div>
         @else
-            <div class="gifts-repeater giftcardBlock" style="display: none;">
+            <div class="gifts-repeater giftcardBlock" @if($isItemExist && $item->type != \App\Models\Item::GIFTCARD && $item->type != \App\Models\Item::MINECRAFT_AND_GIFTCARD) style="display: none;" @endif>
                 <button id="giftsRepeaterCreate" type="button" data-repeater-create style="display:none"></button>
                 <div data-repeater-list="gift">
                     @include('admin.items.blocks.giftcard')

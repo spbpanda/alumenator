@@ -258,7 +258,7 @@
 					<i class="bx bx-help-circle text-muted" style="margin-bottom: 1px;" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('This is shared percentage amount that will automatically calculate the profit for the creator.') }}"></i>
 				</label>
 				<div class="input-group mb-2">
-					<input class="form-control" type="number" id="referrer_percentage" name="percent" value="{{ old('percent', $isExist ? $ref->percent : '') }}" placeholder="20">
+					<input class="form-control" type="number" step="0.01" inputmode="numeric" pattern="^\d*([,.]\d{1,2})?$" id="referrer_percentage" name="percent" value="{{ old('percent', $isExist ? $ref->percent : '') }}" placeholder="20">
 					<span class="input-group-text">%</span>
 				</div>
                 @error('referrer_percentage')

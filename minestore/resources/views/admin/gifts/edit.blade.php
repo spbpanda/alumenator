@@ -50,7 +50,7 @@
                     <div class="row">
                         <div class="col-md-12 mb-3">
                             <label class="form-label" for="name">
-                                {{ __('Gift Card Name') }}
+                                {{ __('Gift Card Name') }}*
                                 <i class="bx bx-help-circle text-muted" style="margin-bottom: 3px;"
                                    data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('Need to be unique.') }}"></i>
                             </label>
@@ -66,13 +66,13 @@
                         </div>
                         <div class="col-sm-6 mb-3">
                             <label class="form-label" for="start_balance">
-                                {{ __('Gift Card Value') }}
+                                {{ __('Gift Card Value') }}*
                                 <i class="bx bx-help-circle text-muted" style="margin-bottom: 3px;"
                                    data-bs-toggle="tooltip" data-bs-placement="top"
                                    title="{{ __('Enter how much money will be included in this gift card.') }}"></i>
                             </label>
                             <div class="input-group">
-                                <input type="text" inputmode="numeric" pattern="^\d*([,.]\d{1,2})?$"
+                                <input type="number" step="0.01" inputmode="numeric" pattern="^\d*([,.]\d{1,2})?$"
                                        class="form-control" id="start_balance" name="start_balance"
                                        value="{{ $gift->start_balance }}" aria-label="Amount for gift card">
                                 <span class="input-group-text">{{ $settings->currency }}</span>
@@ -83,13 +83,13 @@
                         </div>
                         <div class="col-sm-6 mb-3">
                             <label class="form-label" for="current_balance">
-                                {{ __('Gift Card Current Value') }}
+                                {{ __('Gift Card Current Value') }}*
                                 <i class="bx bx-help-circle text-muted" style="margin-bottom: 3px;"
                                    data-bs-toggle="tooltip" data-bs-placement="top"
                                    title="{{ __('Enter how much money the gift card currently has.') }}"></i>
                             </label>
                             <div class="input-group">
-                                <input type="text" inputmode="numeric" pattern="^\d*([,.]\d{1,2})?$"
+                                <input type="number" step="0.01" inputmode="numeric" pattern="^\d*([,.]\d{1,2})?$"
                                        class="form-control" id="current_balance" name="end_balance"
                                        value="{{ $gift->end_balance }}" aria-label="Current amount for gift card">
                                 <span class="input-group-text">{{ $settings->currency }}</span>
@@ -100,7 +100,7 @@
                         </div>
                         <div class="col-sm-12 mb-3">
                             <label for="expire_at" class="form-label">
-                                {{ __('Expire date') }}
+                                {{ __('Expire date') }}*
                                 <i class="bx bx-help-circle text-muted" style="margin-bottom: 3px;"
                                    data-bs-toggle="tooltip" data-bs-placement="top"
                                    title="{{ __('Set a datetime when gift card will be expired.') }}"></i>
@@ -108,6 +108,16 @@
                             <input type="text" class="form-control" id="expire_at" name="expire_at"
                                    value="{{ $gift->expire_at ? Carbon::createFromFormat('Y-m-d H:i:00', $gift->expire_at)->format('Y-m-d H:i') : '' }}"
                                    placeholder="YYYY-MM-DD HH:MM"/>
+                        </div>
+                        <div class="col-sm-12 mb-3">
+                            <label class="form-label" for="username">
+                                {{ __('Attached Username') }}
+                                <i class="bx bx-help-circle text-muted" style="margin-bottom: 3px;" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('Only user with specified username can use that gift card. Not required.') }}"></i>
+                            </label>
+                            <input type="text" class="form-control" id="username" name="username" value="{{ $gift->username }}" />
+                            @error('username')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
                         <div class="col-sm-12 mb-3">
                             <label for="note" class="form-label">

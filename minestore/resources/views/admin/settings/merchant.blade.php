@@ -1027,10 +1027,10 @@
                                     {{ __('Payment Method Mode') }}
 									<i class="bx bx-help-circle text-muted" style="margin-bottom: 1px;" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('If you use SANDBOX mode, you need to use SANDBOX credentials.') }}"></i>
 								</label>
-								<select id="gopay_mode" name="test" class="selectpicker w-100" data-style="btn-default">
-									<option value="0" @if(!$methods['GoPay']['config']['test']) selected @endif>{{ __('Production') }}</option>
-									<option value="1" @if(!$methods['GoPay']['config']['test']) selected @endif>{{ __('Sandbox') }}</option>
-								</select>
+                                <select id="gopay_mode" name="test" class="selectpicker w-100" data-style="btn-default">
+                                    <option value="0" @selected((int) $methods['GoPay']['config']['test'] === 0)>{{ __('Production') }}</option>
+                                    <option value="1" @selected((int) $methods['GoPay']['config']['test'] === 1)>{{ __('Sandbox') }}</option>
+                                </select>
 							</div>
 						</div>
 						<div class="row">

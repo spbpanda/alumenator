@@ -162,6 +162,12 @@ $menuData = (object) [
             "rule" => "referers",
         ],
         [
+            "name" => __("Patrons"),
+            "icon" => "menu-icon tf-icons bx bx-star",
+            "slug" => "patrons.index",
+            "rule" => "cms",
+        ],
+        [
             "name" => __("Transactions"),
             "icon" => "menu-icon tf-icons bx bx-money-withdraw",
             "slug" => "payments.index",
@@ -236,7 +242,7 @@ $menuData = (object) [
             "rule" => "teams",
         ],
         [
-            "name" => __("Security logs"),
+            "name" => __("Security Logs"),
             "icon" => "menu-icon tf-icons bx bx-shield-quarter",
             "slug" => "securityLogs.index",
             "rule" => "teams",
