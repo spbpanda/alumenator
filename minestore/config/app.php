@@ -16,7 +16,7 @@ return [
     */
 
     'name' => env('APP_NAME', 'MineStoreCMS'),
-    'version' => '3.4.4',
+    'version' => '3.5.1',
     'is_installed' => env('INSTALLED', 0),
     'LICENSE_KEY' => env('LICENSE_KEY', ''),
 
