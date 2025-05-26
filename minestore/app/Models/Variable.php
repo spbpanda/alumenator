@@ -14,6 +14,7 @@ use Illuminate\Support\Str;
  * @property string $description
  * @property int $type
  * @property array $variables
+ * @property int $deleted
  * @method static \Illuminate\Database\Eloquent\Builder|Variable newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Variable newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Variable query()
@@ -33,7 +34,7 @@ class Variable extends Model
 
     protected $table = 'vars';
 
-    public $timestamps = false;
+    public $timestamps = true;
 
     protected $fillable = [
         'identifier', 'name', 'description', 'type', 'variables', 'deleted'

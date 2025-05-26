@@ -47,4 +47,22 @@ class ExpireHelper
         }
         return $expirePeriodValue;
     }
+
+    public static function getStringUnitValue($expireUnit): string
+    {
+        $unit = match ($expireUnit) {
+            1 => 'minute',
+            2 => 'hour',
+            3 => 'day',
+            4 => 'month',
+            5 => 'year',
+            default => null,
+        };
+
+        if (in_array($unit, ['minute', 'hour']) || $unit === null) {
+            return 'day';
+        }
+
+        return $unit;
+    }
 }

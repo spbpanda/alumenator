@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\CheckPaymentRequest;
 use App\Models\Payment;
+use App\Models\PnCheckoutReference;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\RateLimiter;
 
@@ -28,9 +29,25 @@ class PaymentCheckingController extends Controller
             return $this->message('forbidden', 'You are not allowed to check this payment.', $payment_data);
         }
 
-        $payment = Payment::where('internal_id', $request->order_id)
-            ->select(['id', 'user_id', 'internal_id', 'price', 'currency', 'status', 'gateway', 'created_at'])
+        $order_id = $request->order_id;
+        $checkout_id = $request->checkout_id;
+
+        $payment = Payment::where('internal_id', $order_id)
+            ->select(['id', 'user_id', 'internal_id', 'price', 'currency', 'transaction', 'status', 'gateway', 'created_at'])
             ->first();
+
+        if (!$payment) {
+            $pnCheckout = PnCheckoutReference::where('checkout_id', $checkout_id)
+                ->first();
+
+            if ($pnCheckout) {
+                $payment = Payment::where('id', $pnCheckout->payment_id)
+                    ->select(['id', 'user_id', 'internal_id', 'price', 'currency', 'transaction', 'status', 'gateway', 'created_at'])
+                    ->first();
+            } else {
+                return $this->message('not_found', 'Payment not found.', $payment_data);
+            }
+        }
 
         if (!$payment) {
             return $this->message('not_found', 'Payment not found.', $payment_data);

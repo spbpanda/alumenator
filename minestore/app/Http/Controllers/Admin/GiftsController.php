@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Helpers\UserHelper;
 use App\Http\Requests\StoreGiftRequest;
 use App\Http\Requests\UpdateGiftRequest;
 use App\Models\Gift;
@@ -50,7 +51,7 @@ class GiftsController extends Controller
         $data = $request->validated();
         $data['end_balance'] = $request->start_balance;
         $data['note'] = $data['note'] ?? '';
-        $data['user_id'] = isset($request->username) ? $this->getUserID($request->username) : null;
+        $data['user_id'] = isset($request->username) ? UserHelper::getUserID($request->username) : null;
         unset($data['username']);
 
         $gift = Gift::create($data);
@@ -89,7 +90,7 @@ class GiftsController extends Controller
         $data = $request->validated();
 
         $data['note'] = $request['note'] ?? '';
-        $data['user_id'] = isset($request->username) ? $this->getUserID($request->username) : null;
+        $data['user_id'] = isset($request->username) ? UserHelper::getUserID($request->username) : null;
         unset($data['username']);
 
         Gift::where('id', $id)->update($data);

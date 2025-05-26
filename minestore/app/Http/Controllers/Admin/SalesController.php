@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateSaleRequest;
 use App\Models\Advert;
 use App\Models\Category;
 use App\Models\Item;
+use App\Models\PromotedItem;
 use App\Models\SaleApply;
 use App\Models\Sale;
 use App\Models\SaleCommand;
@@ -301,6 +302,8 @@ class SalesController extends Controller
                     $item->update([
                         'discount' => $sale->discount,
                     ]);
+
+                    $this->applyPromotedItem($item, $sale);
                 }
                 break;
             case SaleApply::TYPE_CATEGORIES:
@@ -316,6 +319,8 @@ class SalesController extends Controller
                             $item->update([
                                 'discount' => $sale->discount,
                             ]);
+
+                            $this->applyPromotedItem($item, $sale);
                         }
                     }
                 }
@@ -326,12 +331,15 @@ class SalesController extends Controller
                     $item = Item::where('id', $apply)
                         ->where('deleted', 0)
                         ->first();
+
                     if ($item) {
                         $item->update([
                             'discount' => $sale->discount,
                             'featured' => 1
                         ]);
                     }
+
+                    $this->applyPromotedItem($item, $sale);
                 }
                 break;
         }
@@ -363,6 +371,8 @@ class SalesController extends Controller
                             $item->update([
                                 'discount' => 0,
                             ]);
+
+                            $this->restorePromotedItemPrice($item, $sale);
                         }
                     }
                 }
@@ -376,6 +386,8 @@ class SalesController extends Controller
                         'discount' => 0,
                         'featured' => 0
                     ]);
+
+                    $this->restorePromotedItemPrice($item, $sale);
                 }
                 break;
         }
@@ -403,6 +415,8 @@ class SalesController extends Controller
                                 $item->update([
                                     'discount' => 0,
                                 ]);
+
+                                $this->restorePromotedItemPrice($item, $sale);
                             }
                         }
                     }
@@ -418,6 +432,8 @@ class SalesController extends Controller
                                 'discount' => 0,
                                 'featured' => 0
                             ]);
+
+                            $this->restorePromotedItemPrice($item, $sale);
                         }
                     }
                     break;
@@ -427,6 +443,8 @@ class SalesController extends Controller
                         $item->update([
                             'discount' => 0,
                         ]);
+
+                        $this->restorePromotedItemPrice($item, $sale);
                     }
                     break;
             }
@@ -450,5 +468,32 @@ class SalesController extends Controller
         ]);
 
         return redirect('/admin/sales');
+    }
+
+    private function applyPromotedItem($item, $sale): void
+    {
+        $promotedPackage = PromotedItem::where('item_id', $item->id)
+            ->first();
+
+        if ($promotedPackage) {
+            $promotedPackage->update([
+                'price' => $promotedPackage->price - ($promotedPackage->price * $sale->discount / 100),
+            ]);
+        }
+    }
+
+    private function restorePromotedItemPrice($item, $sale): void
+    {
+        $promotedPackage = PromotedItem::where('item_id', $item->id)
+            ->first();
+
+        if ($promotedPackage) {
+            $discountFactor = 1 - ($sale->discount / 100);
+            $originalPrice = $promotedPackage->price / $discountFactor;
+
+            $promotedPackage->update([
+                'price' => $originalPrice,
+            ]);
+        }
     }
 }

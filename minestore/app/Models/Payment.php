@@ -22,6 +22,7 @@ use \Illuminate\Database\Eloquent\Relations\belongsTo;
  * @property string|null $ip
  * @property string $gateway
  * @property string $transaction
+ * @property int|null $internal_subscription_id
  * @property string|null $note
  * @property string|null $discord_id
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -57,14 +58,11 @@ class Payment extends Model
     protected $with = ['user'];
 
     const PROCESSED = 0;
-
     const PAID = 1;
-
     const ERROR = 2;
-
     const COMPLETED = 3;
-
     const CHARGEBACK = 4;
+    const REFUNDED = 5;
 
     protected $fillable = [
         'internal_id',
@@ -78,8 +76,10 @@ class Payment extends Model
         'ip',
         'gateway',
         'transaction',
+        'internal_subscription_id',
         'note',
         'discord_id',
+        'tax_inclusive',
         'created_at',
         'updated_at',
     ];

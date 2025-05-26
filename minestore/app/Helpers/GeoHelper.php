@@ -7,14 +7,14 @@ use GeoIp2\Database\Reader;
 class GeoHelper
 {
     /**
-     * Get country name by ip address
+     * Get country name by IP address
      * @param string $ip
      * @return string|null
      */
     public static function getCountryNameByIp(string $ip): ?string
     {
         try {
-            $reader = new Reader(database_path() . '/GeoLite2-Country.mmdb');
+            $reader = new Reader(base_path('GeoLite2-Country.mmdb'));
             $record = $reader->country($ip);
             return $record->country->name;
         } catch (\Exception $e) {
@@ -30,7 +30,7 @@ class GeoHelper
     public static function getCountryCodeByIp(string $ip): ?string
     {
         try {
-            $reader = new Reader(database_path() . '/GeoLite2-Country.mmdb');
+            $reader = new Reader(base_path('GeoLite2-Country.mmdb'));
             $record = $reader->country($ip);
             return $record->country->isoCode;
         } catch (\Exception $e) {

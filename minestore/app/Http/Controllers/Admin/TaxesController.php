@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Helpers\PayNowHelper;
 use App\Http\Requests\StoreTaxRequest;
 use App\Http\Requests\UpdateTaxRequest;
 use App\Models\SecurityLog;
@@ -272,8 +273,14 @@ class TaxesController extends Controller
         }
 
         $taxes = Tax::all();
+        $paynowHelper = app(PayNowHelper::class);
+        $payNowEnabled = $paynowHelper->checkPayNowIntegrationStatus();
 
-        return view('admin.taxes.index', ['taxes' => $taxes, 'countries' => $this::countries]);
+        return view('admin.taxes.index', [
+            'taxes' => $taxes,
+            'countries' => $this::countries,
+            'payNowEnabled' => $payNowEnabled,
+        ]);
     }
 
     public function create(): View|RedirectResponse
@@ -282,7 +289,13 @@ class TaxesController extends Controller
             return redirect('/admin');
         }
 
-        return view('admin.taxes.create', ['countries' => $this::countries]);
+        $paynowHelper = app(PayNowHelper::class);
+        $payNowEnabled = $paynowHelper->checkPayNowIntegrationStatus();
+        if ($payNowEnabled) {
+            return redirect()->route('taxes.index')->with('error', __('Taxes are fully managed by PayNow.'));
+        }
+
+        return view('admin.taxes.create', ['countries' => $this::countries], ['payNowEnabled' => $payNowEnabled]);
     }
 
     public function store(StoreTaxRequest $request): RedirectResponse
@@ -309,8 +322,10 @@ class TaxesController extends Controller
             return redirect('/admin');
         }
         $tax = Tax::findOrFail($id);
+        $paynowHelper = app(PayNowHelper::class);
+        $payNowEnabled = $paynowHelper->checkPayNowIntegrationStatus();
 
-        return view('admin.taxes.edit', ['tax' => $tax, 'countries' => $this::countries]);
+        return view('admin.taxes.edit', ['tax' => $tax, 'countries' => $this::countries], ['payNowEnabled' => $payNowEnabled]);
     }
 
     public function update(UpdateTaxRequest $request, string $id): RedirectResponse

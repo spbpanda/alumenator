@@ -2,18 +2,21 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Helpers\UserHelper;
 use App\Http\Requests\StoreCouponRequest;
 use App\Models\Category;
 use App\Models\CouponApply;
 use App\Models\Coupon;
 use App\Models\Item;
 use App\Models\SecurityLog;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class CouponController extends Controller
 {
@@ -86,6 +89,8 @@ class CouponController extends Controller
             $applies = $request->apply_items;
         }
 
+        $coupon->user_id = isset($request->username) ? UserHelper::getUserID($request->username) : null;
+
         // Transaction to guarantee all requests is done
         try {
             DB::beginTransaction();
@@ -136,6 +141,7 @@ class CouponController extends Controller
         $categories = Category::query()->where('deleted', 0)->get();
         $items = Item::query()->where('deleted', 0)->get();
         $applies = $coupon->applies()->select('apply_id')->get()->pluck('apply_id');
+        $coupon->username = User::where('id', $coupon->user_id)->value('username') ?? null;
 
         return view('admin.coupons.edit', compact('coupon', 'applies', 'categories', 'items'));
     }
@@ -162,7 +168,7 @@ class CouponController extends Controller
             return to_route('coupons.index');
 
         if ($request->note == null) {
-            $request->note == '';
+            $request->note = '';
         }
 
         $coupon->fill($request->all());
@@ -176,7 +182,6 @@ class CouponController extends Controller
             $coupon->expire_at = Carbon::now()->addYears(100);
         }
 
-        // Array with applies where coupon can be used
         $applies = null;
         if ($request->apply_type == CouponApply::TYPE_CATEGORIES) {
             $applies = $request->apply_categories;
@@ -184,7 +189,7 @@ class CouponController extends Controller
             $applies = $request->apply_items;
         }
 
-        // Transaction to guarantee all requests is done
+        $coupon->user_id = isset($request->username) ? UserHelper::getUserID($request->username) : null;
         try {
             DB::beginTransaction();
 

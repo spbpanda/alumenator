@@ -96,7 +96,7 @@ class ThemesController extends Controller
         }
 
         $settings = Setting::query()->where('id', 1)->first();
-        $settings->update(['allow_langs' => implode(",", $request->input('allow_langs'))]);
+        $settings?->update(['allow_langs' => implode(",", $request->input('allow_langs'))]);
 
         return redirect('/admin/themes/settings/'.$request->input('themeId'));
     }
@@ -116,7 +116,7 @@ class ThemesController extends Controller
             'admin_id' => \Auth::guard('admins')->user()->id,
             'method' => SecurityLog::UPDATE_METHOD,
             'action' => SecurityLog::ACTION['themes'],
-            'action_id' => $theme->id,
+            'action_id' => $theme->id ?? 0,
         ]);
 
         return redirect(route('themes.settings', ['themeId' => $themeId]));
@@ -204,24 +204,36 @@ class ThemesController extends Controller
         if (!UsersController::hasRule('themes', 'read')) {
             return redirect('/admin');
         }
+
         if ($r->has('file') && $r->has('path')) {
             $fileExt = strtolower($r->file("file")->getClientOriginalExtension());
             $allowedExtensions = ['png', 'jpg', 'jpeg', 'bmp', 'gif', 'avif', 'webp', 'apng'];
             if (!in_array($fileExt, $allowedExtensions)) {
                 return redirect('/admin/themes/files/'.$themeId)->with('error', 'Invalid file extension');
             }
+
             $file = $r->file('file');
             if (!getimagesize($file->getPathname())) {
                 return redirect('/admin/themes/files/'.$themeId)->with('error', 'Invalid image file');
             }
+
             $fileName = preg_replace('/[^a-zA-Z0-9\-\_\.]/', '', $file->getClientOriginalName());
             $baseDir = realpath(base_path('frontend'));
             $path = str_replace(['../', '..\\', './', '.\\'], '', $r->input('path'));
-            $fullPath = realpath($baseDir . DIRECTORY_SEPARATOR . $path);
-            if ($fullPath === false || strpos($fullPath, $baseDir) !== 0) {
-                \Log::warning('Path traversal attempt', ['path' => $path, 'user' => auth()->user()->id]);
+
+            $fullPath = $baseDir . DIRECTORY_SEPARATOR . ltrim($path, DIRECTORY_SEPARATOR);
+            $normalizedPath = str_replace(['\\', '/'], DIRECTORY_SEPARATOR, $fullPath);
+
+            if (strpos($normalizedPath, $baseDir) !== 0) {
+                \Log::warning('Path traversal attempt', ['filePath' => $path]);
                 return redirect('/admin/themes/files/'.$themeId)->with('error', 'Invalid path');
             }
+
+            $targetDir = dirname($normalizedPath);
+            if (!is_dir($targetDir)) {
+                mkdir($targetDir, 0755, true);
+            }
+
             $r->file('file')->storeAs($path, $fileName, ['disk' => 'base']);
         }
         return redirect('/admin/themes/files/'.$themeId);
@@ -308,45 +320,138 @@ class ThemesController extends Controller
         }
 
         $baseDir = realpath(base_path('frontend'));
-        $cleanFilePath = str_replace(['../', '..\\', './', '.\\'], '', $filePath);
-        $fullPath = realpath($baseDir . DIRECTORY_SEPARATOR . $cleanFilePath);
-        if ($fullPath === false || strpos($fullPath, $baseDir) !== 0) {
-            \Log::warning('Path traversal attempt', ['filePath' => $filePath, 'user' => auth()->user()->id]);
+        if ($baseDir === false) {
+            \Log::error('Base frontend directory not found');
             return 'FAIL';
         }
-        if (strpos($fullPath, 'package.json') !== false) {
+
+        $cleanFilePath = str_replace(['../', '..\\', './', '.\\'], '', $filePath);
+        $cleanFilePath = ltrim($cleanFilePath, DIRECTORY_SEPARATOR);
+
+        $fullPath = $baseDir . DIRECTORY_SEPARATOR . $cleanFilePath;
+        $normalizedPath = str_replace(['\\', '/'], DIRECTORY_SEPARATOR, $fullPath);
+
+        if (strpos($normalizedPath, $baseDir) !== 0) {
+            \Log::warning('Path traversal attempt', ['filePath' => $filePath, 'cleanPath' => $cleanFilePath]);
+            return 'FAIL';
+        }
+
+        if (strpos(strtolower($normalizedPath), 'package.json') !== false) {
+            \Log::warning('Attempt to modify package.json', ['filePath' => $filePath]);
             return 'FAIL';
         }
 
         $allowedExtensions = ['ts', 'tsx', 'js', 'jsx', 'json', 'css', 'png', 'jpg', 'jpeg', 'gif', 'svg'];
-        $fileExtension = strtolower(pathinfo($filePath, PATHINFO_EXTENSION));
+        $fileExtension = strtolower(pathinfo($cleanFilePath, PATHINFO_EXTENSION));
         if (!in_array($fileExtension, $allowedExtensions)) {
+            \Log::warning('Invalid file extension', ['extension' => $fileExtension, 'filePath' => $filePath]);
             return 'FAIL';
         }
 
-        Storage::disk('base')->put($cleanFilePath, file_get_contents('php://input'));
-        return 'OK';
+        try {
+            $targetDir = dirname($normalizedPath);
+            if (!is_dir($targetDir)) {
+                if (!mkdir($targetDir, 0755, true)) {
+                    \Log::error('Failed to create directory', ['directory' => $targetDir]);
+                    return 'FAIL';
+                }
+            }
+
+            $content = file_get_contents('php://input');
+            if ($content === false) {
+                \Log::error('Failed to read input content');
+                return 'FAIL';
+            }
+
+            if (!Storage::disk('base')->put($cleanFilePath, $content)) {
+                \Log::error('Failed to save file', ['filePath' => $cleanFilePath]);
+                return 'FAIL';
+            }
+
+            \Log::info('File saved successfully', ['filePath' => $cleanFilePath]);
+            return 'OK';
+
+        } catch (\Exception $e) {
+            \Log::error('Exception while saving file', [
+                'filePath' => $cleanFilePath,
+                'error' => $e->getMessage()
+            ]);
+            return 'FAIL';
+        }
     }
+
 
     public function delFile($themeId, $filePath, Request $r)
     {
         if (!UsersController::hasRule('themes', 'read')) {
             return redirect('/admin');
         }
+
         $baseDir = realpath(base_path('frontend'));
+        if ($baseDir === false) {
+            \Log::error('Base frontend directory not found');
+            abort(500, 'Configuration error');
+        }
+
         $cleanFilePath = str_replace(['../', '..\\', './', '.\\'], '', $filePath);
-        $fullPath = realpath($baseDir . DIRECTORY_SEPARATOR . $cleanFilePath);
-        if ($fullPath === false || strpos($fullPath, $baseDir) !== 0) {
-            \Log::warning('Path traversal attempt', ['filePath' => $filePath, 'user' => auth()->user()->id]);
+        $cleanFilePath = ltrim($cleanFilePath, DIRECTORY_SEPARATOR);
+
+        $fullPath = $baseDir . DIRECTORY_SEPARATOR . $cleanFilePath;
+        $normalizedPath = str_replace(['\\', '/'], DIRECTORY_SEPARATOR, $fullPath);
+
+        if (strpos($normalizedPath, $baseDir) !== 0) {
+            \Log::warning('Path traversal attempt in file deletion', [
+                'filePath' => $filePath,
+                'cleanPath' => $cleanFilePath,
+                'normalizedPath' => $normalizedPath,
+                'baseDir' => $baseDir
+            ]);
             abort(403, 'Invalid file path');
         }
+
+        if (!file_exists($normalizedPath)) {
+            \Log::warning('Attempt to delete non-existent file', ['filePath' => $normalizedPath]);
+            abort(404, 'File not found');
+        }
+
+        if (!is_file($normalizedPath)) {
+            \Log::warning('Attempt to delete directory as file', ['filePath' => $normalizedPath]);
+            abort(403, 'Cannot delete directory');
+        }
+
         $allowedExtensions = ['ts', 'tsx', 'js', 'jsx', 'json', 'css', 'png', 'jpg', 'jpeg', 'gif', 'svg'];
-        $fileExtension = strtolower(pathinfo($fullPath, PATHINFO_EXTENSION));
+        $fileExtension = strtolower(pathinfo($normalizedPath, PATHINFO_EXTENSION));
         if (!in_array($fileExtension, $allowedExtensions)) {
+            \Log::warning('Attempt to delete file with invalid extension', [
+                'extension' => $fileExtension,
+                'filePath' => $normalizedPath
+            ]);
             abort(403, 'Invalid file type');
         }
-        unlink($fullPath);
-        return 'OK';
+
+        $fileName = basename(strtolower($normalizedPath));
+        $protectedFiles = ['package.json', 'package-lock.json', '.env', 'composer.json', 'composer.lock'];
+        if (in_array($fileName, $protectedFiles)) {
+            \Log::warning('Attempt to delete protected file', ['fileName' => $fileName, 'filePath' => $normalizedPath]);
+            abort(403, 'Cannot delete protected file');
+        }
+
+        try {
+            if (!unlink($normalizedPath)) {
+                \Log::error('Failed to delete file', ['filePath' => $normalizedPath]);
+                abort(500, 'Failed to delete file');
+            }
+
+            \Log::info('File deleted successfully', ['filePath' => $cleanFilePath]);
+            return 'OK';
+
+        } catch (\Exception $e) {
+            \Log::error('Exception while deleting file', [
+                'filePath' => $normalizedPath,
+                'error' => $e->getMessage()
+            ]);
+            abort(500, 'Error deleting file');
+        }
     }
 
     public function create(Request $r)
@@ -400,6 +505,7 @@ class ThemesController extends Controller
         if (!UsersController::hasRule('themes', 'write')) {
             return redirect('/admin');
         }
+
         global $myTheme;
         $myTheme = Theme::where('theme', $themeId)->first();
         if (!is_dir(resource_path('themes'))) {
@@ -416,8 +522,8 @@ class ThemesController extends Controller
                 return redirect('/admin/themes')->with('error', 'Could not save current theme');
             }
         }
-        if ((empty($myTheme) || $myTheme->is_custom == 0)) {
-            $themeUrl = 'https://minestorecms.com/cms/theme/'.$themeId;
+        if ((empty($myTheme) || $myTheme->is_custom === 0)) {
+            $themeUrl = 'https://minestorecms.com/cms/' . config('app.LICENSE_KEY') . '/theme/'.$themeId;
             $response = Http::withOptions(['verify' => true])
                 ->get($themeUrl, [
                     'license_key' => config('app.LICENSE_KEY'),
@@ -432,16 +538,18 @@ class ThemesController extends Controller
                 return redirect('/admin/themes')->with('error', 'Could not save theme file: ' . $savePath);
             }
         }
-        $themeInfoUrl = 'https://minestorecms.com/cms/theme_info/'.$themeId;
+        $themeInfoUrl = 'https://minestorecms.com/cms/'.config('app.LICENSE_KEY').'/theme_info/'.$themeId;
         $response = Http::withOptions(['verify' => true])
             ->get($themeInfoUrl, [
                 'license_key' => config('app.LICENSE_KEY'),
                 'new_version' => config('app.version', '1.0.0')
             ]);
+
         $theme = $response->successful() ? $response->json() : null;
         if (empty($theme)) {
             return redirect('/admin/themes')->with('error', 'Could not fetch theme info');
         }
+
         if (empty($myTheme)) {
             $myTheme = Theme::create([
                 'theme' => $themeId,
@@ -453,14 +561,18 @@ class ThemesController extends Controller
                 'is_custom' => 0,
                 'version' => $theme->version,
             ]);
-        } elseif ($myTheme->is_custom == 0) {
+        } elseif ($myTheme->is_custom === 0) {
+            Log::error("Theme info: $themeId", [
+                'theme' => $theme,
+                'myTheme' => $myTheme,
+            ]);
             $myTheme->update([
-                'name' => $theme->name,
-                'description' => $theme->description,
-                'img' => $theme->img,
-                'url' => $theme->url,
-                'author' => $theme->author,
-                'version' => $theme->version,
+                'name' => $theme['name'],
+                'description' => $theme['description'],
+                'img' => $theme['img'],
+                'url' => $theme['url'],
+                'author' => $theme['author'],
+                'version' => $theme['version'],
             ]);
         }
         Setting::query()->find(1)->update(['theme' => $themeId]);
@@ -476,46 +588,94 @@ class ThemesController extends Controller
         if ($zip->open($zipPath) === TRUE) {
             $zip->extractTo($tempDir);
             $zip->close();
-            $allowedExtensions = ['ts', 'tsx', 'js', 'jsx', 'json', 'css', 'png', 'jpg', 'jpeg', 'gif', 'svg', 'html'];
+            $bannedExtensions = ['sh', 'php'];
             $iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($tempDir));
             foreach ($iterator as $file) {
                 if ($file->isFile()) {
                     $filePath = $file->getPathname();
                     $extension = strtolower($file->getExtension());
-                    if (!in_array($extension, $allowedExtensions)) {
-                        \Log::warning('Invalid file in ZIP', ['file' => $filePath]);
+                    \Log::debug('Processing file', ['filePath' => $filePath, 'extension' => $extension]);
+                    if (in_array($extension, $bannedExtensions)) {
+                        \Log::warning('Banned file in ZIP', ['file' => $filePath]);
                         File::deleteDirectory($tempDir);
-                        return redirect('/admin/themes')->with('error', 'Invalid file in ZIP: ' . $filePath);
+                        return redirect('/admin/themes')->with('error', 'Banned file in ZIP: ' . $filePath);
                     }
                     $relativePath = str_replace($tempDir, '', $filePath);
-                    if (strpos($relativePath, '..') !== false || strpos($relativePath, '.env') !== false) {
-                        \Log::warning('Path traversal in ZIP', ['file' => $filePath]);
+                    \Log::debug('Computed relative path', ['relativePath' => $relativePath]);
+
+                    $isNextJsRoute = preg_match('/\[\[?\.\.\.[a-zA-Z0-9_-]+\]?\]/', $relativePath);
+                    $hasDirectoryTraversal = preg_match('/(?<!\[)\.\.(?!\.)/', $relativePath);
+
+                    if (($hasDirectoryTraversal && !$isNextJsRoute) || $relativePath === '/.env') {
+                        \Log::warning('Restricted path in ZIP', ['file' => $filePath, 'relativePath' => $relativePath]);
                         File::deleteDirectory($tempDir);
                         return redirect('/admin/themes')->with('error', 'Invalid path in ZIP: ' . $relativePath);
                     }
                 }
             }
-            File::copyDirectory($tempDir, $frontendPath);
+
+            \Log::debug('Copying directory', ['from' => $tempDir, 'to' => $frontendPath]);
+
+            $frontendDirectoryInTemp = $tempDir . '/frontend';
+            if (is_dir($frontendDirectoryInTemp)) {
+                $iterator = new \RecursiveIteratorIterator(
+                    new \RecursiveDirectoryIterator($frontendDirectoryInTemp, \RecursiveDirectoryIterator::SKIP_DOTS),
+                    \RecursiveIteratorIterator::SELF_FIRST
+                );
+
+                foreach ($iterator as $item) {
+                    $target = $frontendPath . '/' . substr($item->getPathname(), strlen($frontendDirectoryInTemp) + 1);
+
+                    if ($item->isDir()) {
+                        if (!is_dir($target)) {
+                            if (!mkdir($target, 0755, true) && !is_dir($target)) {
+                                throw new \RuntimeException(sprintf('Directory "%s" was not created', $target));
+                            }
+                        }
+                    } else {
+                        copy($item->getPathname(), $target);
+                    }
+                }
+            } else {
+                File::copyDirectory($tempDir, $frontendPath);
+            }
+
             File::deleteDirectory($tempDir);
         } else {
+            \Log::warning('Failed to open ZIP', ['zipPath' => $zipPath]);
             File::deleteDirectory($tempDir);
             return redirect('/admin/themes')->with('error', 'Failed to open ZIP file: ' . $zipPath);
         }
-        $content = file_get_contents(base_path('frontend/.env'));
-        $search = "/^NEXT_PUBLIC_API_URL=.*$/m";
-        $replace = "NEXT_PUBLIC_API_URL='" . 'https://' . request()->getHost() . "'";
-        $content = preg_replace($search, $replace, $content);
-        $search = "/^MINESTORECMS_URL=.*$/m";
-        $replace = "MINESTORECMS_URL='" . 'https://' . request()->getHost() . "'";
-        $content = preg_replace($search, $replace, $content);
-        file_put_contents(base_path('frontend/.env'), $content);
-        $socket = fsockopen('localhost', 25401);
-        if ($socket === false) {
-            \Log::error('Socket connection failed');
+
+        $envPath = base_path('frontend/.env');
+        if (!file_exists($envPath)) {
+            $defaultEnvContent = "NEXT_PUBLIC_API_URL='https://" . request()->getHost() . "'\n";
+            $defaultEnvContent .= "MINESTORECMS_URL='https://" . request()->getHost() . "'\n";
+            file_put_contents($envPath, $defaultEnvContent);
+            \Log::info('Created new .env file', ['path' => $envPath]);
         } else {
-            fwrite($socket, "restart\n");
-            sleep(2);
-            fclose($socket);
+            $content = file_get_contents($envPath);
+            $search = "/^NEXT_PUBLIC_API_URL=.*$/m";
+            $replace = "NEXT_PUBLIC_API_URL='https://" . request()->getHost() . "'";
+            $content = preg_replace($search, $replace, $content);
+            $search = "/^MINESTORECMS_URL=.*$/m";
+            $replace = "MINESTORECMS_URL='https://" . request()->getHost() . "'";
+            $content = preg_replace($search, $replace, $content);
+            file_put_contents($envPath, $content);
+            \Log::info('Updated existing .env file', ['path' => $envPath]);
+        }
+        $socket = fsockopen('localhost', 25401, $errno, $errstr, 5);
+        if ($socket === false) {
+            Log::error("Failed to connect to localhost:25401: [$errno] $errstr");
+            return redirect('/admin/themes')->with('error', 'Could not connect to frontend service');
+        }
+        $token = config('app.key');
+        fwrite($socket, "restart|||$token\n");
+        $response = fgets($socket, 1024);
+        fclose($socket);
+        if (!str_contains($response, 'success')) {
+            Log::error("Frontend restart failed: $response");
+            return redirect('/admin/themes')->with('success', 'Restarting frontend. Please wait a few minutes. If the theme is not installed, please check the logs.');
         }
         event(new ThemeInstalled($themeId));
         SecurityLog::create([
@@ -533,15 +693,21 @@ class ThemesController extends Controller
             return redirect('/admin');
         }
         Setting::find(1)->update(['developer_mode' => $this->settings->developer_mode == 1 ? 0 : 1]);
+
         $command = "restart_dev";
-        $socket = fsockopen('localhost', 25401);
+        $socket = fsockopen('localhost', 25401, $errno, $errstr, 5);
         if ($socket === false) {
-            \Log::error('Socket connection failed');
+            Log::error("Failed to connect to localhost:25401: [$errno] $errstr");
             return 'ERROR';
         }
-        fwrite($socket, $command . "\n");
-        sleep(2);
+        $token = config('app.key');
+        fwrite($socket, "$command|||$token\n");
+        $response = fgets($socket, 1024);
         fclose($socket);
+        if (!str_contains($response, 'success')) {
+            Log::error("Frontend restart_dev failed: $response");
+            return 'ERROR';
+        }
         return 'OK';
     }
 
@@ -551,13 +717,21 @@ class ThemesController extends Controller
             return redirect('/admin');
         }
 
-        $socket = fsockopen('localhost', 25401);
+        $socket = fsockopen('localhost', 25401, $errno, $errstr, 5);
         if ($socket === false) {
+            Log::error("Failed to connect to localhost:25401: [$errno] $errstr");
             echo "Error\n";
         } else {
-            fwrite($socket, "restart\n");
-            sleep(2);
+            $token = config('app.key');
+            fwrite($socket, "restart|||$token\n");
+            $response = fgets($socket, 1024);
             fclose($socket);
+            if (!str_contains($response, 'success')) {
+                Log::error("Frontend restart failed: $response");
+                echo "Error\n";
+            } else {
+                return 'OK';
+            }
         }
 
         return 'OK';

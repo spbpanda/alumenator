@@ -68,4 +68,9 @@ class Command extends Model
     {
         return $this->hasManyThrough(Server::class, ItemServer::class, 'item_id', 'id', 'id', 'server_id')->where('item_servers.type', '=', ItemServer::TYPE_CMD_SERVER);
     }
+
+    public function item(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Item::class, 'id', 'item_id');
+    }
 }

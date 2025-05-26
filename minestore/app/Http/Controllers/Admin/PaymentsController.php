@@ -3,10 +3,15 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Events\PaymentPaid;
+use App\Facades\PaynowManagement;
+use App\Helpers\PayNowHelper;
+use App\Http\Controllers\API\SubscriptionController;
 use App\Http\Controllers\ItemsController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Requests\CreateManualPaymentRequest;
 use App\Jobs\FinalHandlerJob;
 use App\Jobs\ManualPaymentCommandProccessingJob;
+use App\Jobs\Payments\ProcessRefundCommandsJob;
 use App\Models\Ban;
 use App\Models\CartItem;
 use App\Models\Cart;
@@ -20,6 +25,7 @@ use App\Models\Currency;
 use App\Models\DonationGoal;
 use App\Models\Payment;
 use App\Models\PaymentMethod;
+use App\Models\Subscription;
 use App\Models\User;
 use App\Models\Setting;
 use App\Models\SecurityLog;
@@ -34,6 +40,9 @@ use Illuminate\Support\Str;
 use Illuminate\View\View;
 use PHPMailer\PHPMailer\Exception as PHPMailerException;
 use PHPMailer\PHPMailer\PHPMailer;
+use Stripe\Exception\ApiErrorException;
+use Stripe\PaymentIntent;
+use Stripe\Stripe;
 
 class PaymentsController extends Controller
 {
@@ -52,8 +61,13 @@ class PaymentsController extends Controller
         $payments = Payment::query()->with(['user'])->orderBy('created_at', 'DESC')->paginate(10);
 
         $isDetailsEnabled = Setting::query()->find(1)->details;
+        $paynowHelper = app(PayNowHelper::class);
+        $payNowEnabled = $paynowHelper->checkPayNowIntegrationStatus();
+        if ($payNowEnabled) {
+            $isDetailsEnabled = 0;
+        }
 
-        return view('admin.payments.index', compact('payments', 'isDetailsEnabled'));
+        return view('admin.payments.index', compact('payments', 'isDetailsEnabled', 'payNowEnabled'));
     }
 
     public function create(): View|RedirectResponse
@@ -88,6 +102,10 @@ class PaymentsController extends Controller
         if (!empty($email) && $request->send_mail == 1) {
             if (!$settings->details) {
                 return redirect()->route('payments.create')->with('warning', __('Enable "Collecting Customer Details" at the "Transactions" tab to send emails.'));
+            }
+
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                return redirect()->route('payments.create')->with('warning', __('Invalid email address.'));
             }
 
             if (!$settings->smtp_enable) {
@@ -163,7 +181,7 @@ class PaymentsController extends Controller
                     'region' => '',
                     'country' => '',
                     'zipcode' => '',
-                ]);
+                ], JSON_THROW_ON_ERROR);
             }
 
             // Check if any donation goal is active and increment it
@@ -177,7 +195,7 @@ class PaymentsController extends Controller
             event(new PaymentPaid($payment));
 
             // Execute commands attached to these packages
-            if ($request->payment_is_execute == 'on') {
+            if ($request->payment_is_execute === 'on') {
                 ManualPaymentCommandProccessingJob::dispatch($payment);
             }
 
@@ -399,6 +417,71 @@ class PaymentsController extends Controller
         ]);
     }
 
+    public function refund(int $id): JsonResponse
+    {
+        if (!UsersController::hasRule('payments', 'write')) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Permission denied'
+            ], 403);
+        }
+
+        $payment = Payment::find($id);
+        if (!$payment) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Payment not found'
+            ], 404);
+        }
+
+        if (in_array($payment->status, [Payment::COMPLETED, Payment::PAID])) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Cannot refund completed or paid payments'
+            ], 400);
+        }
+
+        $gateway = strtolower($payment->gateway);
+
+        try {
+            switch ($gateway) {
+                case 'stripe':
+                    $result = $this->processStripeRefund($payment);
+                    if (!$result) {
+                        return response()->json([
+                            'status' => false,
+                            'message' => 'Refund failed'
+                        ], 400);
+                    }
+                    break;
+                case 'paynow':
+                    $result = $this->processPayNowRefund($payment);
+                    if (!$result['success']) {
+                        return response()->json([
+                            'status' => false,
+                            'message' => $result['message']
+                        ], 400);
+                    }
+                    break;
+                default:
+                    return response()->json([
+                        'status' => false,
+                        'message' => 'Refund is not available for this payment method!'
+                    ], 400);
+            }
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Refund processed successfully'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Error processing refund: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
     public function resendAllCommands(int $id): JsonResponse {
         if (!UsersController::hasRule('payments', 'write')) {
             return response()->json([
@@ -456,23 +539,26 @@ class PaymentsController extends Controller
         }
 
         $cmd = CommandHistory::where('id', $id)->first();
-        if (empty($cmd))
+        if (empty($cmd)) {
             return response()->json([
                 'status' => false,
                 'message' => 'Command not found!'
             ], 404);
+        }
 
-        if ($cmd->status == CommandHistory::STATUS_EXECUTED)
+        if ($cmd->status == CommandHistory::STATUS_EXECUTED) {
             return response()->json([
                 'status' => false,
                 'message' => 'Command already executed!'
             ], 400);
+        }
 
-        if ($cmd->status == CommandHistory::STATUS_DELETED)
+        if ($cmd->status == CommandHistory::STATUS_DELETED) {
             return response()->json([
                 'status' => false,
                 'message' => 'Command already deleted!'
             ], 400);
+        }
 
         $cmdQueue = CmdQueue::where('commands_history_id', $cmd->id)
             ->first();
@@ -495,6 +581,132 @@ class PaymentsController extends Controller
         return response()->json([
             'status' => true
         ]);
+    }
+
+    /**
+    * Process a refund for PayNow payments
+    *
+    * @param Payment $payment
+    * @return array
+    */
+    private function processPayNowRefund(Payment $payment): array
+    {
+        $payNowOrder = PaynowManagement::getOrder($payment->transaction);
+        if ($payNowOrder['status'] !== 'completed') {
+            return [
+                'success' => false,
+                'message' => 'Payment is not completed!'
+            ];
+        }
+
+        if ($payNowOrder['is_subscription'] === true) {
+            $subscription = Subscription::where('payment_id', $payment->id)->first();
+            if (!$subscription) {
+                return [
+                    'success' => false,
+                    'message' => 'Subscription not found!'
+                ];
+            }
+
+            $payNowSubscription = PaynowManagement::getSubscription($subscription->sid);
+            if (!$payNowSubscription) {
+                return [
+                    'success' => false,
+                    'message' => 'Failed to retrieve PayNow subscription'
+                ];
+            }
+
+            $cancelResult = PaynowManagement::cancelSubscription($subscription->sid);
+            if (!$cancelResult) {
+                return [
+                    'success' => false,
+                    'message' => 'Failed to cancel subscription'
+                ];
+            }
+
+            $subscription->status = Subscription::CANCELLED;
+            $subscription->save();
+        }
+
+        $refundOrder = PaynowManagement::refundOrder($payment->transaction);
+        if (!$refundOrder || $refundOrder['status'] !== 'created') {
+            return [
+                'success' => false,
+                'message' => 'Refund failed!'
+            ];
+        }
+
+        $payment->status = Payment::REFUNDED;
+        $payment->save();
+
+        $this->processPostRefundCommands($payment);
+
+        return [
+            'success' => true,
+            'message' => 'Refund processed successfully'
+        ];
+    }
+
+    /**
+     * @throws ApiErrorException
+     */
+    private function processStripeRefund(Payment $payment)
+    {
+        $paymentMethod = PaymentMethod::query()->where('name', 'Stripe')->first();
+        if ($paymentMethod && !$paymentMethod->enable) {
+            return null;
+        }
+
+        $config = json_decode($paymentMethod->config, true);
+
+        Stripe::setApiKey($config['private']);
+
+        $paymentIntent = PaymentIntent::retrieve($payment->transaction);
+        $chargeId = $paymentIntent->latest_charge;
+
+        $refund = \Stripe\Refund::create([
+            'charge' => $chargeId,
+            'reason' => 'requested_by_customer',
+        ]);
+
+        $subscription = Subscription::where('payment_id', $payment->id)->first();
+        if ($subscription) {
+            $stripeSubscription = \Stripe\Subscription::retrieve($subscription->sid);
+            if ($stripeSubscription) {
+                $subscription->status = Subscription::CANCELLED;
+                $subscription->save();
+
+                $stripeSubscription->cancel();
+            } else {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Stripe subscription not found!'
+                ], 404);
+            }
+        }
+
+        if ($refund->status === 'succeeded') {
+            $payment->status = Payment::REFUNDED;
+            $payment->save();
+
+            $this->processPostRefundCommands($payment);
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => 'Refund failed!'
+            ], 400);
+        }
+    }
+
+    /**
+     * Process any commands that need to be run after a successful refund
+     *
+     * @param Payment $payment
+     * @return void
+     */
+    private function processPostRefundCommands(Payment $payment): void
+    {
+        ProcessRefundCommandsJob::dispatch($payment);
     }
 
     /**

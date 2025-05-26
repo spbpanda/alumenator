@@ -24,8 +24,10 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Tax extends Model
 {
-    protected $table = 'taxes';
+    const EXCLUSIVE = 0;
+    const INCLUSIVE = 1;
 
+    protected $table = 'taxes';
     public $timestamps = false;
 
     protected $fillable = [

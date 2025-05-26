@@ -78,7 +78,7 @@ class Cart extends Model
 
     public function cart_items(): HasMany
     {
-        return $this->hasMany(CartItem::class, 'id', 'cart_id');
+        return $this->hasMany(CartItem::class, 'cart_id', 'id');
     }
 
     public function coupon(): BelongsTo
@@ -92,6 +92,6 @@ class Cart extends Model
     }
     public function user(): HasOne
     {
-        return $this->HasOne(User::class, 'user_id', 'id');
+        return $this->HasOne(User::class, 'id', 'user_id');
     }
 }

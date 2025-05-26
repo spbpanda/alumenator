@@ -39,7 +39,16 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Server extends Model
 {
+    protected $table = 'servers';
+    public $timestamps = true;
+
     protected $fillable = [
-        'name', 'method', 'host', 'port', 'password', 'secret_key', 'deleted'
+        'name',
+        'method',
+        'host',
+        'port',
+        'password',
+        'secret_key',
+        'deleted'
     ];
 }

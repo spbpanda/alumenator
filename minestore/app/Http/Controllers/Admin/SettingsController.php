@@ -40,12 +40,14 @@ use App\Models\Payment;
 use App\Models\Setting;
 use App\Models\Variable;
 use App\Models\Whitelist;
+use App\Services\PayNowIntegrationService;
 use Crypt;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -377,6 +379,7 @@ class SettingsController extends Controller
         }
 
         $payments = PaymentMethod::query()->get();
+        $paynowService = app(PayNowIntegrationService::class);
         $methods = [];
 
         foreach ($payments as $payment) {
@@ -386,7 +389,37 @@ class SettingsController extends Controller
             ];
         }
 
-        return view('admin.settings.merchant', compact('methods'));
+        $methods['paynow'] = [
+            'enable' => $paynowService->isPaymentMethodEnabled(),
+            'config' => []
+        ];
+
+        $payNowInterest = $_COOKIE['paynow_interest'] ?? null;
+        if ($payNowInterest === 'false' || $payNowInterest === false || $paynowService->isPaymentMethodEnabled()) {
+            return view('admin.settings.merchant', compact('methods'));
+        }
+
+        return view('admin.paynow.encourage');
+    }
+
+    public function merchantEncourage(): \Illuminate\Foundation\Application|View|\Illuminate\Contracts\View\Factory|\Illuminate\Routing\Redirector|RedirectResponse
+    {
+        if (!UsersController::hasRule('settings', 'read')) {
+            return redirect('/admin');
+        }
+
+        $paynowService = app(PayNowIntegrationService::class);
+        $payNowInterest = $_COOKIE['paynow_interest'] ?? null;
+
+        if ($payNowInterest === 'false' || $payNowInterest === false) {
+            return redirect()->route('settings.merchant');
+        }
+
+        if ($paynowService->isPaymentMethodEnabled()) {
+            return redirect()->route('settings.merchant');
+        }
+
+        return view('admin.paynow.encourage');
     }
 
     public function links(): View|RedirectResponse
@@ -613,7 +646,6 @@ class SettingsController extends Controller
             'allow_currs' => $allow_currs,
             'is_virtual_currency' => $r->input('is_virtual_currency') == 'on' ? 1 : 0,
             'virtual_currency' => $r->input('virtual_currency'),
-            'virtual_currency_cmd' => $r->input('virtual_currency_cmd'),
         ]);
 
         SecurityLog::create([

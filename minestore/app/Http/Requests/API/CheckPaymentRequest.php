@@ -23,6 +23,7 @@ class CheckPaymentRequest extends FormRequest
     {
         return [
             'order_id' => ['required', 'string'],
+            'checkout_id' => ['sometimes', 'string'],
         ];
     }
 }

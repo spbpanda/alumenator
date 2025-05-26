@@ -44,7 +44,11 @@ class Chargeback extends Model
     protected $table = 'chargebacks';
     public $timestamps = false;
     protected $fillable = [
-        'payment_id', 'sid', 'status', 'creation_date', 'details',
+        'payment_id',
+        'sid',
+        'status',
+        'creation_date',
+        'details'
     ];
 
     public function getDetails()

@@ -92,7 +92,11 @@ class VarsController extends Controller
         if ($request->type == 0)
             $data['variables'] = array_values($request->input('variables'));
 
-        Variable::where('id', $id)->where('deleted', 0)->update($data);
+        $variable = Variable::where('id', $id)
+            ->where('deleted', 0)
+            ->first();
+
+        $variable->update($data);
 
         SecurityLog::create([
             'admin_id' => \Auth::guard('admins')->user()->id,
@@ -119,7 +123,7 @@ class VarsController extends Controller
 
         try {
             $variable = Variable::find($id);
-            $variable->where('id', $id)->update([
+            $variable->update([
                 'name' => '[DELETED] ' . $variable->name,
                 'deleted' => 1
             ]);
@@ -131,6 +135,8 @@ class VarsController extends Controller
                 'action_id' => $variable->id,
             ]);
         } catch (\Exception $e) {
+            \Log::error('Error deleting variable: ' . $e->getMessage());
+            return response()->json(['status' => 'false']);
         }
 
         if (request()->has('ajax'))

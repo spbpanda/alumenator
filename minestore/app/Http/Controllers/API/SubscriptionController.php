@@ -54,11 +54,12 @@ class SubscriptionController extends Controller
                 ->first();
 
             if ($subscription) {
-                $url[] = match ($subscription->payment_method) {
+                $url[] = match (strtolower($subscription->payment_method)) {
                     'stripe' => $this->getPortalLink($subscription->customer_id),
                     'gopay' => 'GoPay is not supported to close subscription directly. Contact Staff Team.',
                     'paypalipn' => 'PayPal is not supported to close subscription directly. Contact Staff Team.',
                     'terminal3' => 'Terminal3 is not supported to close subscription directly. Contact Staff Team.',
+                    'paynow' => $this->getPayNowLink(),
                     default => 'Unknown payment method.',
                 };
             }
@@ -101,5 +102,9 @@ class SubscriptionController extends Controller
         }
 
         return $session->url;
+    }
+
+    public function getPayNowLink() {
+        return 'https://checkout.paynow.gg/subscriptions';
     }
 }

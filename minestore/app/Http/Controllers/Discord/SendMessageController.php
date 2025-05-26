@@ -42,7 +42,7 @@ class SendMessageController extends Controller
         $items = [];
         foreach ($itemsCart as $iCart) {
             $product = Item::find($iCart->item_id);
-            $items[] = $product->name . ' - ' . $product->price . ' ' . $setting->currency . ' (' . $iCart->count . ' qty)' . "\n";
+            $items[] = $product->name . ' - ' . $iCart->price . ' ' . $setting->currency . ' (' . $iCart->count . ' qty)' . "\n";
         }
 
         $data = [

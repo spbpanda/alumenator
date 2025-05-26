@@ -14,10 +14,13 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use PDO;
 use PDOException;
+use Schema;
 use Validator;
 
 class InstallController extends Controller
@@ -87,7 +90,7 @@ class InstallController extends Controller
 
     public function changeLicenseKey(Request $r)
     {
-        if (config('app.is_installed')) {
+        if ($this->checkInstallationStatus()) {
             return response()->json(['status' => false, 'message' => 'Application is already installed'], 403);
         }
 
@@ -95,9 +98,37 @@ class InstallController extends Controller
             'preInstall_licenseKey' => 'required|string|regex:/^[a-zA-Z0-9\-_]+$/',
         ]);
 
-        SettingsController::setEnvironmentValue([
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, 'https://minestorecms.com/api/verify/' . $r->input('preInstall_licenseKey'));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
+
+        $response = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $curlError = curl_error($ch);
+        curl_close($ch);
+
+        if ($curlError) {
+            return response()->json(['status' => false, 'message' => 'Failed to verify license: ' . $curlError], 500);
+        }
+
+        if ($httpCode !== 200) {
+            return response()->json(['status' => false, 'message' => 'License verification service unavailable. HTTP code: ' . $httpCode], 503);
+        }
+
+        if (strtoupper(trim($response)) !== 'SUCCESS') {
+            return response()->json(['status' => false, 'message' => 'Invalid license key'], 422);
+        }
+
+        $result = SettingsController::setEnvironmentValue([
             'LICENSE_KEY' => $r->input('preInstall_licenseKey'),
         ]);
+
+        if (!$result) {
+            return response()->json(['status' => false, 'message' => 'Failed to update license key'], 500);
+        }
 
         Artisan::call('config:clear');
         return response()->json(['status' => true]);
@@ -108,7 +139,7 @@ class InstallController extends Controller
      */
     public function install(Request $r)
     {
-        if (config('app.is_installed')) {
+        if ($this->checkInstallationStatus()) {
             return redirect('/');
         }
 
@@ -172,8 +203,7 @@ class InstallController extends Controller
             'DB_PASSWORD' => '"' . $database_password . '"',
         ]);
 
-        // Clear caches and generate app key
-        Artisan::call('key:generate');
+        // Clear caches
         Artisan::call('cache:clear');
         Artisan::call('config:clear');
 
@@ -188,7 +218,7 @@ class InstallController extends Controller
         }
 
         // Generate API secret key
-        $apiKey = substr(str_shuffle('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'), 0, 20);
+        $apiKey = Str::random(40);
 
         // Build the allowed currencies list
         $allowed_currencies = 'USD,EUR,BRL,CAD,GBP,CZK,TRY,SEK,PLN';
@@ -247,9 +277,44 @@ class InstallController extends Controller
         Theme::truncate();
 
         // Fetching latest default theme version
-        $context = stream_context_create(['http' => ['timeout' => 10]]);
         $themesUrl = 'https://minestorecms.com/cms/' . env('LICENSE_KEY') . '/themes?new_version=' . config('app.version');
-        $themes = @file_get_contents($themesUrl, false, $context);
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $themesUrl);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'User-Agent: MineStoreCMS-Installer/' . config('app.version'),
+            'Accept: application/json'
+        ]);
+
+        $themes = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $curlError = curl_error($ch);
+        curl_close($ch);
+
+        if ($curlError || $httpCode !== 200) {
+            Log::warning('Theme fetch failed: ' . ($curlError ?: 'HTTP code: ' . $httpCode));
+            $themesArray = [];
+            $defaultThemeVersion = '3.1.2';
+        } else {
+            $themesArray = json_decode($themes, true);
+
+            if (!is_array($themesArray)) {
+                Log::warning('Themes response is not a valid JSON array');
+                $themesArray = [];
+                $defaultThemeVersion = '3.1.2';
+            } else {
+                $defaultThemeVersion = '3.1.2';
+                $defaultTheme = collect($themesArray)->firstWhere('id', 1);
+
+                if ($defaultTheme) {
+                    $defaultThemeVersion = $defaultTheme['version'];
+                }
+            }
+        }
 
         if ($themes === false) {
             return response()->json([
@@ -299,7 +364,7 @@ class InstallController extends Controller
 
         SettingsController::setEnvironmentValue([
             'APP_DEBUG' => false,
-            'INSTALLED' => true,
+            'INSTALLED' => 1,
         ]);
 
         Artisan::call('cache:clear');
@@ -317,5 +382,33 @@ class InstallController extends Controller
         return response()->json([
             'status' => 'OK',
         ]);
+    }
+
+    public function checkInstallationStatus(): bool
+    {
+        $configInstalled = config('app.is_installed');
+
+        $dbInstalled = false;
+        try {
+            if (Schema::hasTable('settings')) {
+                $dbInstalled = Setting::count() > 0;
+            }
+        } catch (\Exception $e) {
+            Log::error('Error checking database installation: ' . $e->getMessage());
+        }
+
+        $adminExists = false;
+        try {
+            if (Schema::hasTable('admins')) {
+                $adminExists = Admin::count() > 0;
+            }
+        } catch (\Exception $e) {
+            Log::error('Error checking admin existence: ' . $e->getMessage());
+        }
+
+        $installationFlags = [$configInstalled, $dbInstalled, $adminExists];
+        $installedCount = count(array_filter($installationFlags));
+
+        return $installedCount >= 2;
     }
 }

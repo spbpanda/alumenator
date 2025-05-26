@@ -19,6 +19,7 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
  * @property float $min_basket
  * @property int $apply_type
  * @property string $note
+ * @property int|null $user_id
  * @property int $deleted
  * @property string|null $start_at
  * @property string|null $expire_at
@@ -71,6 +72,7 @@ class Coupon extends Model
         'min_basket',
         'apply_type',
         'note',
+        'user_id',
         'deleted',
         'start_at',
         'expire_at',

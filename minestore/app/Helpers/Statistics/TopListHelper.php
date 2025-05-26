@@ -298,10 +298,10 @@ class TopListHelper
     {
         $system_currency = Currency::query()->where('name', Setting::find(1)->currency)->first();
 
-        $topServers = DB::table('commands_history')
-            ->join('servers', 'servers.id', '=', 'commands_history.server_id')
-            ->join('payments', 'payments.id', '=', 'commands_history.payment_id')
+        $topServers = DB::table('payments')
             ->join('carts', 'carts.id', '=', 'payments.cart_id')
+            ->join('commands_history', 'commands_history.payment_id', '=', 'payments.id')
+            ->join('servers', 'servers.id', '=', 'commands_history.server_id')
             ->where('carts.virtual_price', 0);
 
         if (!is_null($dates)) {
@@ -313,9 +313,11 @@ class TopListHelper
         $topServers = $topServers->select(
             'servers.name as server_name',
             'servers.id as id',
+            'payments.id as payment_id',
             'payments.price as payment_price',
             'payments.currency as payment_currency'
         )
+            ->distinct('payments.id')
             ->get();
 
         $serversGrouped = $topServers->groupBy('id')->map(function ($group) use ($system_currency) {

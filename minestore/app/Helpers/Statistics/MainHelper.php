@@ -151,6 +151,37 @@ class MainHelper
     }
 
     /**
+     * Get statistic data for the month income for dashboard homepage
+     * @return object
+     */
+    public function getMonthlyRevenueHomepage(): object
+    {
+        // Get this month income
+        $thisMonthAmount = Cart::join('payments', 'payments.cart_id', '=', 'carts.id')
+            ->whereIn('payments.status', [Payment::PAID, Payment::COMPLETED, Payment::ERROR])
+            ->whereBetween('payments.created_at', [now()->startOfMonth(), now()])
+            ->sum('carts.price');
+
+        // Get previous month income
+        $previousMonthAmount = Cart::join('payments', 'payments.cart_id', '=', 'carts.id')
+            ->whereIn('payments.status', [Payment::PAID, Payment::COMPLETED, Payment::ERROR])
+            ->whereBetween('payments.created_at', [now()->subMonth()->startOfMonth(), now()->subMonth()])
+            ->sum('carts.price');
+
+        // Calculate difference in percentage
+        $difference = ValuesDifferenceHelper::getPercentageDifference($thisMonthAmount, $previousMonthAmount);
+        $level = ($difference == 0) ? 'equal' : ($difference > 0 ? 'up' : 'down');
+
+        $formattedAmount = CurrencyHelper::formatMoney($thisMonthAmount);
+
+        return (object)[
+            'amount' => $formattedAmount,
+            'difference' => $difference,
+            'level' => $level
+        ];
+    }
+
+    /**
      * Get statistic data for the year income
      * @return object
      */

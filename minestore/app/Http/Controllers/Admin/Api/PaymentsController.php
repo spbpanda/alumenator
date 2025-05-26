@@ -2,22 +2,17 @@
 
 namespace App\Http\Controllers\Admin\Api;
 
-use App\Helpers\SortHelper;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\ItemsController;
 use App\Http\Controllers\Admin\Controller;
 use App\Http\Requests\AddPaymentNoteRequest;
-use App\Http\Requests\BanUserRequest;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use App\Models\Ban;
 use App\Models\Payment;
 use App\Models\SecurityLog;
 use App\Models\Setting;
-use Illuminate\Support\Str;
-use Illuminate\View\View;
+use Illuminate\Support\Facades\DB;
 
 class PaymentsController extends Controller
 {
@@ -124,6 +119,7 @@ class PaymentsController extends Controller
      * API endpoint to delete payment
      * @param string $id
      * @return JsonResponse
+     * @throws \Throwable The exception that is thrown when a database transaction fails.
      */
     public function destroy(string $id): JsonResponse
     {
@@ -131,16 +127,26 @@ class PaymentsController extends Controller
             return response()->json(['message' => 'Not authorized'], Response::HTTP_UNAUTHORIZED);
         }
 
-        Payment::destroy($id);
+        try {
+            DB::beginTransaction();
 
-        SecurityLog::create([
-            'admin_id' => \Auth::guard('admins')->user()->id,
-            'method' => SecurityLog::DELETE_METHOD,
-            'action' => SecurityLog::ACTION['payments'],
-            'action_id' => $id,
-        ]);
+            DB::table('discord_role_queue')->where('payment_id', $id)->delete();
 
-        return response()->json([], Response::HTTP_NO_CONTENT);
+            Payment::destroy($id);
+
+            SecurityLog::create([
+                'admin_id' => \Auth::guard('admins')->user()->id,
+                'method' => SecurityLog::DELETE_METHOD,
+                'action' => SecurityLog::ACTION['payments'],
+                'action_id' => $id,
+            ]);
+
+            DB::commit();
+            return response()->json([], Response::HTTP_NO_CONTENT);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['message' => 'Error deleting payment: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
     /**

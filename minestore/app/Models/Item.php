@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
@@ -29,6 +30,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property array|null $required_items
  * @property int $featured
  * @property int $is_subs
+ * @property int $is_subs_only
  * @property int $chargePeriodValue
  * @property int $chargePeriodUnit
  * @property int $is_virtual_currency_only
@@ -119,6 +121,7 @@ class Item extends Model
         'required_items',
         'featured',
         'is_subs',
+        'is_subs_only',
         'is_virtual_currency_only',
         'is_any_price',
         'is_server_choice',
@@ -134,11 +137,12 @@ class Item extends Model
         'quantityGlobalPeriodValue',
         'chargePeriodUnit',
         'chargePeriodValue',
+        'image_updated_at'
     ];
 
-    public function commands(): BelongsTo
+    public function commands(): HasMany
     {
-        return $this->belongsTo(Command::class, 'id', 'item_id');
+        return $this->hasMany(Command::class, 'item_id', 'id');
     }
 
     public function variables(): HasManyThrough
@@ -161,7 +165,7 @@ class Item extends Model
         return $this->hasOne('App\Models\Category', 'id', 'category_id');
     }
 
-    public function discordRole(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function discordRole(): HasMany
     {
         return $this->hasMany(ItemRole::class, 'item_id', 'id');
     }
@@ -169,5 +173,10 @@ class Item extends Model
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class, 'category_id', 'id');
+    }
+
+    public function pnProductReference(): HasOne
+    {
+        return $this->hasOne(PnProductReference::class, 'internal_package_id', 'id');
     }
 }

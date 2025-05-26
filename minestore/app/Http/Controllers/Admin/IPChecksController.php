@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Helpers\PayNowHelper;
 use App\Models\SecurityLog;
 use App\Models\Setting;
 use Illuminate\Http\Request;
@@ -267,7 +268,16 @@ class IPChecksController extends Controller
         ];
         $ban_countries = explode(',', $this->settings->cb_countries);
 
-        return view('admin.ip_checks.settings', compact('countries', 'ban_countries'));
+        $paynowHelper = app(PayNowHelper::class);
+        $payNowEnabled = $paynowHelper->checkPayNowIntegrationStatus();
+
+        $containsEUCountries = false;
+        if ($payNowEnabled) {
+            $euCountries = PayNowHelper::getEUCountries();
+            $containsEUCountries = !empty(array_intersect($ban_countries, $euCountries));
+        }
+
+        return view('admin.ip_checks.settings', compact('countries', 'ban_countries', 'payNowEnabled', 'containsEUCountries'));
     }
 
     public function settingsSave(Request $r)
@@ -283,6 +293,20 @@ class IPChecksController extends Controller
             }
         }
 
+        $paynowHelper = app(PayNowHelper::class);
+        $payNowEnabled = $paynowHelper->checkPayNowIntegrationStatus();
+        if ($payNowEnabled) {
+            $euCountries = PayNowHelper::getEUCountries();
+            $countriesArray = explode(',', $countries);
+            $containsEUCountries = false;
+            foreach ($euCountries as $countryCode) {
+                if (in_array($countryCode, $countriesArray, true)) {
+                    $containsEUCountries = true;
+                    break;
+                }
+            }
+        }
+
         Setting::query()->find(1)->update([
             'cb_geoip' => $r->input('cb_geoip') == 'on' ? 1 : 0,
             'cb_countries' => $countries,
@@ -294,6 +318,10 @@ class IPChecksController extends Controller
             'action' => SecurityLog::ACTION['ip_checks'],
         ]);
 
-        return redirect('/admin/ipchecks');
+        if ($payNowEnabled && $containsEUCountries) {
+            return redirect('/admin/ipchecks')->with('warning', __('According to the EU regulations, if you banning any EU country, the whole EU region will be banned from using PayNow.'));
+        }
+
+        return redirect('/admin/ipchecks')->with('success', __('IP Checks settings updated successfully.'));
     }
 }

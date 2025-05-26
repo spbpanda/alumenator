@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\PnSetting;
 use App\Models\Setting;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -30,5 +31,15 @@ class Controller extends BaseController
     public function toActualCurrency($price, $currency_value, $system_currency_value)
     {
         return round(($price * $currency_value) / $system_currency_value, 2);
+    }
+
+    public function payNowEnabled()
+    {
+        return PnSetting::first()->enabled ?? false;
+    }
+
+    public function payNowTaxMode()
+    {
+        return PnSetting::first()->tax_mode ?? 0;
     }
 }

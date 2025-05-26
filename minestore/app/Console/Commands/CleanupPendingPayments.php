@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\Coupon;
+use App\Models\Subscription;
 use Illuminate\Console\Command;
 use App\Models\Payment;
 use App\Models\Cart;
@@ -32,7 +33,7 @@ class CleanupPendingPayments extends Command
         $this->info('Cleaning up pending payments...');
 
         $pendingPayments = Payment::where('status', Payment::PROCESSED)
-            ->where('created_at', '<', now()->subHours(3))
+            ->where('created_at', '<', now()->subHours(56))
             ->get();
 
         foreach ($pendingPayments as $payment) {
@@ -62,6 +63,15 @@ class CleanupPendingPayments extends Command
             $payment->delete();
 
             $this->info('Deleted pending payment & cart with ID: ' . $payment->id);
+        }
+
+        $pendingSubscriptions = Subscription::where('status', Subscription::PENDING)
+            ->where('created_at', '<', now()->subHours(56))
+            ->get();
+
+        foreach ($pendingSubscriptions as $subscription) {
+            $subscription->delete();
+            $this->info('Deleted pending subscription with ID: ' . $subscription->id);
         }
 
         $this->info('Done!');

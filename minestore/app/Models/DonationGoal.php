@@ -21,6 +21,7 @@ class DonationGoal extends Model
         'status',
         'is_enabled',
         'automatic_disabling',
+        'automatic_reset',
         'current_amount',
         'goal_amount',
         'cmdExecute',

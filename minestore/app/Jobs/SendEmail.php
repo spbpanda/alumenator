@@ -35,6 +35,10 @@ class SendEmail implements ShouldQueue
         // Configure PHPMailer
         $mail = new PHPMailer(true);
         try {
+            if (!filter_var($this->data['settings']['setFrom'][0], FILTER_VALIDATE_EMAIL)) {
+                throw new \InvalidArgumentException('Invalid sender email address');
+            }
+
             $mail->isSMTP();
             $mail->Host = $this->data['settings']['Host'];
             $mail->SMTPAuth = $this->data['settings']['SMTPAuth'];

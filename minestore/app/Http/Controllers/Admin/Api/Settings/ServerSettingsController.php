@@ -52,7 +52,9 @@ class ServerSettingsController extends Controller
             return response()->json(['message' => 'Not authorized'], Response::HTTP_UNAUTHORIZED);
         }
 
-        Server::where('id', $id)->update($request->validated());
+        $server = Server::findOrFail($id);
+        $server->fill($request->validated());
+        $server->save();
 
         SecurityLog::create([
             'admin_id' => \Auth::guard('admins')->user()->id,

@@ -11,6 +11,7 @@ use App\Models\DonationGoal;
 use App\Models\Item;
 use App\Models\ItemServer;
 use App\Models\Payment;
+use App\Models\PromotedItem;
 use App\Models\Sale;
 use App\Models\SaleApply;
 use App\Models\Server;
@@ -29,7 +30,7 @@ class CronWorker extends Command
 {
     protected $signature = 'cron:worker';
 
-    protected $description = 'Command process cron actions';
+    protected $description = 'Cron Worker for handling scheduled tasks';
 
     public function __construct()
     {
@@ -243,6 +244,7 @@ class CronWorker extends Command
                                         'discount' => 0,
                                     ]);
 
+                                    $this->restoreSalePromotedItemPrice($item, $sale);
                                     $this->info('Item updated: ' . $item->name);
                                 }
                             }
@@ -262,6 +264,8 @@ class CronWorker extends Command
                                     'discount' => 0,
                                     'featured' => 0
                                 ]);
+
+                                $this->restoreSalePromotedItemPrice($item, $sale);
                             }
                             $this->info('Item updated: ' . $item->name);
                         }
@@ -274,6 +278,8 @@ class CronWorker extends Command
                             $item->update([
                                 'discount' => 0,
                             ]);
+
+                            $this->restoreSalePromotedItemPrice($item, $sale);
                         }
 
                         $this->info('Sale were removed from all items.');
@@ -328,6 +334,7 @@ class CronWorker extends Command
                                         'discount' => $sale->discount,
                                     ]);
 
+                                    $this->applySalePromotedItem($item, $sale);
                                     $this->info('Item updated: ' . $item->name);
                                 }
                             }
@@ -347,6 +354,8 @@ class CronWorker extends Command
                                     'discount' => $sale->discount,
                                     'featured' => 1
                                 ]);
+
+                                $this->applySalePromotedItem($item, $sale);
                             }
                             $this->info('Item updated: ' . $item->name);
                         }
@@ -359,6 +368,8 @@ class CronWorker extends Command
                             $item->update([
                                 'discount' => $sale->discount,
                             ]);
+
+                            $this->applySalePromotedItem($item, $sale);
                         }
 
                         $this->info('Sale were applied to all items.');
@@ -472,6 +483,33 @@ class CronWorker extends Command
             }
 
             sleep(5);
+        }
+    }
+
+    private function applySalePromotedItem($item, $sale): void
+    {
+        $promotedPackage = PromotedItem::where('item_id', $item->id)
+            ->first();
+
+        if ($promotedPackage) {
+            $promotedPackage->update([
+                'price' => $promotedPackage->price - ($promotedPackage->price * $sale->discount / 100),
+            ]);
+        }
+    }
+
+    private function restoreSalePromotedItemPrice($item, $sale): void
+    {
+        $promotedPackage = PromotedItem::where('item_id', $item->id)
+            ->first();
+
+        if ($promotedPackage) {
+            $discountFactor = 1 - ($sale->discount / 100);
+            $originalPrice = $promotedPackage->price / $discountFactor;
+
+            $promotedPackage->update([
+                'price' => $originalPrice,
+            ]);
         }
     }
 }

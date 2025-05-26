@@ -49,7 +49,8 @@ class StoreCouponRequest extends FormRequest
             'apply_items' => 'sometimes',
             'note' => 'sometimes',
             'start_at' => 'nullable',
-            'expire_at' => 'nullable'
+            'expire_at' => 'nullable',
+            'username' => 'nullable'
         ];
     }
 }

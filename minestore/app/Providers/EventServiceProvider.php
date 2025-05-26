@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Events\AlertReceived;
 use App\Events\ChargebackCreated;
 use App\Events\MonthlyReportGenerated;
 use App\Events\PaymentPaid;
@@ -9,6 +10,7 @@ use App\Events\ThemeInstalled;
 use App\Events\UpdateAvailable;
 use App\Listeners\SendMetricsData;
 use App\Listeners\SendMonthlyReportNotification;
+use App\Listeners\SendNewAlertNotification;
 use App\Listeners\SendNewChargebackNotification;
 use App\Listeners\SendNewPaymentNotification;
 use App\Listeners\SendNewUpdateNotification;
@@ -44,6 +46,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         ThemeInstalled::class => [
             SendMetricsData::class,
+        ],
+        AlertReceived::class => [
+            SendNewAlertNotification::class
         ],
         SocialiteWasCalled::class => [
             'SocialiteProviders\\Discord\\DiscordExtendSocialite@handle',

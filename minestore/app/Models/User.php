@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Helpers\GeoHelper;
+use App\Helpers\NetworkHelper;
 use App\Models;
 use GeoIp2\Record\Location;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -49,7 +50,16 @@ class User extends Authenticatable
     use HasFactory;
 
     protected $fillable = [
-        'username', 'avatar', 'system', 'identificator', 'discord_id', 'uuid', 'country', 'country_code', 'ip_address', 'api_token',
+        'username',
+        'avatar',
+        'system',
+        'identificator',
+        'discord_id',
+        'uuid',
+        'country',
+        'country_code',
+        'ip_address',
+        'api_token'
     ];
 
     protected $hidden = [
@@ -60,11 +70,10 @@ class User extends Authenticatable
     {
         parent::booted();
 
-        // Set country by ip
         static::creating(function ($model) {
-            $model->ip_address = request()->ip() ?? null;
-            $model->country = GeoHelper::getCountryNameByIp(request()->ip()) ?? null;
-            $model->country_code = GeoHelper::getCountryCodeByIp(request()->ip()) ?? null;
+            $model->ip_address = request()->ip();
+            $model->country = GeoHelper::getCountryNameByIp(request()->ip());
+            $model->country_code = GeoHelper::getCountryCodeByIp(request()->ip());
         });
     }
 

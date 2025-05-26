@@ -12,7 +12,14 @@ use \Illuminate\Database\Eloquent\Relations\belongsTo;
  * @property int $id
  * @property int $cart_id
  * @property int $item_id
+ * @property int $payment_type
  * @property float $price
+ * @property float $initial_price
+ * @property float $variable_price
+ * @property float $initial_variable_price
+ * @property float $virtual_currency
+ * @property int $is_promoted
+ * @property int $coupon_applied
  * @property int $count
  * property tinyInt $payment_type
  * @property \Illuminate\Support\Carbon|null $created_at

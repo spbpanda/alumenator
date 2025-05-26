@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\PaymentsControllers;
 
 use App\Helpers\ChargeHelper;
+use App\Helpers\SubscriptionHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\PaymentController;
 use App\Models\CartItem;
@@ -54,12 +55,16 @@ class PayPalIPNController extends Controller
             $itemData = Item::where('id', CartItem::where('cart_id', $cart->id)->first()->item_id)->select('id', 'name', 'chargePeriodUnit', 'chargePeriodValue')->first();
             $period = ChargeHelper::GetChargeDays($itemData->chargePeriodUnit, $itemData->chargePeriodValue);
 
-            Subscription::create([
+            $subscription = Subscription::create([
                 'payment_id' => $payment->id,
                 'sid' => null,
                 'status' => Subscription::PENDING,
                 'interval_days' => $period,
                 'renewal' => Carbon::now()->addDays($period)->format('Y-m-d'),
+            ]);
+
+            $payment->update([
+                'internal_subscription_id' => $subscription->id,
             ]);
 
             return [
@@ -266,17 +271,19 @@ class PayPalIPNController extends Controller
         }
 
         DB::transaction(function() use ($subscr, $myPost) {
-            Payment::where('id', $subscr->payment_id)->update([
-                'transaction' => $myPost['subscr_id'],
-            ]);
-
             $subscr->update([
+                'sid' => $myPost['subscr_id'],
                 'status' => Subscription::ACTIVE,
                 'count' => $subscr->count + 1,
                 'renewal' => Carbon::now()->addDays($subscr->interval_days)->format('Y-m-d'),
             ]);
 
             if ($subscr->count > 1) {
+                $payment = Payment::where('id', $subscr->payment_id)->first();
+                if ($payment) {
+                    SubscriptionHelper::replicatePaymentRecord($payment, $subscr);
+                }
+
                 $this->paymentController->RenewHandler($subscr->payment_id);
             } else {
                 $this->paymentController->FinalHandler($subscr->payment_id);
@@ -297,7 +304,7 @@ class PayPalIPNController extends Controller
                 'status' => Payment::ERROR
             ]);
 
-            $this->paymentController->ExpireHandler($myPost['custom']);
+            $this->paymentController::ExpireHandler($myPost['custom']);
         });
 
         return http_response_code(200);
@@ -306,33 +313,47 @@ class PayPalIPNController extends Controller
     private function handleRegularPayment(array $myPost)
     {
         return DB::transaction(function() use ($myPost) {
-            switch ($myPost['txn_type']) {
-                case 'new_case':
-                case 'Refunded':
-                    return $this->handleChargeback($myPost);
-
-                default:
-                    switch ($myPost['payment_status']) {
-                        case 'Completed':
-                            return $this->handleCompletedPayment($myPost);
-                        case 'Reversed':
-                            return $this->handleChargeback($myPost);
-                        case 'Refunded':
-                            return $this->handleRefund($myPost);
-                        case 'Canceled_Reversal':
-                            return $this->handleCanceledReversal($myPost);
-                        default:
-                            Log::error('Unknown payment status', ['status' => $myPost['payment_status']]);
-                            return http_response_code(200);
-                    }
+            if (isset($myPost['payment_status'])) {
+                switch ($myPost['payment_status']) {
+                    case 'Completed':
+                        return $this->handleCompletedPayment($myPost);
+                    case 'Reversed':
+                        return $this->handleChargeback($myPost);
+                    case 'Refunded':
+                        return $this->handleRefund($myPost);
+                    case 'Canceled_Reversal':
+                        return $this->handleCanceledReversal($myPost);
+                    default:
+                        Log::error('Unknown payment status', ['status' => $myPost['payment_status']]);
+                        return http_response_code(200);
+                }
             }
+
+            if (isset($myPost['txn_type']) && !empty($myPost['txn_type'])) {
+                switch ($myPost['txn_type']) {
+                    case 'new_case':
+                        return $this->handleChargeback($myPost);
+                    default:
+                        Log::info('Unhandled transaction type', ['txn_type' => $myPost['txn_type']]);
+                        return http_response_code(200);
+                }
+            }
+
+            Log::error('Missing both payment_status and txn_type in IPN', ['data' => $myPost]);
+            return http_response_code(200);
         });
     }
 
     private function handleChargeback(array $myPost)
     {
         $existingChargeback = null;
-        if (isset($myPost['txn_id'], $myPost['custom'])) {
+
+        if (!isset($myPost['custom'])) {
+            Log::error('Missing custom field in IPN for chargeback', ['data' => $myPost]);
+            return http_response_code(200);
+        }
+
+        if (isset($myPost['txn_id'])) {
             $existingChargeback = Chargeback::where('payment_id', $myPost['custom'])
                 ->where('sid', $myPost['txn_id'])
                 ->first();
@@ -346,23 +367,21 @@ class PayPalIPNController extends Controller
                 'reason_code'
             ]));
 
-            if (isset($caseData['reason_code'])) {
-                $caseData['reason'] = $caseData['reason_code'];
-            }
+            $caseData['reason'] = isset($caseData['reason_code']) ? $caseData['reason_code'] : 'Unknown';
 
             $payment = Payment::where('id', $myPost['custom'])->first();
             if (!$payment) {
                 Log::error('Payment not found', ['payment_id' => $myPost['custom']]);
-                abort(404, 'Payment not found');
+                return http_response_code(200);
             }
 
             $this->paymentController->PaymentHandler($payment);
-            $this->paymentController->ExpireHandler($myPost['custom']);
+            $this->paymentController::ExpireHandler($myPost['custom']);
             $this->paymentController->ChargebackHandler($myPost['custom']);
 
             Payment::where('id', $myPost['custom'])->update([
                 'status' => Payment::CHARGEBACK,
-                'transaction' => $myPost['txn_id']
+                'transaction' => isset($myPost['txn_id']) ? $myPost['txn_id'] : null
             ]);
 
             Subscription::where('payment_id', $myPost['custom'])->update([
@@ -371,7 +390,7 @@ class PayPalIPNController extends Controller
 
             Chargeback::create([
                 'payment_id' => $myPost['custom'],
-                'sid' => $myPost['txn_id'],
+                'sid' => isset($myPost['txn_id']) ? $myPost['txn_id'] : null,
                 'status' => Chargeback::PENDING,
                 'details' => json_encode($caseData)
             ]);
@@ -382,6 +401,11 @@ class PayPalIPNController extends Controller
 
     private function handleRefund(array $myPost)
     {
+        if (!isset($myPost['custom'])) {
+            Log::error('Missing custom field in IPN for refund', ['data' => $myPost]);
+            return http_response_code(200);
+        }
+
         $chargeback = Chargeback::where('payment_id', $myPost['custom'])->first();
         if ($chargeback) {
             $chargeback->update(['status' => Chargeback::CHARGEBACK]);
@@ -389,14 +413,14 @@ class PayPalIPNController extends Controller
 
         DB::transaction(function() use ($myPost) {
             Payment::where('id', $myPost['custom'])->update([
-                'status' => Payment::CHARGEBACK
+                'status' => Payment::REFUNDED
             ]);
 
             Subscription::where('payment_id', $myPost['custom'])->update([
                 'status' => Subscription::CANCELLED
             ]);
 
-            $this->paymentController->ExpireHandler($myPost['custom']);
+            $this->paymentController::ExpireHandler($myPost['custom']);
             $this->paymentController->ChargebackHandler($myPost['custom']);
 
             $payment = Payment::where('id', $myPost['custom'])->first();
@@ -410,6 +434,11 @@ class PayPalIPNController extends Controller
 
     private function handleCanceledReversal(array $myPost)
     {
+        if (!isset($myPost['custom'])) {
+            Log::error('Missing custom field in IPN for canceled reversal', ['data' => $myPost]);
+            return http_response_code(200);
+        }
+
         $chargeback = Chargeback::where('payment_id', $myPost['custom'])->first();
         if ($chargeback) {
             $chargeback->update(['status' => Chargeback::COMPLETED]);
@@ -420,8 +449,14 @@ class PayPalIPNController extends Controller
 
     private function handleCompletedPayment(array $myPost)
     {
-        if ($myPost['txn_type'] !== 'web_accept') {
-            return response('', 200);
+        if (isset($myPost['txn_type']) && $myPost['txn_type'] !== 'web_accept') {
+            Log::info('Skipping non-web_accept payment', ['txn_type' => $myPost['txn_type']]);
+            return http_response_code(200);
+        }
+
+        if (!isset($myPost['custom']) || !isset($myPost['mc_gross']) || !isset($myPost['mc_currency'])) {
+            Log::error('Missing required fields in completed payment IPN', ['data' => $myPost]);
+            return http_response_code(200);
         }
 
         $item_amount = (float) $myPost['mc_gross'];

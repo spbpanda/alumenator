@@ -71,6 +71,7 @@ class DonationGoalsController extends Controller
             'status' => $this->getStatus($r->input('status')),
             'is_enabled' => $isEnabled,
             'automatic_disabling' => $this->getStatus($r->input('automatic_disabling')),
+            'automatic_reset' => $this->getStatus($r->input('automatic_reset')),
             'current_amount' => $this->formatAmount($r->input('current_amount')),
             'goal_amount' => $this->formatAmount($r->input('goal_amount')),
             'cmdExecute' => $this->getStatus($r->input('cmdExecute')),
@@ -122,6 +123,7 @@ class DonationGoalsController extends Controller
             'status' => $this->getStatus($r->input('status')),
             'is_enabled' => $isEnabled,
             'automatic_disabling' => $this->getStatus($r->input('automatic_disabling')),
+            'automatic_reset' => $this->getStatus($r->input('automatic_reset')),
             'current_amount' => $this->formatAmount($r->input('current_amount')),
             'goal_amount' => $this->formatAmount($r->input('goal_amount')),
             'cmdExecute' => $this->getStatus($r->input('cmdExecute')),
@@ -171,16 +173,25 @@ class DonationGoalsController extends Controller
         return to_route('donation_goals.index');
     }
 
-    public static function increment($price){
+    public static function increment($price)
+    {
         DonationGoal::where('status', 1)->increment('current_amount', $price);
         $goals = DonationGoal::whereRaw('status = 1 AND cmdExecute = 1 AND reached_at IS NULL AND current_amount >= goal_amount')->get();
-        if(!$goals->isEmpty()){
-            foreach ($goals as $goal){
+        if (!$goals->isEmpty()) {
+            foreach ($goals as $goal) {
                 self::sendCommand($goal);
                 $goal->reached_at = Carbon::now();
                 $goal->cmdExecute = 1;
-                if ($goal->automatic_disabling == 1)
+                if ($goal->automatic_disabling === 1) {
                     $goal->status = 0;
+                }
+
+                if ($goal->automatic_reset === 1) {
+                    $goal->status = 1;
+                    $goal->current_amount = 0;
+                    $goal->reached_at = null;
+                }
+
                 $goal->save();
             }
         }
@@ -197,6 +208,7 @@ class DonationGoalsController extends Controller
             'name' => 'required|string|max:255',
             'status' => 'string|max:3',
             'automatic_disabling' => 'string|max:3',
+            'automatic_reset' => 'sometimes|string|max:3',
             'current_amount' => 'required',
             'goal_amount' => 'required',
             'cmdExecute' => 'string|max:3',

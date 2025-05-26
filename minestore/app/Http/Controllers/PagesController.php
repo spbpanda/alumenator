@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\PayNowHelper;
 use App\Models\Page;
 use App\Models\Setting;
 use App\Models\SiteVisit;
@@ -17,20 +18,32 @@ class PagesController extends Controller
         $settings = Setting::select('is_maintenance', 'maintenance_ips')->first();
         $maintenanceMode = $settings->is_maintenance;
 
-        if (! config('app.is_installed')) {
+        if (!config('app.is_installed')) {
             return redirect('/install');
         }
 
         $ip = $_COOKIE['client-ip'] ?? $this->getIp();
+
         //Log::error('IP: ' . $ip . ' - Token: ' . $_COOKIE['token'] . ' - is Set ' . isset($_COOKIE['token']));
+
         if ($ip !== false) {
             $cb_countries = Setting::find(1)->select('cb_countries')->where('cb_geoip', 1)->first();
-            if (! empty($cb_countries) && ! empty($cb_countries->cb_countries)) {
+            if (!empty($cb_countries) && !empty($cb_countries->cb_countries)) {
                 try {
                     $geoReader = new Reader(base_path('GeoLite2-Country.mmdb'));
                     $country = $geoReader->country($ip)->country->isoCode;
                     $ban_countries = explode(',', $cb_countries->cb_countries);
-                    if (in_array($country, $ban_countries)) {
+
+                    $paynowHelper = app(PayNowHelper::class);
+                    if ($paynowHelper->checkPayNowIntegrationStatus()) {
+                        $euCountries = PayNowHelper::getEUCountries();
+
+                        if (!empty(array_intersect($ban_countries, $euCountries))) {
+                            $ban_countries = array_unique(array_merge($ban_countries, $euCountries));
+                        }
+                    }
+
+                    if (in_array($country, $ban_countries, true)) {
                         return response()->json([
                             'success' => false,
                             'status' => 'banned',
@@ -38,7 +51,6 @@ class PagesController extends Controller
                         ]);
                     }
                 } catch (\GeoIp2\Exception\AddressNotFoundException $e) {
-                    Log::error('GeoIP2: ' . $e->getMessage());
                 }
             }
             $r->session()->put('ip', '1');
@@ -46,7 +58,6 @@ class PagesController extends Controller
 
         if ($maintenanceMode) {
             $allowedIPs = json_decode($settings->maintenance_ips, true);
-
             if ($allowedIPs === null || !in_array($ip, array_column($allowedIPs, 'value'))) {
                 return response()->json([
                     'success' => false,
@@ -70,6 +81,21 @@ class PagesController extends Controller
                     'status' => 'banned',
                     'message' => __('You are banned to visit this website.')
                 ]);
+            }
+
+            if ($token !== 'undefined') {
+                $cacheKey = 'user_token_' . sha1($token);
+                $user = Cache::remember($cacheKey, now()->addMinutes(30), function () use ($token) {
+                    return \App\Models\User::where('api_token', $token)->first();
+                });
+
+                if (!$user) {
+                    return response()->json([
+                        'success' => false,
+                        'status' => 'invalid_token',
+                        'message' => __('Invalid bearer token. Please try again.')
+                    ]);
+                }
             }
         }
 
