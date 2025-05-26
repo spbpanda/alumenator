@@ -166,7 +166,7 @@
                     <input type="text" class="form-control flatpickr-datetime" id="disable_at" placeholder="YYYY-MM-DD HH:MM" name="disable_at" value="{{ $isExist ? $donationGoal->disable_at : '' }}" />
                 </div>
 
-                <div class="col-sm-12">
+                <div class="col-sm-6">
                     <div class="bg-lighter border rounded p-3 mb-3">
                         <label class="switch switch-square mb-2">
                             <input type="checkbox" name="status" {{ $isExist && $donationGoal->status ? 'checked' : '' }} class="switch-input" />
@@ -178,18 +178,6 @@
                         </label>
                         <br>
                         @error('status')
-                            <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                        <label class="switch switch-square mb-2">
-                            <input type="checkbox" name="automatic_disabling" {{ $isExist && $donationGoal->automatic_disabling ? 'checked' : '' }} class="switch-input" />
-                            <span class="switch-toggle-slider">
-                                <span class="switch-on"></span>
-                                <span class="switch-off"></span>
-                            </span>
-                            <span class="switch-label">{{ __('Automatically disable when hits 100%?') }}</span>
-                        </label>
-                        <br>
-                        @error('automatic_disabling')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
                         <label class="switch switch-square mb-2">
@@ -205,6 +193,36 @@
                         @enderror
                     </div>
                 </div>
+
+                <div class="col-sm-6">
+                    <div class="bg-lighter border rounded p-3 mb-3">
+                        <label class="switch switch-square mb-2">
+                            <input type="checkbox" name="automatic_disabling" {{ $isExist && $donationGoal->automatic_disabling ? 'checked' : '' }} class="switch-input" />
+                            <span class="switch-toggle-slider">
+                                <span class="switch-on"></span>
+                                <span class="switch-off"></span>
+                            </span>
+                            <span class="switch-label">{{ __('Automatically disable when hits 100%?') }}</span>
+                        </label>
+                        <br>
+                        @error('automatic_disabling')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                        <label class="switch switch-square mb-2">
+                            <input type="checkbox" name="automatic_reset" {{ $isExist && $donationGoal->automatic_reset ? 'checked' : '' }} class="switch-input" />
+                            <span class="switch-toggle-slider">
+                                <span class="switch-on"></span>
+                                <span class="switch-off"></span>
+                            </span>
+                            <span class="switch-label">{{ __('Automatically reset the goal when hits 100%?') }}</span>
+                        </label>
+                        <br>
+                        @error('automatic_reset')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+                </div>
+
 			</div>
 			</div>
 		</div>

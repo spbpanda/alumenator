@@ -68,7 +68,7 @@
     </h4>
 
     <div class="row">
-        <div class="col-4 mb-4">
+        <div class="col-sm-4 mb-4">
             <div class="col-12 mb-4">
                 <div class="card">
                     <div class="card-header mb-0 pb-2">
@@ -77,7 +77,7 @@
                     <hr>
                     <div class="row text-center">
                         <div class="card-body text-center">
-                            <img src="https://mc-heads.net/avatar/{{ $username }}" alt="test"
+                            <img src="https://mc-heads.net/avatar/{{ $username }}" alt="{{ $username }}"
                                  style="width: 145px; border-radius: 4px;transform: scale(-1, 1); margin-bottom: 8px;">
                             <h5 style="font-size: 24px; font-weight: 500;">{{ $username }}</h5>
                             <h6 style="font-size: 14px;">UUID: {{ $uuid }}</h6>
@@ -125,7 +125,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-8 mb-4">
+        <div class="col-sm-8 mb-4">
             <div class="col-md-12 mb-4">
                 <div class="card">
                     <div class="row">

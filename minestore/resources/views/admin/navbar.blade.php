@@ -118,26 +118,26 @@ $languages['en'] = 'English';
               </li>
               <li class="dropdown-notifications-list scrollable-container">
                 <ul class="list-group list-group-flush">
-                    @foreach($notifications as $notification)
-                  <li class="list-group-item list-group-item-action dropdown-notifications-item @if($notification->read()) marked-as-read @endif" data-id="{{ $notification->id }}" data-link="{{ $notification->data['link'] }}">
-                    <div class="d-flex">
-                      <div class="flex-shrink-0 me-3">
-                        <div class="avatar">
-                            <span class="avatar-initial rounded-circle bg-label-{{$notification->data['color']}}"><i class="bx {{ $notification->data['icon'] }}"></i></span>
+                  @foreach ($notifications as $notification)
+                      <li class="list-group-item list-group-item-action dropdown-notifications-item @if($notification->read()) marked-as-read @endif" data-id="{{ $notification->id }}" data-link="{{ $notification->data['link'] }}">
+                        <div class="d-flex">
+                          <div class="flex-shrink-0 me-3">
+                            <div class="avatar">
+                                <span class="avatar-initial rounded-circle bg-label-{{$notification->data['color']}}"><i class="bx {{ $notification->data['icon'] }}"></i></span>
+                            </div>
+                          </div>
+                          <div class="flex-grow-1">
+                            <h6 class="mb-1">{{ $notification->data['title'] }}</h6>
+                            <p class="mb-0">{!! $notification->data['description'] !!}</p>
+                            <small class="text-muted">{{ $notification->created_at->diffForHumans() }}</small>
+                          </div>
+                          <div class="flex-shrink-0 dropdown-notifications-actions">
+                            <a href="javascript:void(0)" class="dropdown-notifications-read"><span class="badge badge-dot"></span></a>
+                            <a href="javascript:void(0)" class="dropdown-notifications-archive" data-id="{{ $notification->id }}"><span class="bx bx-x"></span></a>
+                          </div>
                         </div>
-                      </div>
-                      <div class="flex-grow-1">
-                        <h6 class="mb-1">{{ $notification->data['title'] }}</h6>
-                        <p class="mb-0">{!! $notification->data['description'] !!}</p>
-                        <small class="text-muted">{{ $notification->created_at->diffForHumans() }}</small>
-                      </div>
-                      <div class="flex-shrink-0 dropdown-notifications-actions">
-                        <a href="javascript:void(0)" class="dropdown-notifications-read"><span class="badge badge-dot"></span></a>
-                        <a href="javascript:void(0)" class="dropdown-notifications-archive" data-id="{{ $notification->id }}"><span class="bx bx-x"></span></a>
-                      </div>
-                    </div>
-                  </li>
-                    @endforeach
+                      </li>
+                  @endforeach
                 </ul>
               </li>
               <li class="dropdown-menu-footer border-top">

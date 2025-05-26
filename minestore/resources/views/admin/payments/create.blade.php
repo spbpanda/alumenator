@@ -105,7 +105,7 @@
                             <label for="select2Basic" class="form-label">{{ __('Payment Method') }}</label>
                             <select id="select2Basic" class="select2 form-select form-select-lg" name="gateway"
                                     data-allow-clear="true">
-                                @foreach($gateways as $gateway)
+                                @foreach ($gateways as $gateway)
                                     <option value="{{ $gateway->name }}">{{ $gateway->name }}</option>
                                 @endforeach
                             </select>

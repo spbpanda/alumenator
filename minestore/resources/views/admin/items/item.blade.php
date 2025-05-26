@@ -60,11 +60,23 @@
                 handleTypeChange();
             });
 
-            $('#is_subs').on('change', function(){
-                if(this.value === "1"){
+            $('#is_subs').on('change', function() {
+                if (this.value === "1") {
                     $('#chargePeriodBlock').show();
+                    $('#strictSubscription')
+                        .show()
+                        .css({
+                            'margin-top': 'auto',
+                            'margin-bottom': '10px'
+                        });
                 } else {
                     $('#chargePeriodBlock').hide();
+                    $('#strictSubscription')
+                        .hide()
+                        .css({
+                            'margin-top': '',
+                            'margin-bottom': ''
+                        });
                 }
             });
             $('#expireEnable').on('click', function(){
@@ -681,9 +693,9 @@
                                 <label class="switch switch-square">
                                     <input type="checkbox" class="switch-input" name="is_any_price" {{ $isItemExist && $item->is_any_price == 1 ? 'checked' : '' }} />
                                     <span class="switch-toggle-slider">
-					<span class="switch-on"></span>
-					<span class="switch-off"></span>
-				  </span>
+                                        <span class="switch-on"></span>
+                                        <span class="switch-off"></span>
+                                    </span>
                                     <span class="switch-label">{{ __('Allow customers to pay what they want?') }}</span>
                                 </label>
                             </div>
@@ -705,7 +717,7 @@
                                     <i class="bx bx-help-circle text-muted" style="margin-bottom: 3px;" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('Amount in percents that will dicrease original price as a sale.') }}"></i>
                                 </label>
                                 <div class="input-group">
-                                    <input type="number" class="form-control" id="discount" name="discount" value="{{ $isItemExist ? $item->discount : '0' }}" aria-label="Amount to discount original price">
+                                    <input type="number" class="form-control" id="discount" name="discount" value="{{ $isItemExist ? $item->discount : '0' }}" step="0.01" aria-label="Amount to discount original price">
                                     <span class="input-group-text">%</span>
                                 </div>
                             </div>
@@ -760,7 +772,21 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-sm-6"></div>
+                            @php
+                                $style = (!$isItemExist || $item->is_subs == 0)
+                                    ? 'display: none;'
+                                    : 'margin-top: auto; margin-bottom: 10px;';
+                            @endphp
+                            <div class="col-sm-6" id="strictSubscription" style="{{ $style }}">
+                                <label class="switch switch-square">
+                                    <input type="checkbox" class="switch-input" name="is_subs_only" {{ $isItemExist && $item->is_subs_only == 1 ? 'checked' : '' }} />
+                                    <span class="switch-toggle-slider">
+                                        <span class="switch-on"></span>
+                                        <span class="switch-off"></span>
+                                    </span>
+                                    <span class="switch-label">{{ __('Strictly enable subscription mode?') }}</span>
+                                </label>
+                            </div>
                             <!--- END OF EXAMPLES FOR RECURRING PAYMENT TYPE (EXPIRE TIME) -->
                             <div class="col-12 d-flex justify-content-between">
                                 <button class="btn btn-label-secondary btn-prev" type="button" disabled>

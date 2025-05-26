@@ -103,6 +103,12 @@ $menuData = (object) [
             "rule" => "themes",
         ],
         [
+            "name" => __("Customers"),
+            "icon" => "menu-icon tf-icons bx bxs-group",
+            "slug" => "customers.index",
+            "rule" => "payments",
+        ],
+        [
             "name" => __("Discord Settings"),
             "icon" => "menu-icon tf-icons bx bxl-discord-alt",
             "slug" => "discord.index",
@@ -157,7 +163,7 @@ $menuData = (object) [
         ],
         [
             "name" => __("Player Referrals"),
-            "icon" => "menu-icon tf-icons bx bx-group",
+            "icon" => "menu-icon tf-icons bx bx-user-plus",
             "slug" => "refs.index",
             "rule" => "referers",
         ],
@@ -213,7 +219,7 @@ $menuData = (object) [
             ],
         ],
         [
-            "name" => __("Customers"),
+            "name" => __("Access Control"),
             "icon" => "menu-icon tf-icons bx bxs-store-alt",
             "slug" => "dashboard",
             "rule" => "bans",
@@ -258,6 +264,15 @@ $menuData = (object) [
             "icon" => "menu-icon tf-icons bx bxs-lock-alt",
             "slug" => "apiAccessSettings.index",
             "rule" => "api",
+        ],
+        [
+            "menuHeader" => __("Others")
+        ],
+        [
+            "name" => __("Migration Tools"),
+            "icon" => "menu-icon tf-icons bx bx-download",
+            "slug" => "migrations.index",
+            "rule" => "settings",
         ],
     ],
 ];

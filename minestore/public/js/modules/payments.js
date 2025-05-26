@@ -55,6 +55,17 @@ function markPaid(id) {
 }
 
 /**
+ * Refund a payment
+ * @param paymentId - payment ID
+ */
+function refundPayment(paymentId) {
+    return $.ajax({
+        type: "POST",
+        url: `/admin/payments/refund/${paymentId}`,
+    });
+}
+
+/**
  * Delete payment
  * @param id - payment id
  */

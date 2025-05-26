@@ -24,39 +24,39 @@
 @section('page-script')
 <script type="text/javascript">
 var formRepeater = $(".form-repeater");
-var repeaterRow = 1;
+var repeaterRow = {{ $isExist && !empty($var->variables) ? count($var->variables) : 0 }};
+
 formRepeater.repeater({
-  initEmpty: {{ $isExist && !empty($var->variables) ? 'false' : 'true'}},
-  show: function() {
-      var col = 1;
-      var fromControl = $(this).find('.form-control, .form-select');
-      var formLabel = $(this).find('.form-label');
+    initEmpty: {{ $isExist && !empty($var->variables) ? 'false' : 'true'}},
+    show: function() {
+        var col = 1;
+        var fromControl = $(this).find('.form-control, .form-select');
+        var formLabel = $(this).find('.form-label');
 
-      fromControl.each(function(i) {
-          var id = 'form-repeater-' + repeaterRow + '-' + col;
-          $(fromControl[i]).attr('id', id);
-          $(formLabel[i]).attr('for', id);
-          var $this = $(this);
+        fromControl.each(function(i) {
+            var id = 'form-repeater-' + repeaterRow + '-' + col;
+            $(fromControl[i]).attr('id', id);
+            $(formLabel[i]).attr('for', id);
+            var $this = $(this);
 
-          if(this.tagName == 'SELECT'){
-              $this.attr('name', 'variables['+repeaterRow+']['+$this.attr('data-name')+']');
-              if($this.hasClass('select2')){
-                  $this.parent().find('.select2-container').remove();
-                  $this.select2({
-                      dropdownParent: $this.parent()
-                  });
-              }
-          } else {
-              $this.attr('name', 'variables['+repeaterRow+']['+$this.attr('data-name')+']');
-          }
+            if (this.tagName == 'SELECT') {
+                $this.attr('name', 'variables[' + repeaterRow + '][' + $this.attr('data-name') + ']');
+                if ($this.hasClass('select2')) {
+                    $this.parent().find('.select2-container').remove();
+                    $this.select2({
+                        dropdownParent: $this.parent()
+                    });
+                }
+            } else {
+                $this.attr('name', 'variables[' + repeaterRow + '][' + $this.attr('data-name') + ']');
+            }
 
-          col++;
-      });
+            col++;
+        });
 
-      repeaterRow++;
-
-      $(this).slideDown();
-  },
+        repeaterRow++;
+        $(this).slideDown();
+    },
     hide: function(e) {
         Swal.fire({
             title: "{{ __('Are you sure?') }}",
@@ -73,7 +73,7 @@ formRepeater.repeater({
             buttonsStyling: false
         }).then((result) => {
             if (result.value) {
-                $(this).slideUp(e)
+                $(this).slideUp(e);
                 Swal.fire({
                     icon: 'success',
                     title: "{{ __('Deleted!') }}",

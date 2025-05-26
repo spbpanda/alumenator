@@ -2,7 +2,7 @@
 @extends('admin.layout')
 
 @section('vendor-style')
-    <link rel="stylesheet" href="{{asset('res/vendor/fonts/fontawesome.css')}}"/>
+    <link rel="stylesheet" href="{{asset('res/vendor/fonts/fontawesome.css')}}" />
     <link rel="stylesheet" href="{{asset('res/vendor/libs/sweetalert2/sweetalert2.css')}}" />
 @endsection
 
@@ -17,14 +17,14 @@
         let isBanned = {{ $ban != null ? 'true' : 'false' }};
         let banId = {{ $ban->id ?? 'undefined' }};
 
-        $("#ban-button").click(function () {
+        $("#ban-button").click(function() {
             if (isBanned && banId !== undefined) {
-                unbanUser(banId).done(function (r) {
+                unbanUser(banId).done(function(r) {
                     isBanned = false;
                     banId = undefined;
                     toastr.success("{{ __('User was Unbanned!') }}");
                     switchMainBanButton($("#ban-button"));
-                }).fail(function (r) {
+                }).fail(function(r) {
                     if (r.status === 410) {
                         toastr.error(r.responseJSON.message);
                     } else {
@@ -32,12 +32,12 @@
                     }
                 });
             } else {
-                banUser("{{$payment->user->username}}").done(function (r) {
+                banUser("{{$payment->user->username}}").done(function(r) {
                     isBanned = true;
                     banId = r.id;
                     toastr.success("{{ __('User was Banned!') }}");
                     switchMainBanButton($("#ban-button"));
-                }).fail(function (r) {
+                }).fail(function(r) {
                     if (r.status === 410) {
                         toastr.error(r.responseJSON.message);
                     } else {
@@ -47,18 +47,10 @@
             }
         });
 
-        $("#delivery-button").click(function () {
-            deliveryItems({{$payment->id}}).done(function (r) {
-                toastr.success("{{ __('All commands were successfully delivered!') }}");
-            }).fail(function (r) {
-                toastr.error(r.responseJSON.message);
-            });
-        });
-
-        $(".resend-button").click(function () {
+        $("#refund-button").click(function() {
             Swal.fire({
                 title: "{{ __('Are you sure?') }}",
-                text: "{!! __('Continue action?') !!}",
+                text: "{!! __('Do you want to refund this payment?') !!}",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -71,19 +63,55 @@
                 buttonsStyling: false
             }).then((result) => {
                 if (result.isConfirmed) {
-                    reSendCommand($(this).attr('data-cmd-id')).done(function (r) {
-                        toastr.success("{{ __('Commands were successfully resent!') }}");
-                        setTimeout(function () {
+                    refundPayment({{$payment->id}}).done(function(r) {
+                        toastr.success("{{ __('Refund was successfully completed!') }}");
+                        setTimeout(function() {
                             location.reload();
-                        }, 300);
-                    }).fail(function (r) {
+                        }, 500);
+                    }).fail(function(r) {
                         toastr.error(r.responseJSON.message);
                     });
                 }
             });
         });
 
-        $(".mark-paid").click(function () {
+        $("#delivery-button").click(function() {
+            deliveryItems({{$payment->id}}).done(function(r) {
+                toastr.success("{{ __('All commands were successfully delivered!') }}");
+            }).fail(function(r) {
+                toastr.error(r.responseJSON.message);
+            });
+        });
+
+        $(".resend-button").click(function() {
+            Swal.fire({
+                title: "{{ __('Are you sure?') }}",
+                text: "{!! __('Do you want to resend this command?') !!}",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: "{{ __('Yes') }}",
+                customClass: {
+                    confirmButton: 'btn btn-primary me-1',
+                    cancelButton: 'btn btn-label-secondary'
+                },
+                buttonsStyling: false
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    reSendCommand($(this).attr('data-cmd-id')).done(function(r) {
+                        toastr.success("{{ __('Command was successfully resent!') }}");
+                        setTimeout(function() {
+                            location.reload();
+                        }, 300);
+                    }).fail(function(r) {
+                        toastr.error(r.responseJSON.message);
+                    });
+                }
+            });
+        });
+
+        $(".mark-paid").click(function() {
             Swal.fire({
                 title: "{{ __('Are you sure to complete this payment?') }}",
                 text: "{!! __('All commands attached to this payment will be executed') !!}",
@@ -109,7 +137,7 @@
                         didOpen: () => {
                             Swal.showLoading();
                             markPaid({{$payment->id}})
-                                .done(function (response) {
+                                .done(function(response) {
                                     Swal.fire({
                                         title: "{{ __('Success!') }}",
                                         text: "{{ __('Payment successfully completed!') }}",
@@ -119,7 +147,7 @@
                                         location.reload();
                                     });
                                 })
-                                .fail(function (error) {
+                                .fail(function(error) {
                                     Swal.fire({
                                         title: "{{ __('Error!') }}",
                                         text: error.responseJSON?.message || "{{ __('An error occurred. Please try again.') }}",
@@ -133,10 +161,10 @@
             });
         });
 
-        $("#resend-all-button").click(function () {
+        $("#resend-all-button").click(function() {
             Swal.fire({
                 title: "{{ __('Are you sure?') }}",
-                text: "{!! __('Continue action?') !!}",
+                text: "{!! __('Do you want to resend all commands?') !!}",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -149,50 +177,84 @@
                 buttonsStyling: false
             }).then((result) => {
                 if (result.isConfirmed) {
-                    resendAllCommands({{$payment->id}}).done(function (r) {
+                    resendAllCommands({{$payment->id}}).done(function(r) {
                         toastr.success("{{ __('All commands were successfully resent!') }}");
-                        setTimeout(function () {
+                        setTimeout(function() {
                             location.reload();
                         }, 500);
-                    }).fail(function (r) {
+                    }).fail(function(r) {
                         toastr.error(r.responseJSON.message);
                     });
                 }
             });
         });
 
-        $(".delete-cmd-button").click(function () {
-            deleteCommand($(this).attr('data-cmd-id')).done(function (r) {
-                toastr.success("{{ __('Command was successfully deleted!') }}");
-                setTimeout(function () {
-                    location.reload();
-                }, 300);
-            }).fail(function (r) {
-                toastr.error(r.responseJSON.message);
-            });
-        });
-
-        $("#delete-button").click(function () {
-            deletePayment({{$payment->id}}).done(function (r) {
-                toastr.success("The payment was deleted!");
-                setTimeout(function () {
-                    window.location.href = "{{ route('payments.index') }}";
-                }, 700);
-            }).fail(function (r) {
-                if (r.status === 410) {
-                    toastr.error(r.responseJSON.message);
-                } else {
-                    toastr.error("{{ __('Unable to Delete the Payment!') }}");
+        $(".delete-cmd-button").click(function() {
+            Swal.fire({
+                title: "{{ __('Are you sure?') }}",
+                text: "{{ __('Do you want to delete this command?') }}",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: "{{ __('Yes') }}",
+                customClass: {
+                    confirmButton: 'btn btn-primary me-1',
+                    cancelButton: 'btn btn-label-secondary'
+                },
+                buttonsStyling: false
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    deleteCommand($(this).attr('data-cmd-id')).done(function(r) {
+                        toastr.success("{{ __('Command was successfully deleted!') }}");
+                        setTimeout(function() {
+                            location.reload();
+                        }, 300);
+                    }).fail(function(r) {
+                        toastr.error(r.responseJSON.message);
+                    });
                 }
             });
         });
 
-        $("#note-button").click(function () {
+        $("#delete-button").click(function() {
+            Swal.fire({
+                title: "{{ __('Are you sure?') }}",
+                text: "{{ __('Do you want to delete this payment?') }}",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: "{{ __('Yes') }}",
+                customClass: {
+                    confirmButton: 'btn btn-primary me-1',
+                    cancelButton: 'btn btn-label-secondary'
+                },
+                buttonsStyling: false
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    deletePayment({{$payment->id}}).done(function(r) {
+                        toastr.success("The payment was deleted!");
+                        setTimeout(function() {
+                            window.location.href = "{{ route('payments.index') }}";
+                        }, 700);
+                    }).fail(function(r) {
+                        if (r.status === 410) {
+                            toastr.error(r.responseJSON.message);
+                        } else {
+                            toastr.error("{{ __('Unable to Delete the Payment!') }}");
+                        }
+                    });
+                }
+            });
+        });
+
+        $("#note-button").click(function() {
             const note = $("#paymentNote").val();
-            addPaymentNote({{$payment->id}}, note).done(function (r) {
+            addPaymentNote({{$payment->id}}, note).done(function(r) {
                 toastr.success("{{ __('Note was Added!') }}");
                 $("#note").text(note);
-            }).fail(function (r) {
+            }).fail(function(r) {
                 toastr.error("{{ __('Unable to Add the Note!') }}");
             });
         });
@@ -203,7 +265,7 @@
     <h4 class="fw-bold py-3 mb-1">
         <span class="text-body fw-light">{{ __('Payment Details') }} #{{$payment->id}}</span>
     </h4>
-    @if($payment->status == Payment::CHARGEBACK && $payment->chargeback != null)
+    @if ($payment->status == Payment::CHARGEBACK && $payment->chargeback != null)
         <div class="row">
             <div class="col-12">
                 <div class="alert alert-danger d-flex" role="alert">
@@ -212,12 +274,28 @@
                     <div class="d-flex flex-column ps-1">
                         <h6 class="alert-heading d-flex align-items-center fw-bold mb-1">{{ __('WARNING !') }}</h6>
                         <span>{{ __('This payment was chargeback by the user.') }} <a style="color: #c57474"
-                                                                          href="{{ route('chargeback.show', $payment->chargeback->id) }}">{{ __('Click here') }} </a> {{ __('to view the case.') }}</span>
+                                                                                      href="{{ route('chargeback.show', $payment->chargeback->id) }}">{{ __('Click here') }} </a> {{ __('to view the case.') }}</span>
                     </div>
                 </div>
             </div>
         </div>
     @endif
+
+    @if ($payment->gateway === 'PayNow' && $payment->tax_inclusive === 1 && $payment->cart->tax > 0)
+        <div class="row">
+            <div class="col-12">
+                <div class="alert alert-warning d-flex" role="alert">
+                    <span class="badge badge-center rounded-pill bg-warning border-label-warning p-3 me-2"><i
+                            class="bx bx-info-circle fs-6"></i></span>
+                    <div class="d-flex flex-column ps-1">
+                        <h6 class="alert-heading d-flex align-items-center fw-bold mb-1">{{ __('Base Price Includes Tax') }}</h6>
+                        <span>Your PayNow Checkout Integration is set to <strong>TAX INCLUSIVE</strong> mode. This means the base price of your products already includes tax. When customers make a payment, they pay the total amount (base price plus any additional fees and taxes). The final amount you'll receive in your PayNow wallet will be this total minus deductions for taxes (including sales taxes), gateway fees (depends on payment method), and platform fee (3.99%).</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
+
     <div class="row">
         <div class="col-md-8 mb-4">
             <div class="col-md-12 mb-4">
@@ -240,6 +318,12 @@
                                 @endif
                             </div>
                             <div class="col-md-7 mb-2 d-flex justify-content-end">
+                                @if (in_array($payment->status, [Payment::COMPLETED, Payment::PAID], true) && in_array($payment->gateway, ['Stripe', 'PayNow']))
+                                    <button type="button" class="btn btn-info" style="margin-right: 5px;"
+                                            id="refund-button">
+                                        <span class="tf-icons bx bx-money-withdraw me-1"></span>{{ __('Refund') }}
+                                    </button>
+                                @endif
                                 <button type="button" class="btn btn-danger" id="delete-button">
                                     <span class="tf-icons bx bxs-trash-alt me-1"></span>{{ __('Delete') }}
                                 </button>
@@ -266,19 +350,33 @@
                                             {{empty($payment->internal_id) ? 'N/A' : $payment->internal_id}}
                                         </td>
                                     </tr>
+                                    @if ($payment->internal_subscription_id)
+                                        <tr>
+                                            <td style="font-weight: 500;">
+                                                {{ __('Subscription ID:') }}
+                                            </td>
+                                            <td>
+                                                <a href="{{ route('subscriptions.show', $payment->internal_subscription_id) }}">
+                                                    {{ $payment->internal_subscription_id }}
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    @endif
                                     <tr>
                                         <td style="font-weight: 500;">
                                             {{ __('Status:') }}
                                         </td>
                                         <td>
-                                            @if ($payment->status == Payment::COMPLETED || $payment->status == Payment::PAID)
+                                            @if ($payment->status === Payment::COMPLETED || $payment->status === Payment::PAID)
                                                 <span class="badge bg-success">{{ __('Completed') }}</span>
-                                            @elseif($payment->status == Payment::ERROR)
+                                            @elseif ($payment->status === Payment::ERROR)
                                                 <span class="badge bg-danger">{{ __('Error') }}</span>
                                                 <span
                                                     style="color: #FF5722; font-weight: bold;">{{ $payment->error }}</span>
-                                            @elseif($payment->status == Payment::CHARGEBACK)
+                                            @elseif ($payment->status === Payment::CHARGEBACK)
                                                 <span class="badge bg-danger">{{ __('Chargeback') }}</span>
+                                            @elseif($payment->status === Payment::REFUNDED)
+                                                <span class="badge bg-secondary">{{ __('Refunded') }}</span>
                                             @else
                                                 <span class="badge bg-warning">{{ __('Pending') }}</span>
                                             @endif
@@ -309,6 +407,9 @@
                                         </td>
                                         <td>
                                             {{ $payment->cart->tax }} {{ $payment->currency }}
+                                            @if ($payment->gateway === 'PayNow' && $payment->cart->tax > 0)
+                                                <span style="color: green; font-weight: 500;">(Already paid through PayNow)</span>
+                                            @endif
                                         </td>
                                     </tr>
                                     <tr>
@@ -387,7 +488,8 @@
                             </h4>
                         </div>
                         <div class="col-md-6 pt-4 pt-md-0 d-flex justify-content-end">
-                            <button type="button" class="btn btn-primary btn-sm fs-6 d-flex align-items-center gap-1" id="resend-all-button">
+                            <button type="button" class="btn btn-primary btn-sm fs-6 d-flex align-items-center gap-1"
+                                    id="resend-all-button">
                                 <span class="tf-icon bx bx-refresh bx-xs"></span>
                                 {{ __('Resend All Commands') }}
                             </button>
@@ -535,7 +637,8 @@
                                 </table>
                             </div>
                         @else
-                            <p class="card-text text-center" style="font-size: 16px;">{{ __('Referrers were not found for this transaction.') }}</p>
+                            <p class="card-text text-center"
+                               style="font-size: 16px;">{{ __('Referrers were not found for this transaction.') }}</p>
                         @endif
                     </div>
                 </div>
@@ -578,38 +681,39 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            @foreach ($giftcards as $giftcard)
-                                                <td>
-                                                    {{ $giftcard->name }}
-                                                </td>
-                                                <td>
-                                                    @if (\Carbon\Carbon::parse($giftcard->expire_at)->isBefore(\Carbon\Carbon::now()))
-                                                        <span class="badge w-100 bg-danger">EXPIRED</span>
+                                    <tr>
+                                        @foreach ($giftcards as $giftcard)
+                                            <td>
+                                                {{ $giftcard->name }}
+                                            </td>
+                                            <td>
+                                                @if (\Carbon\Carbon::parse($giftcard->expire_at)->isBefore(\Carbon\Carbon::now()))
+                                                    <span class="badge w-100 bg-danger">EXPIRED</span>
+                                                @else
+                                                    @if ($giftcard->end_balance > 0)
+                                                        <span class="badge w-100 bg-success">ACTIVE</span>
                                                     @else
-                                                        @if ($giftcard->end_balance > 0)
-                                                            <span class="badge w-100 bg-success">ACTIVE</span>
-                                                        @else
-                                                            <span class="badge w-100 bg-warning">ELIMINATED</span>
-                                                        @endif
+                                                        <span class="badge w-100 bg-warning">ELIMINATED</span>
                                                     @endif
-                                                </td>
-                                                <td>
-                                                    {{ $giftcard->start_balance }} {{ $system_currency->name ?? 'USD' }}
-                                                </td>
-                                                <td>
-                                                    {{ $giftcard->end_balance }} {{ $system_currency->name ?? 'USD' }}
-                                                </td>
-                                                <td>
-                                                    {{ $giftcard->created_at }}
-                                                </td>
-                                            @endforeach
-                                        </tr>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                {{ $giftcard->start_balance }} {{ $system_currency->name ?? 'USD' }}
+                                            </td>
+                                            <td>
+                                                {{ $giftcard->end_balance }} {{ $system_currency->name ?? 'USD' }}
+                                            </td>
+                                            <td>
+                                                {{ $giftcard->created_at }}
+                                            </td>
+                                        @endforeach
+                                    </tr>
                                     </tbody>
                                 </table>
                             </div>
                         @else
-                            <p class="card-text text-center" style="font-size: 16px;">{{ __('Gift cards were not purchased for this transaction.') }}</p>
+                            <p class="card-text text-center"
+                               style="font-size: 16px;">{{ __('Gift cards were not purchased for this transaction.') }}</p>
                         @endif
                     </div>
                 </div>
@@ -697,7 +801,8 @@
                                 </table>
                             </div>
                         @else
-                            <p class="card-text text-center" style="font-size: 16px;">{{ __('Discord roles were not attached for this transaction.') }}</p>
+                            <p class="card-text text-center"
+                               style="font-size: 16px;">{{ __('Discord roles were not attached for this transaction.') }}</p>
                         @endif
                     </div>
                 </div>
@@ -712,7 +817,7 @@
                     </div>
                     <hr>
                     <div class="card-body text-center">
-                        <img src="https://mc-heads.net/body/{{ $uuid ?? $payment->user->username }}"
+                        <img src="https://mc-heads.net/body/{{ $payment->user->username }}"
                              alt="{{ $payment->user->username }}"
                              onerror="this.src='{{ asset('res/img/question-icon.png') }}';"
                              style="width: 165px; border-radius: 4px;transform: scale(-1, 1); margin-bottom: 5px;">
@@ -732,7 +837,8 @@
                             </div>
                             <div class="col-6 col-md-6">
                                 <a href="{{ route('lookup.search', $payment->user->username) }}" target="_blank"
-                                   class="btn btn-lg btn-warning"><span class="tf-icons bx bx-search me-1"></span>{{ __('Lookup') }}</a>
+                                   class="btn btn-lg btn-warning"><span
+                                        class="tf-icons bx bx-search me-1"></span>{{ __('Lookup') }}</a>
                             </div>
                         </div>
                     </div>
@@ -843,7 +949,8 @@
                                 </table>
                             </div>
                         @else
-                            <p class="card-text text-center" style="font-size: 16px;">{{ __('No coupons were used for this transaction.') }}</p>
+                            <p class="card-text text-center"
+                               style="font-size: 16px;">{{ __('No coupons were used for this transaction.') }}</p>
                         @endif
                     </div>
                 </div>
@@ -887,7 +994,8 @@
                                 </table>
                             </div>
                         @else
-                            <p class="card-text text-center" style="font-size: 16px;">{{ __('No gift cards were used for this transaction.') }}</p>
+                            <p class="card-text text-center"
+                               style="font-size: 16px;">{{ __('No gift cards were used for this transaction.') }}</p>
                         @endif
                     </div>
                 </div>
@@ -935,7 +1043,8 @@
                             </div>
                         </div>
                         <div class="col-12 text-center">
-                            <button class="btn btn-primary me-sm-3 me-1 mt-3" id="note-button">{{ __('Submit') }}</button>
+                            <button class="btn btn-primary me-sm-3 me-1 mt-3"
+                                    id="note-button">{{ __('Submit') }}</button>
                             <button class="btn btn-label-secondary btn-reset mt-3" type="button"
                                     data-bs-dismiss="modal" aria-label="Close">{{ __('Cancel') }}
                             </button>

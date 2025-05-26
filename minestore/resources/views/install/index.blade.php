@@ -309,7 +309,7 @@
                                     @endif
                                 </div>
                                 <div class="col-sm-12">
-                                    <label class="form-label">{{ __('PHP8.2-FPM status') }}</label>
+                                    <label class="form-label">{{ __('PHP8.3-FPM status') }}</label>
                                     @if($isFPM)
                                         <span class="badge rounded-pill bg-label-success" style="margin-left: 10px;">OK</span>
                                     @else
@@ -317,11 +317,11 @@
                                     @endif
                                 </div>
                                 <div class="col-sm-12">
-                                    <label class="form-label">{{ __('PHP version 8.2 status') }}</label>
+                                    <label class="form-label">{{ __('PHP version 8.3 status') }}</label>
                                     @if($versionUse)
                                         <span class="badge rounded-pill bg-label-success" style="margin-left: 10px;">OK</span>
                                     @else
-                                        <span class="badge rounded-pill bg-label-danger" style="margin-left: 10px;">Your webserver currently using {{ PHP_VERSION }} for this website but need using PHP-FPM-8.2!</span><br>
+                                        <span class="badge rounded-pill bg-label-danger" style="margin-left: 10px;">Your webserver currently using {{ PHP_VERSION }} for this website but need using PHP-FPM-8.3!</span><br>
                                     @endif
                                 </div>
                                 <div class="col-12 d-flex justify-content-between">
@@ -602,8 +602,6 @@
                         {!! __('Now that your installation is complete, it\'s time to unleash the full potential of your') !!} <strong>Minecraft server</strong> {{ __('with our powerful ecommerce platform.') }}
                         <br>
                         {{ __('Get ready to configure and personalize your store to create the ultimate gaming experience for your players!') }} 🎮
-                        <br>
-                        <strong>Restart your VPS Server again to make sure everything is working fine!</strong>
                         <br>
                         <br>
                         {!! __('Should you have any questions or need assistance, don\'t hesitate to') !!} <a href="https://minestorecms.com/discord">{{ __('reach out') }}</a>. {!! __('We\'re here to support you every step of the way!') !!} 💪

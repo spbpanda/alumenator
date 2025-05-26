@@ -58,10 +58,13 @@
         updateMerchantConfig($(this).data('name'), data).done(function(r) {
             toastr.success("{{ __('Changes successfully saved!') }}");
         }).fail(function(r) {
-            if(r.status === 422){
+            if (r.status === 422) {
                 toastr.error("{{ __('Invalid data, check your inputs') }}");
-            }
-            else{
+            } else if (r.status === 403) {
+                toastr.error("{{ __('You do not have permission to perform this action!') }}");
+            } else if (r.status === 404) {
+                toastr.error("{{ __('Start onboarding process before enabling PayNow.') }}");
+            } else {
                 toastr.error("{{ __('Unable to save changes!') }}");
             }
         });
@@ -74,6 +77,44 @@
   <span class="text-body fw-light">{{ __('Payment Methods') }}</span>
 </h4>
 <div class="row">
+    <!-- PayNow Method -->
+    <div class="col-12 mb-4">
+        <div class="card border border-primary">
+            <div class="card-body">
+                <div class="row d-flex w-100 align-self-center">
+                    <div class="description col-12 col-xl-8 col-lg-8 text-center text-lg-left">
+                        <div class="row align-self-center h-100">
+                            <div class="col-12 col-xl-2 col-lg-3 align-self-center text-center">
+                                <img src="{{ asset('res/img/logos/paynow.svg') }}" class="w-px-100" style="width: 115px !important;" alt="PayNow Logo">
+                            </div>
+                            <div class="col-12 col-xl-10 col-lg-9 align-self-center my-3 my-lg-0" style="text-align: left;">
+                                <h4>
+                                    PayNow Checkout
+                                    <label for="PayNow_enable" class="switch switch-square" style="margin-left: 10px;">
+                                        <input id="PayNow_enable" name="enable" data-name="paynow" {{ $methods['paynow']['enable'] == 1 ? 'checked' : '' }} type="checkbox" class="switch-input state-switcher" />
+                                        <span class="switch-toggle-slider">
+												<span class="switch-on"></span>
+												<span class="switch-off"></span>
+											  </span>
+                                    </label>
+                                </h4>
+                                <div class="mb-3 col-md-10">
+                                    <p class="card-text">Provides <strong>Full Chargeback Protection, Global Tax Handling</strong>, Support for 75+ Payment Methods, and Easy Subscription Management.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="action col-12 col-xl-3 col-lg-4 align-self-center text-center mx-auto d-grid">
+                        <span class="badge bg-primary" style="position: absolute; right: 15px; top: 10px;">{{ __('Official Partner') }} & {{ __('Subscriptions Support') }}</span>
+                        <a class="btn btn-primary me-1" href="{{ route('paynow.onboarding.start') }}" aria-expanded="false" aria-controls="PayNow">
+                            {{ __('Configure') }}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- PayNow Method (END) -->
     <!-- PayPal IPN Method -->
     <div class="col-12 mb-4">
         <div class="card">
@@ -1477,21 +1518,21 @@
                                     {{ __('Currency') }}
 									<i class="bx bx-help-circle text-muted" style="margin-bottom: 1px;" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('Select your PayU Merchant Currency.') }}"></i>
 								</label>
-								<select id="payu_currency" name="currency" class="selectpicker w-100" data-style="btn-default">
-									<option value="PLN" @if(!$methods['PayU']['config']['currency']) selected @endif>PLN</option>
-									<option value="CHF" @if(!$methods['PayU']['config']['currency']) selected @endif>CHF</option>
-									<option value="CZK" @if(!$methods['PayU']['config']['currency']) selected @endif>CZK</option>
-									<option value="DKK" @if(!$methods['PayU']['config']['currency']) selected @endif>DKK</option>
-									<option value="EUR" @if(!$methods['PayU']['config']['currency']) selected @endif>EUR</option>
-									<option value="GBP" @if(!$methods['PayU']['config']['currency']) selected @endif>GBP</option>
-									<option value="HRK" @if(!$methods['PayU']['config']['currency']) selected @endif>HRK</option>
-									<option value="HUF" @if(!$methods['PayU']['config']['currency']) selected @endif>HUF</option>
-									<option value="NOK" @if(!$methods['PayU']['config']['currency']) selected @endif>NOK</option>
-									<option value="RON" @if(!$methods['PayU']['config']['currency']) selected @endif>RON</option>
-									<option value="UAH" @if(!$methods['PayU']['config']['currency']) selected @endif>UAH</option>
-									<option value="SEK" @if(!$methods['PayU']['config']['currency']) selected @endif>SEK</option>
-									<option value="USD" @if(!$methods['PayU']['config']['currency']) selected @endif>USD</option>
-								</select>
+                                <select id="payu_currency" name="currency" class="selectpicker w-100" data-style="btn-default">
+                                    <option value="PLN" @if($methods['PayU']['config']['currency'] === 'PLN') selected @endif>PLN</option>
+                                    <option value="CHF" @if($methods['PayU']['config']['currency'] === 'CHF') selected @endif>CHF</option>
+                                    <option value="CZK" @if($methods['PayU']['config']['currency'] === 'CZK') selected @endif>CZK</option>
+                                    <option value="DKK" @if($methods['PayU']['config']['currency'] === 'DKK') selected @endif>DKK</option>
+                                    <option value="EUR" @if($methods['PayU']['config']['currency'] === 'EUR') selected @endif>EUR</option>
+                                    <option value="GBP" @if($methods['PayU']['config']['currency'] === 'GBP') selected @endif>GBP</option>
+                                    <option value="HRK" @if($methods['PayU']['config']['currency'] === 'HRK') selected @endif>HRK</option>
+                                    <option value="HUF" @if($methods['PayU']['config']['currency'] === 'HUF') selected @endif>HUF</option>
+                                    <option value="NOK" @if($methods['PayU']['config']['currency'] === 'NOK') selected @endif>NOK</option>
+                                    <option value="RON" @if($methods['PayU']['config']['currency'] === 'RON') selected @endif>RON</option>
+                                    <option value="UAH" @if($methods['PayU']['config']['currency'] === 'UAH') selected @endif>UAH</option>
+                                    <option value="SEK" @if($methods['PayU']['config']['currency'] === 'SEK') selected @endif>SEK</option>
+                                    <option value="USD" @if($methods['PayU']['config']['currency'] === 'USD') selected @endif>USD</option>
+                                </select>
 							</div>
 						</div>
 						<div class="row">

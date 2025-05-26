@@ -27,6 +27,38 @@
 @endsection
 
 @section('content')
+@if (session('success'))
+        <div class="alert alert-primary alert-dismissible" role="alert">
+            <h5 class="alert-heading d-flex align-items-center mb-1">{{ __('Well done') }} 👍</h5>
+            <p class="mb-0">{{ session('success') }}</p>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+            </button>
+        </div>
+@elseif (session('warning'))
+        <div class="alert alert-warning alert-dismissible" role="alert">
+            <h5 class="alert-heading d-flex align-items-center mb-1">{{ __('Warning') }} ⚠️</h5>
+            <p class="mb-0">{{ session('warning') }}</p>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+            </button>
+        </div>
+@elseif (session('error'))
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <h5 class="alert-heading d-flex align-items-center mb-1">{{ __('Error') }} ❌</h5>
+            <p class="mb-0">{{ session('error') }}</p>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+            </button>
+        </div>
+@endif
+
+@if ($payNowEnabled && $containsEUCountries)
+        <div class="alert alert-warning alert-dismissible" role="alert">
+            <h5 class="alert-heading d-flex align-items-center mb-1">{{ __('Warning') }} ⚠️</h5>
+            <p class="mb-0">{{ __('You have PayNow enabled and some of the countries you have banned are in the EU. It means all EU customers will be blocked from accessing your store due EU regulations.') }}</p>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+            </button>
+        </div>
+@endif
+
 <h4 class="fw-bold py-3 mb-1">
     <span class="text-body fw-light"> {{ __('IP Checks Settings') }}</span>
 </h4>

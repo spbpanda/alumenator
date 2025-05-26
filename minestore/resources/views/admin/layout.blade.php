@@ -77,6 +77,24 @@ if(auth('admins')->check()){
     <script src="{{ asset('res/vendor/js/template-customizer.js') }}"></script>
 
     <script src="{{ asset('res/js/config.js') }}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const notificationItems = document.querySelectorAll('.dropdown-notifications-item');
+
+            notificationItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    if (e.target.closest('.dropdown-notifications-archive')) {
+                        return;
+                    }
+
+                    const link = this.getAttribute('data-link');
+                    if (link) {
+                        window.location.href = link;
+                    }
+                });
+            });
+        });
+    </script>
 
     <style>
         .settings_icon {

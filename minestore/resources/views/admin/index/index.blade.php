@@ -344,10 +344,11 @@
     }
 
     $(function() {
-        $("#upgradeCheck").on('click', function(e){
-            toastr.success("{{ __('Success!') }}", "{{ __('No updated were found!') }}");
+        $("#upgradeCheck").on('click', function(e) {
+            toastr.success("{{ __('Success!') }}", "{{ __('No updates were found!') }}");
         });
-        $("#upgrade").on('click', function(e){
+
+        $("#upgrade").on('click', function(e) {
             e.preventDefault();
 
             Swal.fire({
@@ -364,10 +365,11 @@
                 },
                 buttonsStyling: false
             }).then((result) => {
-                if (result.value) {
-                    $(this).slideUp(e);
+                if (result.isConfirmed) {
+                    const $button = $(this);
+                    $button.slideUp().prop('disabled', true);
 
-                    var oldToastrOptions = toastr.options;
+                    const oldToastrOptions = toastr.options;
                     toastr.options = {
                         "positionClass": "toast-top-right",
                         "preventDuplicates": false,
@@ -377,30 +379,81 @@
                         "extendedTimeOut": "0",
                     };
 
-                    $(this).prop('disabled', true);
-                    toastr.warning("{{ __('Do not refresh page!') }}", "{{ __('Upgrading MineStoreCMS...') }}");
+                    const toast = toastr.warning("{{ __('Do not refresh page!') }}", "{{ __('Upgrading MineStoreCMS...') }}");
 
                     $.ajax({
                         method: "POST",
                         url: "/admin/upgrade",
                         data: {},
-                    }).done(function( msg ) {
-                        Swal.fire({
-                            icon: 'success',
-                            title: "{{ __('Updated!') }}",
-                            text: "{{ __('MineStoreCMS updated successfully!') }}",
-                            customClass: {
-                                confirmButton: 'btn btn-success'
-                            },
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    })
+                        .done(function(response) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: "{{ __('Updated!') }}",
+                                text: response.message || "{{ __('MineStoreCMS updated successfully!') }}",
+                                customClass: {
+                                    confirmButton: 'btn btn-success'
+                                }
+                            }).then(() => {
+                                location.reload();
+                            });
+                        })
+                        .fail(function(jqXHR) {
+                            const errorMsg = jqXHR.responseJSON?.error || "{{ __('An error occurred during the upgrade.') }}";
+                            Swal.fire({
+                                icon: 'error',
+                                title: "{{ __('Error') }}",
+                                text: errorMsg,
+                                customClass: {
+                                    confirmButton: 'btn btn-danger'
+                                }
+                            });
+                            $button.slideDown().prop('disabled', false);
+                            toastr.clear(toast);
+                            toastr.options = oldToastrOptions;
+                        })
+                        .always(function() {
+                            toastr.clear(toast);
+                            toastr.options = oldToastrOptions;
                         });
-
-                        location.reload();
-                    });
                 }
             });
         });
     });
 </script>
+@if (!$payNowEnabled)
+<script>
+    $(function() {
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+            return null;
+        }
+
+        if (!getCookie('ignorePayNow')) {
+            setTimeout(function() {
+                $('#payNowModal').modal('show');
+            }, 500);
+        }
+
+        $('#ignorePayNow').on('click', function() {
+            const expiryDate = new Date();
+            expiryDate.setDate(expiryDate.getDate() + 7);
+            document.cookie = `ignorePayNow=true; expires=${expiryDate.toUTCString()}; path=/`;
+        });
+
+        $('#learnPayNow').on('click', function () {
+            const expiryDate = new Date();
+            expiryDate.setDate(expiryDate.getDate() + 1);
+            document.cookie = `ignorePayNow=true; expires=${expiryDate.toUTCString()}; path=/`;
+        });
+    });
+</script>
+@endif
 @endsection
 
 @section('content')
@@ -421,9 +474,9 @@
             <div class="mt-auto">
               <h2 class="mb-2">{{$weeklyVisits->amount}}</h2>
                 <small class="@if($weeklyVisits->level == 'up') text-success @elseif($weeklyVisits->level == 'down') text-danger @else text-secondary @endif fw-semibold">
-                    @if($weeklyVisits->level == 'up')
+                    @if ($weeklyVisits->level == 'up')
                         <i class='bx bx-up-arrow-alt'></i>
-                    @elseif($weeklyVisits->level == 'down')
+                    @elseif ($weeklyVisits->level == 'down')
                         <i class='bx bx-down-arrow-alt'></i>
                     @else
                         ~
@@ -461,9 +514,9 @@
 				</div>
 				<div class="col-md-4">
                     <small class="@if($totalThisMonth->level == 'up') text-success @elseif($totalThisMonth->level == 'down') text-danger @else text-secondary @endif fw-semibold">
-                        @if($totalThisMonth->level == 'up')
+                        @if ($totalThisMonth->level == 'up')
                             <i class='bx bx-up-arrow-alt'></i>
-                        @elseif($totalThisMonth->level == 'down')
+                        @elseif ($totalThisMonth->level == 'down')
                             <i class='bx bx-down-arrow-alt'></i>
                         @else
                             ~
@@ -559,74 +612,132 @@
   </div>
 
 @if($ableToSeeStats)
-<div class="col-md-6 mb-4">
-    <div class="card h-100">
-      <div class="card-header d-flex align-items-center justify-content-between">
-        <h5 class="card-title m-0 me-2">{{ __('Recent Payments') }}</h5>
-        <div class="dropdown">
-          <button class="btn p-0" type="button" id="recentPayments" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="bx bx-dots-vertical-rounded"></i>
-          </button>
-          <div class="dropdown-menu dropdown-menu-end" aria-labelledby="recentPayments">
-            <a class="dropdown-item" href="{{ route('payments.index') }}">{{ __('View more') }}</a>
+    <div class="col-md-6 mb-4">
+        <div class="card h-100">
+          <div class="card-header d-flex align-items-center justify-content-between">
+            <h5 class="card-title m-0 me-2">{{ __('Recent Payments') }}</h5>
+            <div class="dropdown">
+              <button class="btn p-0" type="button" id="recentPayments" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="bx bx-dots-vertical-rounded"></i>
+              </button>
+              <div class="dropdown-menu dropdown-menu-end" aria-labelledby="recentPayments">
+                <a class="dropdown-item" href="{{ route('payments.index') }}">{{ __('View more') }}</a>
+              </div>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-borderless table-striped table-hover">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>{{ __('Username') }}</th>
+                  <th>{{ __('Price') }}</th>
+                  <th>{{ __('Status') }}</th>
+                  <th>{{ __('View') }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                @foreach ($paymentsLatest as $payment)
+                <tr>
+                  <td>
+                    <small class="fw-semibold">{{ $payment->id }}</small>
+                  </td>
+                  <td>
+                    <div class="d-flex justify-content-start align-items-center">
+                      <div class="avatar me-2">
+                        <img
+                            src="https://mc-heads.net/avatar/{{ $payment->username }}/25"
+                            alt="Avatar"
+                            class="rounded"
+                            onerror="this.src='{{ asset('res/img/question-icon.png') }}';">
+                      </div>
+                      <div class="d-flex flex-column">
+                        <h6 class="mb-0 text-truncate">{{ $payment->username }}</h6>
+                      </div>
+                    </div>
+                  </td>
+                  <td>{{ $payment->price }} {{ $payment->currency }}</td>
+                  <td class="text-center">
+                    @if ($payment->status === \App\Models\Payment::PAID || $payment->status === \App\Models\Payment::COMPLETED)
+                        <span class="badge bg-success w-100">{{ __('COMPLETED') }}</span>
+                    @elseif ($payment->status === \App\Models\Payment::ERROR)
+                        <span class="badge bg-danger w-100">{{ __('ERROR') }}</span>
+                    @elseif ($payment->status === \App\Models\Payment::CHARGEBACK)
+                        <span class="badge bg-danger w-100">{{ __('CHARGEBACK') }}</span>
+                    @elseif ($payment->status === \App\Models\Payment::REFUNDED)
+                        <span class="badge bg-secondary w-100">{{ __('REFUNDED') }}</span>
+                    @else
+                        <span class="badge bg-warning w-100">{{ __('PENDING') }}</span>
+                    @endif
+                  </td>
+                  <td>
+                    <a href="{{ route('payments.show', $payment->id) }}" target="_blank" class="btn rounded-pill btn-icon btn-primary">
+                        <span class="tf-icons bx bx-show"></span>
+                    </a>
+                  </td>
+                </tr>
+                @endforeach
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
-      <div class="table-responsive">
-        <table class="table table-borderless table-striped table-hover">
-          <thead>
-            <tr>
-			  <th>#</th>
-              <th>{{ __('Username') }}</th>
-              <th>{{ __('Price') }}</th>
-              <th>{{ __('Status') }}</th>
-              <th>{{ __('View') }}</th>
-            </tr>
-          </thead>
-          <tbody>
-            @foreach($paymentsLatest as $payment)
-            <tr>
-      		  <td>
-                <small class="fw-semibold">{{ $payment->id }}</small>
-              </td>
-              <td>
-                <div class="d-flex justify-content-start align-items-center">
-                  <div class="avatar me-2">
-                    <img
-                        src="https://mc-heads.net/avatar/{{ $payment->username }}/25"
-                        alt="Avatar"
-                        class="rounded"
-                        onerror="this.src='{{ asset('res/img/question-icon.png') }}';">
-                  </div>
-                  <div class="d-flex flex-column">
-                    <h6 class="mb-0 text-truncate">{{ $payment->username }}</h6>
-                  </div>
-                </div>
-              </td>
-              <td>{{ $payment->price }} {{ $payment->currency }}</td>
-              <td class="text-center">
-				@if ($payment->status === \App\Models\Payment::PAID || $payment->status === \App\Models\Payment::COMPLETED)
-					<span class="badge bg-success w-100">{{ __('COMPLETED') }}</span>
-                @elseif ($payment->status === \App\Models\Payment::ERROR)
-                    <span class="badge bg-danger w-100">{{ __('ERROR') }}</span>
-                @elseif ($payment->status === \App\Models\Payment::CHARGEBACK)
-                    <span class="badge bg-danger w-100">{{ __('CHARGEBACK') }}</span>
-                @else
-                    <span class="badge bg-warning w-100">{{ __('PENDING') }}</span>
-                @endif
-			  </td>
-              <td>
-                <a href="{{ route('payments.show', $payment->id) }}" target="_blank" class="btn rounded-pill btn-icon btn-primary">
-                    <span class="tf-icons bx bx-show"></span>
-                </a>
-              </td>
-            </tr>
-            @endforeach
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
 @endif
 </div>
+
+@if (!$payNowEnabled)
+    <div class="modal fade" id="payNowModal" tabindex="-1" aria-labelledby="payNowModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="payNowModalLabel">{{ __('PayNow & MineStoreCMS Collaboration') }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="text-center mb-4">
+                        <img src="{{ asset('res/img/logos/paynow.svg') }}" alt="PayNow" class="img-fluid mb-2" style="max-height: 60px; height: auto;">
+                        <h4>{{ __('Introducing PayNow Checkout!') }}</h4>
+                        <p class="mb-4">{{ __('Our new payment integration in collaboration with PayNow offers chargeback protection, lower fees, tax compliance and better security for your business.') }}</p>
+                    </div>
+
+                    <div class="container mb-4">
+                        <div class="row mx-auto w-100">
+                            <div class="col-md-6">
+                                <h6 class="fw-bold">{{ __('Key Features') }}</h6>
+                                <ul class="list-unstyled">
+                                    <li class="mb-1"><i class="bx bx-check-circle text-primary me-1"></i> <strong>{{ __('Subscription Management') }}</strong>: Streamline recurring payments effortlessly.</li>
+                                    <li class="mb-1"><i class="bx bx-check-circle text-primary me-1"></i> <strong>{{ __('Global Tax Compliance') }}</strong>: Automate tax calculations worldwide.</li>
+                                    <li class="mb-1"><i class="bx bx-check-circle text-primary me-1"></i> <strong>{{ __('Chargeback Protection') }}</strong>: Minimize fraud and disputes.</li>
+                                    <li class="mb-1"><i class="bx bx-check-circle text-primary me-1"></i> <strong>{{ __('75+ Payment Methods') }}</strong></li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <h6 class="fw-bold">{{ __('Why Choose PayNow Checkout?') }}</h6>
+                                <ul class="list-unstyled">
+                                    <li class="mb-1"><i class="bx bx-star text-warning me-1"></i> <strong>{{ __('Only 3.99% Fee') }}</strong>: Cost-effective transaction rates.</li>
+                                    <li class="mb-1"><i class="bx bx-star text-warning me-1"></i> <strong>{{ __('Consolidated Earnings') }}</strong>: Unified payment tracking.</li>
+                                    <li class="mb-1"><i class="bx bx-star text-warning me-1"></i> <strong>{{ __('Automated Workflows') }}</strong>: Save time with automation.</li>
+                                    <li class="mb-1"><i class="bx bx-star text-warning me-1"></i> <strong>{{ __('Automatic Tax Handling') }}</strong></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-info">
+                        <div class="d-flex">
+                            <span class="me-2"><i class="bx bx-info-circle"></i></span>
+                            <span>Join the hundreds of store owners who have already switched to <strong>PayNow Checkout</strong> and seen increased conversion rates and secured from chargebacks.</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" id="ignorePayNow" data-bs-dismiss="modal">{{ __('Ignore') }}</button>
+                    <a href="{{ route('paynow.onboarding.start') }}" class="btn btn-primary" id="learnPayNow">
+                        <span class="tf-icons bx bx-rocket me-1"></span>{{ __('Setup PayNow Checkout') }}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+@endif
 @endsection

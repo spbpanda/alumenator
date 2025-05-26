@@ -26,12 +26,12 @@ if (dt_basic_table.length) {
         processing: true,
         serverSide: true,
         ajax: '{{ route('subscriptions.datatables') }}',
-        searching: false,
+        searching: true,
         ordering: false,
         columns: [
             { data: 'id' },
-            { data: 'user.username' },
-            { data: 'sid' },
+            { data: 'user.username', searchable: true },
+            { data: 'sid', searchable: true },
             { data: 'payment.gateway' },
             { data: 'status' },
             { data: 'renewal' },
@@ -83,9 +83,9 @@ if (dt_basic_table.length) {
                 targets: 6,
                 render: function (data, type, full, meta) {
                     var $row_output =
-                      '<a href="{{ route('payments.show', '/') }}/'+full['payment_id']+'" class="btn btn-sm text-primary btn-icon item-edit"><i class="bx bx-show"></i></a>';
+                        '<a href="' + '{{ route("subscriptions.show", ":id") }}'.replace(':id', full['id']) + '" class="btn btn-sm text-primary btn-icon item-edit"><i class="bx bx-show"></i></a>';
                     return $row_output;
-                },
+                }
             },
         ],
     });

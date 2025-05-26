@@ -201,38 +201,6 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-12 mb-4">
-		<div class="card">
-			<div class="card-body">
-				<div class="row d-flex w-100 align-self-center">
-					<div class="description col-12 col-xl-8 col-lg-8 text-center text-lg-left">
-						<div class="row align-self-center h-100">
-							<div class="col-12 col-xl-2 col-lg-3 align-self-center text-center">
-								<div class="d-flex justify-content-center mb-4">
-								  <div class="settings_icon bg-label-primary">
-									  <i class="fas fa-terminal"></i>
-								  </div>
-								</div>
-							</div>
-							<div class="col-12 col-xl-10 col-lg-9 align-self-center my-3 my-lg-0" style="text-align: left;">
-								<h4>
-                                    {{ __('Command to charge Economy on the Minecraft Server') }}
-								</h4>
-								<div class="mb-3 col-md-10">
-								<p class="card-text">{{ __('Available variables to use:') }} <code>{username}</code> - {{ __('the username need to be charged;') }} <code>{amount}</code> - {{ __('amount that will be charged.') }} <br>{{ __('Example:') }} <code>eco remove {user} {amount}</code></p>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="action col-12 col-xl-3 col-lg-4 align-self-center text-center mx-auto d-grid">
-						<div class="input-group input-group-merge">
-							<input type="text" class="form-control" id="virtual_currency_cmd" name="virtual_currency_cmd" value="{{ $settings->virtual_currency_cmd }}" placeholder="eco remove {username} {amount}" aria-label="Command to charge Economy on the Minecraft Server." />
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
 </div>
 <div class="row mb-4">
 	<div class="d-grid gap-2 col-lg-12 mx-auto">

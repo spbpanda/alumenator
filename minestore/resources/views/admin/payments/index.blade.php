@@ -105,6 +105,7 @@ if (dt_basic_table.length) {
                         '2': { text: "{{ __('ERROR') }}", class: 'danger' },
                         '3': { text: "{{ __('COMPLETED') }}", class: 'success' },
                         '4': { text: "{{ __('CHARGEBACK') }}", class: 'danger' },
+                        '5': { text: "{{ __('REFUNDED') }}", class: 'secondary' },
                     };
 
                     var $output = '<span class="badge bg-' + statusMap[status].class + ' w-100">' + statusMap[status].text + '</span>';
@@ -128,12 +129,14 @@ if (dt_basic_table.length) {
             },
         ],
         createdRow: function (row, data, dataIndex) {
-            // Add an attribute to each row based on the 'id' value
             $(row).attr('id', 'tableItem' + data['id']);
         },
     });
+
     $('.datatables-basic tbody').on('click', '.deleteButton', function () {
         const datatablesRow = $(this);
+        const tableItemId = datatablesRow.attr('data-id');
+
         Swal.fire({
             title: "{{ __('Are you sure?') }}",
             text: "{!! __('You won\'t be able to revert this!') !!}",
@@ -149,19 +152,13 @@ if (dt_basic_table.length) {
             buttonsStyling: false
         }).then((result) => {
             if (result.value) {
-                const tableItemId = datatablesRow.attr('data-id');
-                $.ajax({
-                    method: "POST",
-                    url: "{{ route('payments.destroy', '') }}/" + tableItemId,
-                    data: {
-                        '_method': 'DELETE',
-                        'ajax': true,
-                    },
-                    success: function() {
-                        dt_basic.row(datatablesRow.parents('tr')).remove().draw();
-                        toastr.success("{{ __('Deleted Successfully!') }}");
-                    },
-                    error: function() {
+                deletePayment(tableItemId).done(function() {
+                    dt_basic.row(datatablesRow.parents('tr')).remove().draw();
+                    toastr.success("{{ __('Deleted Successfully!') }}");
+                }).fail(function(r) {
+                    if (r.status === 410) {
+                        toastr.error(r.responseJSON.message);
+                    } else {
                         toastr.error("{{ __('Unable to Delete!') }}");
                     }
                 });
@@ -198,6 +195,7 @@ if (dt_basic_table.length) {
 
 @section('content')
 
+@if (!$payNowEnabled)
 <form method="POST" novalidate="novalidate" autocomplete="off">
 	@csrf
         <div class="col-12 mb-4">
@@ -208,6 +206,7 @@ if (dt_basic_table.length) {
             </x-card-input>
 		</div>
 </form>
+@endif
 <div class="col-12 mb-3">
     <div class="row align-items-center">
         <div class="col-md-6">

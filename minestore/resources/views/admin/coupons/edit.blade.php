@@ -94,7 +94,7 @@
 			<div class="row">
 					<div class="col-md-12 mb-3">
 						<label class="form-label" for="name">
-							{{ __('Coupon Name') }}
+							{{ __('Coupon Name') }}*
 							<i class="bx bx-help-circle text-muted" style="margin-bottom: 3px;" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('Need to be unique.') }}"></i>
 						</label>
 						<div class="input-group">
@@ -107,7 +107,7 @@
 					</div>
 					<div class="col-md-4 mb-3">
 						<label for="type" class="form-label">
-                            {{ __('Discount Type') }}
+                            {{ __('Discount Type') }}*
 							<i class="bx bx-help-circle text-muted" style="margin-bottom: 3px;" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('Select the discount type for a coupon.') }}"></i>
 						</label>
 						<select class="selectpicker w-100 show-tick" id="type" name="type" data-icon-base="bx" data-tick-icon="bx-check" data-style="btn-default">
@@ -117,7 +117,7 @@
 					</div>
 					<div class="col-sm-4 mb-3" id="discount_percent_block" @if($coupon->type == 1) style="display:none" @endif>
 						<label class="form-label" for="discount_percent">
-                            {{ __('Discount') }}
+                            {{ __('Discount') }}*
 							<i class="bx bx-help-circle text-muted" style="margin-bottom: 3px;" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('Amount in percents that will decrease original price as a sale.') }}"></i>
 						</label>
 						<div class="input-group">
@@ -127,7 +127,7 @@
 					</div>
 					<div class="col-sm-4 mb-3" id="discount_money_block" @if($coupon->type == 0) style="display:none" @endif>
 						<label class="form-label" for="discount_money">
-                            {{ __('Discount') }}
+                            {{ __('Discount') }}*
 							<i class="bx bx-help-circle text-muted" style="margin-bottom: 3px;" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('Amount of money that will decrease original price as a sale.') }}"></i>
 						</label>
 						<div class="input-group">
@@ -165,7 +165,7 @@
 					</div>
 					<div class="col-sm-4 mb-3">
 						<label for="apply_type" class="form-label">
-                            {{ __('Apply coupon to') }}
+                            {{ __('Apply coupon to') }}*
 							<i class="bx bx-help-circle text-muted" style="margin-bottom: 3px;" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('Select the option that you want to apply your coupon for.') }}"></i>
 						</label>
 						<select id="apply_type" name="apply_type" class="selectpicker w-100" data-style="btn-default">
@@ -176,7 +176,7 @@
 					</div>
 					<div class="col-sm-8 mb-3" id="apply_categories_block" @if($coupon->apply_type != 1) style="display:none" @endif>
 						<label for="apply_categories" class="form-label">
-							<span>{{ __('Categories') }}</span>
+							<span>{{ __('Categories') }}*</span>
 							<i class="bx bx-help-circle text-muted" style="margin-bottom: 3px;" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('Select the option that you want to apply your coupon for.') }}"></i>
 						</label>
 						<select id="apply_categories" name="apply_categories[]" class="select2 form-select" multiple>
@@ -187,7 +187,7 @@
 					</div>
 					<div class="col-sm-8 mb-3" id="apply_items_block" @if($coupon->apply_type != 2) style="display:none" @endif>
 						<label for="apply_items" class="form-label">
-							<span>{{ __('Packages') }}</span>
+							<span>{{ __('Packages') }}*</span>
 							<i class="bx bx-help-circle text-muted" style="margin-bottom: 3px;" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('Select the option that you want to apply your coupon for.') }}"></i>
 						</label>
 						<select id="apply_items" name="apply_items[]" class="select2 form-select" multiple>
@@ -203,13 +203,26 @@
 						</label>
 						<textarea class="form-control" id="note" name="note" rows="2">{{ $coupon->note }}</textarea>
 					</div>
-					<hr>
+                    <hr>
+                    <div class="col-md-12 mb-3">
+                        <label class="form-label" for="username">
+                            {{ __('Linked Username') }}
+                            <i class="bx bx-help-circle text-muted" style="margin-bottom: 3px;" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('Allow only specific user to use this coupon.') }}"></i>
+                        </label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="username" name="username" value="{{ $coupon->username }}" />
+                        </div>
+                        @error('username')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <hr>
 					<div class="col-sm-6 mb-3">
 						<label for="start_at" class="form-label">
                             {{ __('Publish On Webstore At') }}
 							<i class="bx bx-help-circle text-muted" style="margin-bottom: 3px;" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('Set a datetime when coupon will be available to use in your webstore.') }}"></i>
 						</label>
-						<input type="text" class="form-control" id="start_at" name="start_at" value="{{ $coupon->start_at ? \Carbon\Carbon::createFromFormat('Y-m-d H:i:00', $coupon->start_at)->format('Y-m-d H:i') : '' }}" placeholder="YYYY-MM-DD HH:MM" />
+                        <input type="text" class="form-control" id="start_at" name="start_at" value="{{ $coupon->start_at ? \Carbon\Carbon::parse($coupon->start_at)->format('Y-m-d H:i') : '' }}" placeholder="YYYY-MM-DD HH:MM" />
                         @error('start_at')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
@@ -219,7 +232,7 @@
                             {{ __('Remove From Webstore After') }}
 							<i class="bx bx-help-circle text-muted" style="margin-bottom: 3px;" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ __('Set a datetime when coupon will be inaccessible from your webstore.') }}"></i>
 						</label>
-						<input type="text" class="form-control" id="expire_at" name="expire_at" value="{{ $coupon->expire_at ? \Carbon\Carbon::createFromFormat('Y-m-d H:i:00', $coupon->expire_at)->format('Y-m-d H:i') : '' }}" placeholder="YYYY-MM-DD HH:MM" />
+                        <input type="text" class="form-control" id="expire_at" name="expire_at" value="{{ $coupon->expire_at ? \Carbon\Carbon::parse($coupon->expire_at)->format('Y-m-d H:i') : '' }}" placeholder="YYYY-MM-DD HH:MM" />
                         @error('expire_at')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror

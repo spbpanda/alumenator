@@ -5,7 +5,7 @@
             <select name="minecraft[{{ $i }}][commands][{{ $c }}][event]" data-name="event" class="form-select" data-style="btn-default">
               <option {{ $isEmpty || $command['event'] == 0 ? "selected" : ""}} value="0">{{ __('When the package is purchased') }}</option>
               <option {{ !$isEmpty && $command['event'] == 1 ? "selected" : ""}} value="1">{{ __('When the package is chargebacked') }}</option>
-              <option {{ !$isEmpty && $command['event'] == 2 ? "selected" : ""}} value="2">{{ __('When the package is removed') }}</option>
+              <option {{ !$isEmpty && $command['event'] == 2 ? "selected" : ""}} value="2">{{ __('When the package is expired or refunded') }}</option>
               <option {{ !$isEmpty && $command['event'] == 3 ? "selected" : ""}} value="3">{{ __('When the subscription renews') }}</option>
             </select>
             <input type="text" name="minecraft[{{ $i }}][commands][{{ $c }}][command]" data-name="command" value="{{ !$isEmpty ? $command['command'] : '' }}" aria-label="Enter the command to execute on your server" placeholder="{{ __('Enter the command to execute on your server. Use {} to use variables.') }}" class="form-control">

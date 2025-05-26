@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="{{asset('res/vendor/libs/bootstrap-select/bootstrap-select.css')}}" />
 <link rel="stylesheet" href="{{asset('res/vendor/libs/select2/select2.css')}}" />
 <link rel="stylesheet" href="{{asset('res/vendor/fonts/fontawesome.css')}}" />
-<link rel="stylesheet" href="{{ asset('/css/flag-icon.min.css?v7') }}">
+<link rel="stylesheet" href="{{ asset('/res/flag-icon.min.css?v7') }}">
 @endsection
 
 @section('vendor-script')
@@ -30,6 +30,28 @@
 
 @section('content')
 
+@if($payNowEnabled)
+        <h4 class="fw-bold py-3 mb-1">
+            <span class="text-body fw-light">{{ __('Taxes') }}</span>
+        </h4>
+
+        <div class="col-12 mb-4">
+            <div class="card">
+                <div class="row text-center">
+                    <div class="card-body mt-2 mb-3">
+                        <i class="bx bxs-badge-dollar p-4 bx-lg bx-border-circle d-inline-block mb-4"></i>
+                        <p class="card-text mb-2">
+                            {{ __('Taxes fully controlled by PayNow. You can not add or edit taxes here. All taxes are managed by PayNow.') }}
+                        </p>
+                        <a href="{{ route('paynow.index') }}" class="btn btn-primary btn-lg mt-2">
+                            <span class="tf-icon bx bx-cog bx-xs"></span>
+                            {{ __('Manage PayNow Configuration') }}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+@else
 <form action="{{ route('taxes.store') }}" method="POST" autocomplete="off">
 @csrf
 <h4 class="fw-bold py-3 mb-1">
@@ -107,5 +129,5 @@
   </div>
 </div>
 </form>
-
+@endif
 @endsection

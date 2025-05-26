@@ -241,9 +241,9 @@
 							<button type="button" data-id="{{$theme->theme}}" class="btn btn-primary d-flex align-items-center me-1 mt-0 installTheme"><i class="bx bxs-download me-1"></i>{{ __('Install') }}</button>
 						@endif
 
-                        @if($theme->is_custom == 1)
-                            <button type="button" data-id="{{$theme->id}}" class="btn btn-primary d-flex align-items-center me-1 mt-0 installTheme">
-                                <i class="bx bxs-download me-1"></i>{{ __('Install') }}
+                        @if ($theme->is_custom == 1)
+                            <button type="button" data-id="{{ $theme->id }}" class="btn btn-danger d-flex align-items-center me-1 mt-0 deleteTheme">
+                                <i class="bx bxs-trash me-1"></i>{{ __('Delete') }}
                             </button>
                         @endif
 						</div>

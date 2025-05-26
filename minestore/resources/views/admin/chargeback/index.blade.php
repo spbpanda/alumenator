@@ -109,17 +109,8 @@ if (dt_basic_table.length) {
                 targets: 6,
                 render: function (data, type, full, meta) {
                     var $row_output =
-                      // '<div class="d-inline-block">' +
-                      // '<a href="javascript:;" class="btn btn-sm text-primary btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown"><i class="bx bx-dots-vertical-rounded"></i></a>' +
-                      // '<ul class="dropdown-menu dropdown-menu-end">' +
-                      // '<li><a href="javascript:;" class="dropdown-item">Details</a></li>' +
-                      // '<li><a href="javascript:;" class="dropdown-item">Archive</a></li>' +
-                      // '<div class="dropdown-divider"></div>' +
-                      // '<li><a href="javascript:;" class="dropdown-item text-danger delete-record">Delete</a></li>' +
-                      // '</ul>' +
-                      // '</div>' +
                         '<a href="{{ route('chargeback.show', '/') }}/'+full['id']+'" class="btn btn-sm text-primary btn-icon item-edit"><i class="bx bx-show"></i></a>'
-                     + `<span data-id="${full['id']}" class="btn btn-sm text-primary btn-icon item-edit done-button"><i class="bx bxs-check-circle"></i></span>`
+                        + `<span data-id="${full['id']}" class="btn btn-sm text-primary btn-icon item-edit done-button"><i class="bx bxs-check-circle"></i></span>`
                         + `<span data-id="${full['id']}" class="btn btn-sm text-primary btn-icon item-edit delete-button"><i class='bx bx-trash'></i></span>`;
                     return $row_output;
                 },
