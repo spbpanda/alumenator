@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdvertController;
 use App\Http\Controllers\API\PaymentCheckingController;
+use App\Http\Controllers\API\PaymentsControllers\PayNowController;
 use App\Http\Controllers\API\PaymentsControllers\PayPalIPNController;
 use App\Http\Controllers\API\PaymentsControllers\PhonepeController;
 use App\Http\Controllers\API\PaymentsControllers\PixController;
@@ -55,6 +56,7 @@ Route::GET('/{api_key}/user_info/{username}', [SettingsController::class, 'getUs
 Route::GET('/{api_key}/getPackage', [SettingsController::class, 'getPackage']);
 Route::GET('/{api_key}/validGiftCard', [SettingsController::class, 'validGiftCard']);
 Route::POST('/{api_key}/createGiftCard', [SettingsController::class, 'createGiftCard']);
+Route::POST('/{api_key}/createCoupon', [SettingsController::class, 'createCoupon']);
 Route::GET('/{api_key}/referrersList', [SettingsController::class, 'referrersList']);
 Route::GET('/{api_key}/couponList', [SettingsController::class, 'couponList']);
 Route::GET('/{api_key}/bans', [SettingsController::class, 'bansList']);
@@ -107,6 +109,7 @@ Route::prefix('payments')->group(function () {
     Route::POST('/handle/phonepe', [PhonepeController::class, 'handle']);
     Route::POST('/handle/{api_key}/virtualcurrency', [VirtualCurrencyController::class, 'handle']);
     Route::POST('/handle/pix/check', [PixController::class, 'check']);
+    Route::POST('/handle/paynow', [PayNowController::class, 'handle']);
 });
 
 Route::POST('/server/notify', [ServerController::class, 'handleNotification'])->middleware('authorize');
@@ -169,4 +172,3 @@ Route::middleware('auth:api')->group(function () {
         Route::POST('/create', [PaymentController::class, 'create']);
     });
 });
-

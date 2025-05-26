@@ -29,3 +29,7 @@ Schedule::command('pending_payments:cleanup')->everyThreeHours()->runInBackgroun
 Schedule::command('report:generate')->monthly()->runInBackground();
 Schedule::command('currency:update')->dailyAt($randomTime)->runInBackground();
 Schedule::command('minestore:deactivate-carts')->hourly()->runInBackground();
+Schedule::command('paynow:sync')->everyFifteenMinutes()->runInBackground();
+Schedule::command('paynow:sync-settings')->hourly()->runInBackground();
+Schedule::command('paynow:parse-logs')->everyMinute()->runInBackground();
+Schedule::command('logs:rotate')->daily()->runInBackground();

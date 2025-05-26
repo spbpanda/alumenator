@@ -82,6 +82,7 @@ Route::prefix('admin')->middleware('installed')->group(function () {
 
         Route::prefix('payments')->name('payments.')->group(function () {
             Route::post('/markAsPaid/{id}', [Admin\PaymentsController::class, 'markAsPaid'])->name('markAsPaid');
+            Route::post('/refund/{id}', [Admin\PaymentsController::class, 'refund'])->name('refund');
             Route::post('/resend/{id}', [Admin\PaymentsController::class, 'resend'])->name('resend');
             Route::post('/delete/cmd/{id}', [Admin\PaymentsController::class, 'deleteCMD'])->name('cmd.delete');
             Route::post('/resend/all/{id}', [Admin\PaymentsController::class, 'resendAllCommands'])->name('cmd.resendAll');
@@ -117,6 +118,7 @@ Route::prefix('admin')->middleware('installed')->group(function () {
             Route::get('/email', [Admin\SettingsController::class, 'email'])->name('email');
             Route::post('/email', [Admin\SettingsController::class, 'emailSave'])->name('emailSave');
             Route::get('/merchant', [Admin\SettingsController::class, 'merchant'])->name('merchant');
+            Route::get('/merchant/start', [Admin\SettingsController::class, 'merchantEncourage'])->name('merchant.start');
             Route::get('/links', [Admin\SettingsController::class, 'links'])->name('links');
             Route::post('/links', [Admin\SettingsController::class, 'linksSave'])->name('linksSave');
 
@@ -142,6 +144,14 @@ Route::prefix('admin')->middleware('installed')->group(function () {
             Route::post('/removeAllPlayerdata', [Admin\SettingsController::class, 'removeAllPlayerdata'])->name('removeAllPlayerdata');
             Route::post('/fullWipe', [Admin\SettingsController::class, 'fullWipe'])->name('fullWipe');
             Route::post('/checkServer', [Admin\SettingsController::class, 'checkServer'])->name('checkServer');
+        });
+
+        Route::prefix('paynow')->name('paynow.')->group(function () {
+            Route::get('/', [Admin\PayNowController::class, 'index'])->name('index');
+            Route::post('/', [Admin\PayNowController::class, 'store'])->name('store');
+            Route::get('/onboarding', [Admin\PayNowController::class, 'onBoardingWelcome'])->name('onboarding.welcome');
+            Route::get('/onboarding/start', [Admin\PayNowController::class, 'onBoardingStart'])->name('onboarding.start');
+            Route::post('/onboarding/start', [Admin\PayNowController::class, 'onBoarding'])->name('onboarding.save');
         });
 
         Route::prefix('statistics')->name('statistics.')->group(function () {
@@ -177,6 +187,15 @@ Route::prefix('admin')->middleware('installed')->group(function () {
             Route::get('/{username}', [Admin\LookupController::class, 'search'])->name('search');
         });
 
+        Route::prefix('customers')->name('customers.')->group(function () {
+            Route::get('/', [Admin\CustomersController::class, 'index'])->name('index');
+            Route::get('/{id}', [Admin\CustomersController::class, 'show'])->name('show');
+            Route::get('/{id}/purchased-packages', [Admin\Api\CustomersController::class, 'getPurchasedPackages'])->name('purchased-packages');
+            Route::get('/{id}/get-transactions', [Admin\Api\CustomersController::class, 'getTransactions'])->name('get-transactions');
+            Route::get('/{id}/get-subscriptions', [Admin\Api\CustomersController::class, 'getSubscriptions'])->name('get-subscriptions');
+            Route::get('/{id}/get-chargebacks', [Admin\Api\CustomersController::class, 'getChargebacks'])->name('get-chargebacks');
+        });
+
         Route::prefix('ipchecks')->name('ipchecks.')->group(function () {
             Route::get('/', [Admin\IPChecksController::class, 'settings'])->name('index');
             Route::post('/', [Admin\IPChecksController::class, 'settingsSave']);
@@ -190,6 +209,8 @@ Route::prefix('admin')->middleware('installed')->group(function () {
         Route::prefix('subscriptions')->name('subscriptions.')->group(function () {
             Route::get('/datatables', [Admin\SubscriptionsController::class, 'datatables'])->name('datatables');
             Route::get('/', [Admin\SubscriptionsController::class, 'index'])->name('index');
+            Route::get('/{id}', [Admin\SubscriptionsController::class, 'show'])->name('show');
+            Route::post('/close/{id}', [Admin\SubscriptionsController::class, 'closeSubscription'])->name('close');
         });
 
         Route::prefix('themes')->name('themes.')->group(function () {
@@ -212,6 +233,12 @@ Route::prefix('admin')->middleware('installed')->group(function () {
 
         Route::prefix('securityLogs')->name('securityLogs.')->group(function () {
             Route::get('/', [Admin\SecurityLogController::class, 'index'])->name('index');
+        });
+
+        Route::prefix('migrations')->name('migrations.')->group(function () {
+            Route::get('/', [Admin\MigrationController::class, 'index'])->name('index');
+            Route::get('/create', [Admin\MigrationController::class, 'create'])->name('create');
+            Route::post('/create', [Admin\MigrationController::class, 'store'])->name('store');
         });
 
         Route::get('/profile/setOTP/{code}', [Admin\AdminProfileController::class, 'setOTP'])->name('setOTP');
@@ -240,6 +267,8 @@ Route::prefix('api/admin')->middleware(['installed', 'admin'])->name('api.')->gr
     Route::apiResource('coupons', Admin\Api\CouponsController::class)->only(['index', 'destroy']);
     // Get and Remove Giftcards
     Route::apiResource('giftcards', Admin\Api\GiftcardsController::class)->only(['index', 'destroy']);
+    // Get Customers
+    Route::apiResource('customers', Admin\Api\CustomersController::class)->only(['index']);
 
     Route::prefix('settings')->name('settings.')->group(function () {
         // Update merchant settings
@@ -256,6 +285,8 @@ Route::prefix('api/admin')->middleware(['installed', 'admin'])->name('api.')->gr
     Route::post('/payments/{id}/delivery', [Admin\Api\PaymentsController::class, 'delivery']);
     // Add payment note
     Route::post('/payments/{id}/note', [Admin\Api\PaymentsController::class, 'note']);
+
+    Route::apiResource('paynow_alerts', Admin\Api\PayNowController::class)->only(['index']);
 
     Route::apiResource('chargeback', Admin\Api\ChargebackController::class)->only(['index', 'store', 'destroy']);
     // To mark a chargeback as done
