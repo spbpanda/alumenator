@@ -3826,7 +3826,6 @@ class PaymentController extends Controller
 
     public function TBankHandle(Request $request)
     {
-        
         $data = $request->all();
         $paymentMethod = PaymentMethod::query()->where('name', 'TBank')->first();
         
@@ -3858,7 +3857,6 @@ class PaymentController extends Controller
             case 'CONFIRMED':
                 $this->FinalHandler($payment->id);
                 $payment->update([
-                    'status' => Payment::COMPLETED,
                     'transaction' => $data['PaymentId']
                 ]);
                 break;

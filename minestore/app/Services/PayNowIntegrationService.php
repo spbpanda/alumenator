@@ -68,7 +68,7 @@ class PayNowIntegrationService
                     return '';
                 }
             }
-            Log::warning('[PayNow] No API key available', ['settings_exists' => $settings ? true : false]);
+            // Log::warning('[PayNow] No API key available', ['settings_exists' => $settings ? true : false]);
             return '';
         });
     }

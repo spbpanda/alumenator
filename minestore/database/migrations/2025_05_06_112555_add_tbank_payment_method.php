@@ -16,7 +16,7 @@ return new class extends Migration
                 'secret_key' => '',
                 'test' => true
             ]),
-            'enable' => false,
+            'enable' => true,
             'created_at' => now(),
             'updated_at' => now()
         ]);
